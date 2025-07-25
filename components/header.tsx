@@ -10,11 +10,14 @@ import {
 } from "./ui/navigation-menu";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 import LoginButton from "./auth/login-button";
+import logoFull from "@/public/logo/logo-full.svg";
+import Image from "next/image";
+import Ping from "./ui/ping";
 
 // 웹사이트 메뉴 목록은 이 배열을 수정하세요
 // 절대로 다른 코드에서 직접 추가하지 마세요
 const components: { title: string; href: string }[] = [
-    { title: "공지사항", href: "#" },
+    { title: "공지사항", href: "/notice" },
     { title: "동아리 소개", href: "#" },
     { title: "부실 예약", href: "#" },
 ];
@@ -22,19 +25,19 @@ const components: { title: string; href: string }[] = [
 export default function Header() {
     // const { user } = useAuth();
     return (
-        <header className="sticky top-0 backdrop-blur py-2 z-50 bg-background/90 supports-[backdrop-filter]:bg-background/60 md:px-16 px-5">
+        <header className="sticky top-0 backdrop-blur lg:py-6 py-3 z-50 bg-background/90 supports-[backdrop-filter]:bg-background/60 lg:px-16 px-5 items-center text-center">
             <NavigationMenu viewport={false} className="min-w-full justify-between">
                 {/* 좌측 고정 메뉴 */}
                 <NavigationMenuList className="flex-row-reverse md:flex-row">
                     {/* 좌측 고정 메뉴 : 로고 */}
-                    <NavigationMenuItem>
-                        <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-                            <Link href="/">코딩마스터</Link>
-                        </NavigationMenuLink>
+                    <NavigationMenuItem className="pr-4">
+                        <Link href="/">
+                            <Image className="dark:invert lg:h-8 h-6" src={logoFull} alt="coma's logo" height={32} />
+                        </Link>
                     </NavigationMenuItem>
                     {/* 좌측 고정 메뉴 : 로고가 아닌 것 */}
                     {/* 태블릿 / PC버전 */}
-                    <div className="hidden md:flex">
+                    <div className="hidden lg:flex">
                         {components.map((component) => (
                             <NavigationMenuItem key={component.title}>
                                 <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
@@ -43,10 +46,11 @@ export default function Header() {
                             </NavigationMenuItem>
                         ))}
                         {/* '부원 모집 중' 버튼은 모집 기간에 따라 자동으로 숨김 및 비활성화 처리 로직 구현 필요 */}
-                        <NavigationMenuItem>
+                        <NavigationMenuItem className="flex text-primary">
                             <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
                                 <Link href="#">부원 모집 중</Link>
                             </NavigationMenuLink>
+                            <Ping />
                         </NavigationMenuItem>
                     </div>
                     {/* 모바일 버전 (구현 필요) */}
@@ -59,7 +63,7 @@ export default function Header() {
                             <TooltipTrigger>
                                 <LoginButton size="default" />
                             </TooltipTrigger>
-                            <TooltipContent>카카오로 1초만에 로그인!</TooltipContent>
+                            <TooltipContent className="hidden lg:block">카카오로 1초만에 로그인!</TooltipContent>
                         </Tooltip>
                     </NavigationMenuItem>
                     <NavigationMenuItem>
