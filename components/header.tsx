@@ -1,13 +1,7 @@
 "use client";
 import { ModeToggle } from "@/components/theme/theme-toggler";
 import Link from "next/link";
-import {
-    NavigationMenu,
-    NavigationMenuItem,
-    NavigationMenuLink,
-    NavigationMenuList,
-    navigationMenuTriggerStyle,
-} from "./ui/navigation-menu";
+import { NavigationMenu, NavigationMenuItem, NavigationMenuList } from "./ui/navigation-menu";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 import LoginButton from "./auth/login-button";
 import logoFull from "@/public/logo/logo-full.svg";
@@ -25,7 +19,7 @@ const components: { title: string; href: string }[] = [
 export default function Header() {
     // const { user } = useAuth();
     return (
-        <header className="sticky top-0 backdrop-blur lg:py-6 py-3 z-50 bg-background/90 supports-[backdrop-filter]:bg-background/60 lg:px-16 px-5 items-center text-center">
+        <header className="sticky top-0 lg:py-6 py-3 z-50 lg:px-16 px-5 items-center text-center  bg-background/90 backdrop-blur supports-[backdrop-filter]:bg-background/60">
             <NavigationMenu viewport={false} className="min-w-full justify-between">
                 {/* 좌측 고정 메뉴 */}
                 <NavigationMenuList className="flex-row-reverse md:flex-row">
@@ -39,19 +33,23 @@ export default function Header() {
                     {/* 태블릿 / PC버전 */}
                     <div className="hidden lg:flex">
                         {components.map((component) => (
-                            <NavigationMenuItem key={component.title}>
-                                <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-                                    <Link href={component.href}>{component.title}</Link>
-                                </NavigationMenuLink>
+                            <NavigationMenuItem
+                                key={component.title}
+                                className="flex flex-col after:block after:content-[''] after:h-0.5 after:bg-primary after:w-full after:scale-x-0 hover:after:scale-x-100 after:transition after:duration-300 after:origin-left"
+                            >
+                                <Link href={component.href} className="px-4 py-2 text-sm">
+                                    {component.title}
+                                </Link>
+                                {/* <div className="h-0.5 bg-amber-300 w-full after:scale-x" /> */}
                             </NavigationMenuItem>
                         ))}
                         {/* '부원 모집 중' 버튼은 모집 기간에 따라 자동으로 숨김 및 비활성화 처리 로직 구현 필요 */}
-                        <NavigationMenuItem className="flex text-primary">
-                            <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-                                <Link href="#">부원 모집 중</Link>
-                            </NavigationMenuLink>
-                            <Ping />
+                        <NavigationMenuItem className="flex flex-col text-primary after:block after:content-[''] after:h-0.5 after:bg-primary after:w-full after:scale-x-0 hover:after:scale-x-100 after:transition after:duration-300 after:origin-left">
+                            <Link href="/recruitment" className="px-4 py-2 text-sm">
+                                부원 모집 중
+                            </Link>
                         </NavigationMenuItem>
+                        <Ping />
                     </div>
                     {/* 모바일 버전 (구현 필요) */}
                 </NavigationMenuList>
