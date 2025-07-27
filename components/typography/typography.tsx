@@ -4,17 +4,11 @@ type Props = {
 };
 
 export function TypographyH1({ children, className }: Props) {
-    return (
-        <h1 className={`scroll-m-20 text-4xl font-extrabold tracking-tight text-balance ${className}`}>{children}</h1>
-    );
+    return <h1 className={`scroll-m-20 text-4xl tracking-tight text-balance ${className}`}>{children}</h1>;
 }
 
 export function TypographyH2({ children, className }: Props) {
-    return (
-        <h2 className={`${className} scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0`}>
-            {children}
-        </h2>
-    );
+    return <h2 className={`${className} scroll-m-20 border-b pb-2 text-3xl tracking-tight first:mt-0`}>{children}</h2>;
 }
 
 export function TypographyH3({ children, className }: Props) {
