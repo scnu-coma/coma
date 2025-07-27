@@ -1,7 +1,7 @@
-export default function RoutesLayout({
+export default function Layout({
     children,
 }: Readonly<{
     children: React.ReactNode;
 }>) {
-    return <>routeslayout{children}</>;
+    return <div className="lg:w-6xl mx-auto bg-amber-100">routes layout / {children}</div>;
 }
