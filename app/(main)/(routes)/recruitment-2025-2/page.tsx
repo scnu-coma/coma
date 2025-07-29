@@ -5,7 +5,7 @@ import title from "@/public/recruitment/title.svg";
 import dividerShort from "@/public/recruitment/divider_short.svg";
 import dividerLong from "@/public/recruitment/divider_long.svg";
 import python from "@/public/recruitment/python.webp";
-import computer from "@/public/recruitment/computer.png";
+import computer from "@/public/recruitment/computer.webp";
 import { TypographyH1, TypographyP } from "@/components/typography/typography";
 import { Progress } from "@/components/ui/progress";
 import { useEffect, useState } from "react";
@@ -77,7 +77,7 @@ export default function Page() {
     return (
         <div className="relative mt-12">
             {/* 그라디언트 배경 */}
-            <div className="-z-10 absolute left-0 w-6xl my-24 p-12 h-[800px] bg-gradient-to-br from-indigo-200/50 via-red-200/50 to-yellow-100/50 saturate-150 blur-[100px] dark:bg-gradient-to-tl dark:from-green-300/20 dark:via-blue-500/20 dark:to-purple-600/20" />
+            <div className="-z-10 absolute left-0 w-full my-24 p-12 h-[800px] bg-gradient-to-br from-indigo-200/50 via-red-200/50 to-yellow-100/50 saturate-150 blur-[100px] dark:bg-gradient-to-tl dark:from-green-300/20 dark:via-blue-500/20 dark:to-purple-600/20" />
             {/* TOC progress bar */}
             <div className="fixed xl:flex hidden z-10 right-24 bottom-24 gap-8">
                 {/* left */}
@@ -97,7 +97,7 @@ export default function Page() {
                     alt="국립순천대학교 코딩동아리 코마 2학기 신규 부원 모집"
                     className="w-5xl dark:invert"
                 />
-                <Image src={dividerShort} alt="short divider" className="h-6 my-8 dark:invert" />
+                <Image src={dividerShort} alt="short divider" className="sm:h-6 h-4 my-8 dark:invert" />
                 {/* 01 모집대상 */}
                 <TypographyH1 className="mb-4">01</TypographyH1>
                 <TypographyH1 className="lg:scale-100 scale-75">부원 모집대상</TypographyH1>
@@ -122,7 +122,7 @@ export default function Page() {
                         <Image
                             src={computer}
                             alt="computer 3d icon"
-                            className="xl:w-96 md:w-80 w-44 animate-slowlyBounce absolute -right-8 lg:top-20 top-36"
+                            className="md:w-80 w-40 animate-slowlyBounce absolute right-0 lg:top-20 top-36"
                         />
                     </div>
                 </div>
