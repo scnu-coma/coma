@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import title from "@/public/recruitment/title.svg";
 import dividerShort from "@/public/recruitment/divider_short.svg";
@@ -5,6 +7,8 @@ import dividerLong from "@/public/recruitment/divider_long.svg";
 import python from "@/public/recruitment/python.webp";
 import computer from "@/public/recruitment/computer.png";
 import { TypographyH1, TypographyP } from "@/components/typography/typography";
+import { Progress } from "@/components/ui/progress";
+import { useEffect, useState } from "react";
 
 import pythonIcon from "@/public/logo/python.svg";
 import cIcon from "@/public/logo/c.svg";
@@ -49,10 +53,37 @@ const icons = [
 ];
 
 export default function Page() {
+    // 우측 TOC progress bar (미완성)
+    const [progress, setProgress] = useState(10);
+    // const h1 = document.querySelectorAll("h1");
+    // const scroll = () => {
+    //     window.scrollTo({
+    //         top: 0,
+    //         behavior: "smooth",
+    //     });
+    // };
+    useEffect(() => {
+        const timer = setTimeout(() => setProgress(66), 200);
+        return () => clearTimeout(timer);
+    }, []);
+
     return (
         <div className="relative mt-12">
             {/* 그라디언트 배경 */}
             <div className="-z-10 absolute left-0 w-6xl my-24 p-12 h-[800px] bg-gradient-to-br from-indigo-200/50 via-red-200/50 to-yellow-100/50 saturate-150 blur-[100px] dark:bg-gradient-to-tl dark:from-green-300/20 dark:via-blue-500/20 dark:to-purple-600/20" />
+            {/* TOC progress bar */}
+            <div className="fixed flex z-10 right-24 bottom-24 gap-8">
+                {/* left */}
+                <Progress value={progress} className="rotate-90 w-[350px] h-1 origin-left mt-3 -mr-84" />
+                {/* right */}
+                <ul className="space-y-16">
+                    <li>모집 대상 알아보기</li>
+                    <li>스터디 알아보기</li>
+                    <li>전용 혜택 알아보기</li>
+                    <li>코마데이 알아보기</li>
+                    <li>코마 가입 신청하기</li>
+                </ul>
+            </div>
             <div className="w-full flex flex-col items-center text-[#0e0a23] dark:text-[#f1f5dc] px-8">
                 <Image
                     src={title}
