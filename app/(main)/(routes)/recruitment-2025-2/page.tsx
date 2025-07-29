@@ -13,7 +13,14 @@ import { useEffect, useState } from "react";
 import pythonIcon from "@/public/logo/python.svg";
 import cIcon from "@/public/logo/c.svg";
 import javaIcon from "@/public/logo/java.svg";
-import { AppWindowIcon, BookMarkedIcon, DatabaseZapIcon, Gamepad2Icon, TerminalIcon } from "lucide-react";
+import {
+    AppWindowIcon,
+    BookMarkedIcon,
+    CircleQuestionMarkIcon,
+    DatabaseZapIcon,
+    Gamepad2Icon,
+    TerminalIcon,
+} from "lucide-react";
 
 // 02 다채로운 스터디 그룹 (아이콘, 아이콘이름)
 const icons = [
@@ -32,23 +39,23 @@ const icons = [
     {
         title: "게임제작",
         // image: unityIcon,
-        element: <Gamepad2Icon className="invert sepia w-24 h-24" />,
+        element: <Gamepad2Icon className="invert sepia lg:w-24 w-10 lg:h-24 h-10" />,
     },
     {
         title: "백엔드",
-        element: <DatabaseZapIcon className="invert sepia w-24 h-24" />,
+        element: <DatabaseZapIcon className="invert sepia lg:w-24 w-10 lg:h-24 h-10" />,
     },
     {
         title: "홈페이지 제작",
-        element: <AppWindowIcon className="invert sepia w-24 h-24" />,
+        element: <AppWindowIcon className="invert sepia lg:w-24 w-10 lg:h-24 h-10" />,
     },
     {
         title: "자격증",
-        element: <BookMarkedIcon className="invert sepia w-24 h-24" />,
+        element: <BookMarkedIcon className="invert sepia lg:w-24 w-10 lg:h-24 h-10" />,
     },
     {
         title: "모각코",
-        element: <TerminalIcon className="invert sepia w-24 h-24" />,
+        element: <TerminalIcon className="invert sepia lg:w-24 w-10 lg:h-24 h-10" />,
     },
 ];
 
@@ -72,7 +79,7 @@ export default function Page() {
             {/* 그라디언트 배경 */}
             <div className="-z-10 absolute left-0 w-6xl my-24 p-12 h-[800px] bg-gradient-to-br from-indigo-200/50 via-red-200/50 to-yellow-100/50 saturate-150 blur-[100px] dark:bg-gradient-to-tl dark:from-green-300/20 dark:via-blue-500/20 dark:to-purple-600/20" />
             {/* TOC progress bar */}
-            <div className="fixed flex z-10 right-24 bottom-24 gap-8">
+            <div className="fixed xl:flex hidden z-10 right-24 bottom-24 gap-8">
                 {/* left */}
                 <Progress value={progress} className="rotate-90 w-[350px] h-1 origin-left mt-3 -mr-84" />
                 {/* right */}
@@ -84,7 +91,7 @@ export default function Page() {
                     <li>코마 가입 신청하기</li>
                 </ul>
             </div>
-            <div className="w-full flex flex-col items-center text-[#0e0a23] dark:text-[#f1f5dc] px-8">
+            <div className="w-full flex flex-col items-center text-[#0e0a23] dark:text-[#f1f5dc]">
                 <Image
                     src={title}
                     alt="국립순천대학교 코딩동아리 코마 2학기 신규 부원 모집"
@@ -93,77 +100,83 @@ export default function Page() {
                 <Image src={dividerShort} alt="short divider" className="h-6 my-8 dark:invert" />
                 {/* 01 모집대상 */}
                 <TypographyH1 className="mb-4">01</TypographyH1>
-                <TypographyH1>부원 모집대상</TypographyH1>
+                <TypographyH1 className="lg:scale-100 scale-75">부원 모집대상</TypographyH1>
                 <TypographyP>
                     전공무관! 국립순천대학교에 <strong>재학 중</strong>인 모든 학생
                 </TypographyP>
-                <div className="w-full justify-between relative mb-24">
+                <div className="w-full justify-between relative mt-10 lg:mb-10">
                     <div>
                         <Image
                             src={python}
                             alt="python 3d icon"
-                            className="lg:w-72 lg:h-72 w-32 h-32 animate-slowlyBounce absolute lg:-top-18 top-6"
+                            className="xl:w-72 xl:h-72 md:w-64 md:h-64 w-32 h-32 animate-slowlyBounce absolute lg:-top-18 top-6"
                         />
-                        <p className="my-12 w-96 h-24 mx-auto bg-[#0e0a23] dark:bg-[#f1f5dc] text-[#f1f5dc] dark:text-[#0e0a23] text-xl flex items-center justify-center rounded-3xl rounded-tl-none">
+                        <p className="my-12 md:w-96 w-2/3 md:mx-auto ml-28 md:scale-100 scale-75 h-24 mx-auto bg-[#0e0a23] dark:bg-[#f1f5dc] text-[#f1f5dc] dark:text-[#0e0a23] text-xl flex items-center justify-center rounded-3xl rounded-tl-none">
                             <span className="underline">비전공자</span>인데, 괜찮을까?
                         </p>
                     </div>
                     <div>
-                        <p className="my-12 w-96 h-24 mx-auto bg-[#0e0a23] dark:bg-[#f1f5dc] text-[#f1f5dc] dark:text-[#0e0a23] text-xl  flex items-center justify-center rounded-3xl rounded-tr-none">
+                        <p className="my-12 md:w-96 w-5/6 md:mx-auto mr-28 md:scale-100 scale-75 h-24 mx-auto bg-[#0e0a23] dark:bg-[#f1f5dc] text-[#f1f5dc] dark:text-[#0e0a23] text-xl flex items-center justify-center rounded-3xl rounded-tr-none">
                             <span className="underline">전공 관련 활동</span>을 하고 싶은데...
                         </p>
                         <Image
                             src={computer}
                             alt="computer 3d icon"
-                            className="lg:w-96 w-44 animate-slowlyBounce absolute -right-4 lg:top-20 top-32"
+                            className="xl:w-96 md:w-80 w-44 animate-slowlyBounce absolute -right-8 lg:top-20 top-36"
                         />
                     </div>
                 </div>
                 <Image src={dividerLong} alt="Long divider" className="h-6 my-14 dark:invert" />
                 {/* 02 다채로운 스터디 그룹 */}
                 <TypographyH1 className="mb-4">02</TypographyH1>
-                <TypographyH1>다채로운 스터디 그룹</TypographyH1>
+                <TypographyH1 className="lg:scale-100 scale-75">다채로운 스터디 그룹</TypographyH1>
                 <TypographyP>코딩은 물론, 비개발 분야까지 함께 성장해요</TypographyP>
                 {/* 스터디 그룹 아이콘들 */}
-                <ul className="grid grid-cols-4 grid-rows-2 justify-center my-14 gap-20">
+                <ul className="grid grid-cols-4 grid-rows-2 lg:w-4xl lg:gap-y-20 gap-y-4 justify-between my-14">
                     {icons.map((icon) => (
                         <li key={icon.title} className="flex flex-col items-center gap-3">
-                            <div className="bg-[#0e0a23] dark:bg-[#f1f5dc] p-6 rounded-3xl shadow-[0_0_20px_#0e0a23]/30 dark:shadow-[0_0_20px_#f1f5dc]/50 hover:scale-110 transition-transform duration-300">
+                            <div className="bg-[#0e0a23] dark:bg-[#f1f5dc] lg:p-6 p-4 lg:rounded-3xl rounded-2xl shadow-[0_0_20px_#0e0a23]/30 dark:shadow-[0_0_20px_#f1f5dc]/50 hover:scale-110 transition-transform duration-300">
                                 {icon.element && icon.element}
                                 {icon.image && (
                                     <Image
                                         src={icon.image}
                                         alt={`${icon.title} icon`}
-                                        className="invert sepia dark:invert-0 w-24"
+                                        className="invert sepia dark:invert-0 lg:w-24 w-10"
                                     />
                                 )}
                             </div>
-                            <span className="text-lg">{icon.title}</span>
+                            <span className="lg:text-lg break-keep text-center">{icon.title}</span>
                         </li>
                     ))}
                 </ul>
-                {/* 주의사항 */}
-                <ul className="mr-auto mt-8">
+                <ul className="mr-auto break-keep">
+                    {/* 모각코란? */}
+                    <li className="flex items-start gap-4 mb-20">
+                        <CircleQuestionMarkIcon />
+                        <p className="text-sm w-full break-keep">
+                            모각코란? &apos;모여서 각자 코딩하기&apos;를 뜻합니다.
+                            <br /> 각자 원하는 목표와 난이도의 학습을 수행할 수 있습니다.
+                        </p>
+                    </li>
+                    {/* 주의사항 */}
                     <li className="mb-6">
                         <p>주의사항</p>
                     </li>
                     <li className="flex items-start gap-4 mb-3">
                         <TerminalIcon className="invert dark:bg-[#0e0a23] bg-[#f1f5dc] w-7 h-5 p-0.5 rounded-sm" />
-                        <p className="mb-0.5 text-sm">스터디 구성은 수요조사에 따라 변경될 수 있습니다.</p>
+                        <p className="mb-0.5 text-sm w-full">스터디 구성은 수요조사에 따라 변경될 수 있습니다.</p>
                     </li>
                     <li className="flex items-start gap-4 mb-2">
                         <TerminalIcon className="invert dark:bg-[#0e0a23] bg-[#f1f5dc] w-7 h-5 p-0.5 rounded-sm" />
-                        <p className="mb-0.5 text-sm">
+                        <p className="mb-0.5 text-sm w-full">
                             모각코 또는 나머지 스터디 중 1개 이상의 그룹에 반드시 참여해야 합니다.
                         </p>
                     </li>
                     <li className="flex items-start gap-4">
                         <TerminalIcon className="invert dark:bg-[#0e0a23] bg-[#f1f5dc] w-7 h-5 p-0.5 rounded-sm opacity-0" />
-                        <div>
+                        <div className="flex flex-col gap-2 mt-1">
                             <small>예시 1 &#41; &apos;파이썬&apos; 만 참여</small>
-                            <br />
                             <small>예시 2 &#41; &apos;모각코&apos; 만 참여</small>
-                            <br />
                             <small>예시 3 &#41; &apos;자격증&apos;, &apos;모각코&apos; 모두 참여</small>
                         </div>
                     </li>

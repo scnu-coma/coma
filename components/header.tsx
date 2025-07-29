@@ -26,7 +26,12 @@ export default function Header() {
                     {/* 좌측 고정 메뉴 : 로고 */}
                     <NavigationMenuItem className="pr-4">
                         <Link href="/">
-                            <Image className="dark:invert lg:h-8 h-6" src={logoFull} alt="coma's logo" height={32} />
+                            <Image
+                                className="dark:invert lg:h-8 h-6 w-fit"
+                                src={logoFull}
+                                alt="coma's logo"
+                                height={32}
+                            />
                         </Link>
                     </NavigationMenuItem>
                     {/* 좌측 고정 메뉴 : 로고가 아닌 것 */}
