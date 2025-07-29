@@ -6,6 +6,48 @@ import python from "@/public/recruitment/python.webp";
 import computer from "@/public/recruitment/computer.png";
 import { TypographyH1, TypographyP } from "@/components/typography/typography";
 
+import pythonIcon from "@/public/logo/python.svg";
+import cIcon from "@/public/logo/c.svg";
+import javaIcon from "@/public/logo/java.svg";
+import { AppWindowIcon, BookMarkedIcon, DatabaseZapIcon, Gamepad2Icon, TerminalIcon } from "lucide-react";
+
+// 02 다채로운 스터디 그룹 (아이콘, 아이콘이름)
+const icons = [
+    {
+        title: "파이썬",
+        image: pythonIcon,
+    },
+    {
+        title: "C언어",
+        image: cIcon,
+    },
+    {
+        title: "자바",
+        image: javaIcon,
+    },
+    {
+        title: "게임제작",
+        // image: unityIcon,
+        element: <Gamepad2Icon className="invert sepia w-24 h-24" />,
+    },
+    {
+        title: "백엔드",
+        element: <DatabaseZapIcon className="invert sepia w-24 h-24" />,
+    },
+    {
+        title: "홈페이지 제작",
+        element: <AppWindowIcon className="invert sepia w-24 h-24" />,
+    },
+    {
+        title: "자격증",
+        element: <BookMarkedIcon className="invert sepia w-24 h-24" />,
+    },
+    {
+        title: "모각코",
+        element: <TerminalIcon className="invert sepia w-24 h-24" />,
+    },
+];
+
 export default function Page() {
     return (
         <div className="relative mt-12">
@@ -46,7 +88,56 @@ export default function Page() {
                         />
                     </div>
                 </div>
-                <Image src={dividerLong} alt="Long divider" className="h-6 my-8 dark:invert" />
+                <Image src={dividerLong} alt="Long divider" className="h-6 my-14 dark:invert" />
+                {/* 02 다채로운 스터디 그룹 */}
+                <TypographyH1 className="mb-4">02</TypographyH1>
+                <TypographyH1>다채로운 스터디 그룹</TypographyH1>
+                <TypographyP>코딩은 물론, 비개발 분야까지 함께 성장해요</TypographyP>
+                {/* 스터디 그룹 아이콘들 */}
+                <ul className="grid grid-cols-4 grid-rows-2 justify-center my-14 gap-20">
+                    {icons.map((icon) => (
+                        <li key={icon.title} className="flex flex-col items-center gap-3">
+                            <div className="bg-[#0e0a23] dark:bg-[#f1f5dc] p-6 rounded-3xl shadow-[0_0_20px_#0e0a23]/30 dark:shadow-[0_0_20px_#f1f5dc]/50 hover:scale-110 transition-transform duration-300">
+                                {icon.element && icon.element}
+                                {icon.image && (
+                                    <Image
+                                        src={icon.image}
+                                        alt={`${icon.title} icon`}
+                                        className="invert sepia dark:invert-0 w-24"
+                                    />
+                                )}
+                            </div>
+                            <span className="text-lg">{icon.title}</span>
+                        </li>
+                    ))}
+                </ul>
+                {/* 주의사항 */}
+                <ul className="mr-auto mt-8">
+                    <li className="mb-6">
+                        <p>주의사항</p>
+                    </li>
+                    <li className="flex items-start gap-4 mb-3">
+                        <TerminalIcon className="invert dark:bg-[#0e0a23] bg-[#f1f5dc] w-7 h-5 p-0.5 rounded-sm" />
+                        <p className="mb-0.5 text-sm">스터디 구성은 수요조사에 따라 변경될 수 있습니다.</p>
+                    </li>
+                    <li className="flex items-start gap-4 mb-2">
+                        <TerminalIcon className="invert dark:bg-[#0e0a23] bg-[#f1f5dc] w-7 h-5 p-0.5 rounded-sm" />
+                        <p className="mb-0.5 text-sm">
+                            모각코 또는 나머지 스터디 중 1개 이상의 그룹에 반드시 참여해야 합니다.
+                        </p>
+                    </li>
+                    <li className="flex items-start gap-4">
+                        <TerminalIcon className="invert dark:bg-[#0e0a23] bg-[#f1f5dc] w-7 h-5 p-0.5 rounded-sm opacity-0" />
+                        <div>
+                            <small>예시 1 &#41; &apos;파이썬&apos; 만 참여</small>
+                            <br />
+                            <small>예시 2 &#41; &apos;모각코&apos; 만 참여</small>
+                            <br />
+                            <small>예시 3 &#41; &apos;자격증&apos;, &apos;모각코&apos; 모두 참여</small>
+                        </div>
+                    </li>
+                </ul>
+                <Image src={dividerLong} alt="Long divider" className="h-6 my-14 dark:invert" />
             </div>
         </div>
     );
