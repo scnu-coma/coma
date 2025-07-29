@@ -52,7 +52,7 @@ export default function Page() {
     return (
         <div className="relative mt-12">
             {/* 그라디언트 배경 */}
-            <div className="-z-10 absolute w-full m-24 p-12 h-[800px] bg-gradient-to-br from-indigo-200/50 via-red-200/50 to-yellow-100/50 saturate-150 blur-[100px]" />
+            <div className="-z-10 absolute left-0 w-6xl my-24 p-12 h-[800px] bg-gradient-to-br from-indigo-200/50 via-red-200/50 to-yellow-100/50 saturate-150 blur-[100px] dark:bg-gradient-to-tl dark:from-green-300/20 dark:via-blue-500/20 dark:to-purple-600/20" />
             <div className="w-full flex flex-col items-center text-[#0e0a23] dark:text-[#f1f5dc] px-8">
                 <Image
                     src={title}
