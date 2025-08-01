@@ -20,7 +20,7 @@ const components: { title: string; href: string }[] = [
 
 export default function Footer() {
     return (
-        <footer className="lg:pb-12 py-3 lg:px-16 px-5 text-sm lg:grid lg:grid-cols-6 flex flex-col-reverse lg:items-center text-muted-foreground">
+        <footer className="lg:pb-12 pb-24 py-3 lg:px-16 px-5 text-sm lg:grid lg:grid-cols-6 flex flex-col-reverse lg:items-center text-muted-foreground">
             <span>© 2025 | Coding Master</span>
             <ul className="lg:text-center col-span-4 flex lg:flex-row flex-col lg:gap-12 gap-6 my-6 justify-center">
                 <li>
