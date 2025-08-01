@@ -7,7 +7,6 @@ import Footer from "@/components/footer";
 
 const notoSansKR = Noto_Sans_KR({
     variable: "--font-noto-sans-kr",
-    weight: "500",
     subsets: ["latin"],
 });
 

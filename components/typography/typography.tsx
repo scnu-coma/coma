@@ -4,19 +4,25 @@ type Props = {
 };
 
 export function TypographyH1({ children, className }: Props) {
-    return <h1 className={`scroll-m-20 text-4xl tracking-tight text-balance ${className}`}>{children}</h1>;
+    return (
+        <h1 className={`font-extrabold scroll-m-20 text-4xl tracking-tight text-balance ${className}`}>{children}</h1>
+    );
 }
 
 export function TypographyH2({ children, className }: Props) {
-    return <h2 className={`${className} scroll-m-20 border-b pb-2 text-3xl tracking-tight first:mt-0`}>{children}</h2>;
+    return (
+        <h2 className={`${className} scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0`}>
+            {children}
+        </h2>
+    );
 }
 
 export function TypographyH3({ children, className }: Props) {
-    return <h3 className={`${className} scroll-m-20 text-2xl tracking-tight`}>{children}</h3>;
+    return <h3 className={`${className} scroll-m-20 text-2xl font-semibold tracking-tight`}>{children}</h3>;
 }
 
 export function TypographyH4({ children, className }: Props) {
-    return <h4 className={`${className} scroll-m-20 text-xl tracking-tight`}>{children}</h4>;
+    return <h4 className={`${className} scroll-m-20 text-xl font-semibold tracking-tight`}>{children}</h4>;
 }
 
 export function TypographyP({ children, className }: Props) {
@@ -99,7 +105,7 @@ export function TypographyLead({ children, className }: Props) {
 }
 
 export function TypographyLarge({ children, className }: Props) {
-    return <div className={`${className} text-lg`}>{children}</div>;
+    return <div className={`${className} text-lg font-semibold`}>{children}</div>;
 }
 
 export function TypographySmall({ children, className }: Props) {
