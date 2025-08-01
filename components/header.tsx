@@ -19,7 +19,7 @@ const components: { title: string; href: string }[] = [
 export default function Header() {
     // const { user } = useAuth();
     return (
-        <header className="sticky top-0 lg:py-6 py-3 z-50 lg:px-16 px-5 items-center text-center  bg-background/90 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <header className="fixed w-full top-0 lg:py-6 py-3 z-50 lg:px-16 px-5 items-center text-center  bg-background/90 backdrop-blur supports-[backdrop-filter]:bg-background/60">
             <NavigationMenu viewport={false} className="min-w-full justify-between">
                 {/* 좌측 고정 메뉴 */}
                 <NavigationMenuList className="flex-row-reverse md:flex-row">
