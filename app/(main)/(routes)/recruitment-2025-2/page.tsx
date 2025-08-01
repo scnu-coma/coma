@@ -25,6 +25,7 @@ import {
 import InflearnIcon from "@/public/logo/inflearn";
 import ChatGPTIcon from "@/public/logo/chatgpt";
 import CanvaIcon from "@/public/logo/canva";
+import Link from "next/link";
 
 // 02 다채로운 스터디 그룹 (아이콘, 아이콘이름)
 const icons = [
@@ -102,11 +103,21 @@ export default function Page() {
                 <Progress value={progress} className="rotate-90 w-[350px] h-1 origin-left mt-3 -mr-84" />
                 {/* right */}
                 <ul className="space-y-16">
-                    <li>모집 대상 알아보기</li>
-                    <li>스터디 알아보기</li>
-                    <li>전용 혜택 알아보기</li>
-                    <li>코마데이 알아보기</li>
-                    <li>코마 가입 신청하기</li>
+                    <li>
+                        <Link href="#01">모집 대상 알아보기</Link>
+                    </li>
+                    <li>
+                        <Link href="#02">스터디 알아보기</Link>
+                    </li>
+                    <li>
+                        <Link href="#03">전용 혜택 알아보기</Link>
+                    </li>
+                    <li>
+                        <Link href="#04">코마데이 알아보기</Link>
+                    </li>
+                    <li>
+                        <Link href="#05">코마 가입 신청하기</Link>
+                    </li>
                 </ul>
             </div>
             <div className="w-full flex flex-col items-center text-[#0e0a23] dark:text-[#f1f5dc]">
@@ -114,6 +125,7 @@ export default function Page() {
                     src={title}
                     alt="국립순천대학교 코딩동아리 코마 2학기 신규 부원 모집"
                     className="w-5xl dark:invert"
+                    id="01"
                 />
                 <Image src={dividerShort} alt="short divider" className="sm:h-6 h-4 my-8 dark:invert" />
                 {/* 01 모집대상 */}
@@ -144,6 +156,7 @@ export default function Page() {
                         />
                     </div>
                 </div>
+                <span id="02" />
                 <Image src={dividerLong} alt="Long divider" className="h-6 my-14 dark:invert" />
                 {/* 02 다채로운 스터디 그룹 */}
                 <TypographyH1 className="mb-4 font-samulham">02</TypographyH1>
@@ -199,6 +212,7 @@ export default function Page() {
                         </div>
                     </li>
                 </ul>
+                <span id="03" />
                 <Image src={dividerLong} alt="Long divider" className="h-6 my-14 dark:invert" />
                 {/* 03 코마 부원 전용 혜택 */}
                 <TypographyH1 className="mb-4 font-samulham">03</TypographyH1>
@@ -274,6 +288,7 @@ export default function Page() {
                         <p className="mb-0.5 w-full">혜택 구성은 추후 변경될 수 있습니다.</p>
                     </li>
                 </ul>
+                <span id="04" />
                 <Image src={dividerLong} alt="Long divider" className="h-6 my-14 dark:invert" />
             </div>
         </div>

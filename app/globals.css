@@ -160,6 +160,9 @@
         @apply bg-background text-foreground;
         padding-top: 60px;
     }
+    html {
+        scroll-behavior: smooth;
+    }
     html,
     body {
         overflow-x: hidden;
