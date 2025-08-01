@@ -44,7 +44,7 @@ export default function Header() {
             <header
                 className={`${
                     scrollDown ? "-translate-y-full lg:translate-y-0" : "translate-y-0"
-                } transition-transform duration-500 fixed w-full top-0 lg:py-6 py-4 z-50 lg:px-16 px-5 text-center bg-background/90 backdrop-blur supports-[backdrop-filter]:bg-background/60`}
+                } transition-transform duration-500 fixed w-full top-0 lg:py-6 py-2 z-50 lg:px-16 px-5 text-center bg-background/90 backdrop-blur supports-[backdrop-filter]:bg-background/60`}
             >
                 {/* PC버전 */}
                 <NavigationMenu viewport={false} className="lg:flex hidden min-w-full justify-between">
