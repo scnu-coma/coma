@@ -17,6 +17,30 @@
     }
 }
 
+/* 웹폰트 */
+@theme {
+    --font-dovemayo: "Dovemayo_gothic", sans-serif;
+    /* 학교안심 사물함 */
+    --font-samulham: "TTHakgyoansimSamulhamR", sans-serif;
+}
+
+/* 둘기마요고딕 */
+@font-face {
+    font-family: "Dovemayo_gothic";
+    src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.1/Dovemayo_gothic.woff2") format("woff2");
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* 학교안심 사물함 */
+@font-face {
+    font-family: "TTHakgyoansimSamulhamR";
+    src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2402_keris@1.0/TTHakgyoansimSamulhamR.woff2")
+        format("woff2");
+    font-weight: normal;
+    font-style: normal;
+}
+
 @theme inline {
     --color-background: var(--background);
     --color-foreground: var(--foreground);
@@ -134,5 +158,10 @@
     }
     body {
         @apply bg-background text-foreground;
+        position: relative;
+    }
+    html,
+    body {
+        overflow-x: hidden;
     }
 }
