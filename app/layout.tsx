@@ -25,7 +25,7 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-            <body className={`${notoSansKR.className} antialiased`}>
+            <body className={`${notoSansKR.className} antialiased lg:mt-[86px] mt-14`}>
                 {/* 다크 모드 / 라이트 모드 테마 전역 관리 */}
                 <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
                     <Header />
