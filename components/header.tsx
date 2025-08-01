@@ -23,6 +23,9 @@ const components: { title: string; href: string }[] = [
 export default function Header() {
     // const { user } = useAuth();
 
+    // 모바일 버전에서
+    // 아래로 스크롤 시 최상단 header와 최하단 메뉴바가 사라지고
+    // 위로 스크롤 시 다시 나타나는 효과
     const [scrollDown, setScrollDown] = useState(false);
     useEffect(() => {
         let prevPos = window.scrollY;
@@ -108,22 +111,26 @@ export default function Header() {
                     </NavigationMenuList>
                 </NavigationMenu>
                 {/* 모바일 버전 */}
-                <NavigationMenu viewport={false} className="flex lg:hidden min-w-full justify-center">
-                    {/* 코마 로고 */}
-                    <NavigationMenuList>
-                        <NavigationMenuItem>
+                <nav>
+                    <ul className="flex lg:hidden min-w-full justify-center items-center">
+                        <li className="absolute">
+                            {/* 코마 로고 */}
                             <Link href="/">
                                 <Image className="dark:invert h-6 w-fit" src={logoFull} alt="coma's logo" />
                             </Link>
-                        </NavigationMenuItem>
-                    </NavigationMenuList>
-                </NavigationMenu>
+                        </li>
+                        <li className="ml-auto">
+                            {/* 다크 모드 / 라이트 모드 테마 전환 버튼 */}
+                            <ModeToggle />
+                        </li>
+                    </ul>
+                </nav>
             </header>
             {/* 모바일 버전 하단 메뉴 */}
             <div
                 className={`${
                     scrollDown ? "translate-y-full" : "translate-y-0"
-                } transition-transform duration-500 fixed lg:hidden w-full bottom-0 py-5 z-50 px-5 text-center bg-background/90 backdrop-blur supports-[backdrop-filter]:bg-background/60`}
+                } transition-transform duration-500 fixed lg:hidden w-full bottom-0 py-4 z-50 px-5 text-center bg-background/90 backdrop-blur supports-[backdrop-filter]:bg-background/60`}
             >
                 <nav className="lg:hidden min-w-full">
                     {/* 좌측 메뉴 (게시판 관련) */}
