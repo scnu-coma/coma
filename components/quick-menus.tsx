@@ -40,7 +40,7 @@ export default function QuickMenus() {
                     </Button>
                 </Link>
                 {/* 부원 모집안내 */}
-                <Link href="/recruitment-2025-2" className="h-full">
+                <Link href="/recruitment/2025-2" className="h-full">
                     <Button
                         variant="outline"
                         size="lg"

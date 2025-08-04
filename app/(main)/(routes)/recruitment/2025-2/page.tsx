@@ -290,6 +290,11 @@ export default function Page() {
                 </ul>
                 <span id="04" />
                 <Image src={dividerLong} alt="Long divider" className="h-6 my-14 dark:invert" />
+                {/* 04 코마데이 */}
+                <TypographyH1 className="mb-4 font-samulham">04</TypographyH1>
+                <TypographyH1 className="lg:scale-100 scale-75 font-samulham">코마데이</TypographyH1>
+                <TypographyP>공부만 하나요? 놀기도 해야죠!</TypographyP>
+                <div className="flex gap-8 lg:my-14 my-8">코마데이</div>
             </div>
         </div>
     );

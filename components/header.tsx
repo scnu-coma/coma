@@ -70,7 +70,7 @@ export default function Header() {
                             ))}
                             {/* '부원 모집 중' 버튼은 모집 기간에 따라 자동으로 숨김 및 비활성화 처리 로직 구현 필요 */}
                             <NavigationMenuItem className="flex flex-col text-primary after:block after:content-[''] after:h-0.5 after:bg-primary after:w-full after:scale-x-0 hover:after:scale-x-100 after:transition after:duration-300 after:origin-left">
-                                <Link href="/recruitment-2025-2" className="px-4 py-2 text-sm">
+                                <Link href="/recruitment/2025-2" className="px-4 py-2 text-sm">
                                     부원 모집 중
                                 </Link>
                             </NavigationMenuItem>
@@ -151,7 +151,7 @@ export default function Header() {
                                                 </li>
                                             ))}
                                             <li>
-                                                <Link href="/recruitment-2025-2">
+                                                <Link href="/recruitment/2025-2">
                                                     <DrawerClose>부원 모집 중</DrawerClose>
                                                 </Link>
                                             </li>
