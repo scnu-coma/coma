@@ -218,7 +218,7 @@ export default function Page() {
                 <TypographyH1 className="mb-4 font-samulham">03</TypographyH1>
                 <TypographyH1 className="lg:scale-100 scale-75 font-samulham">코마 부원 전용 혜택</TypographyH1>
                 <TypographyP>코마의 학습지원과 함께 코딩실력을 LEVEL UP</TypographyP>
-                <div className="flex gap-8 lg:my-14 my-8 font-dovemayo lg:scale-100 scale-75 group">
+                <div className="flex gap-8 lg:py-14 py-8 font-dovemayo lg:scale-100 scale-75 group">
                     {/* 인프런 카드 */}
                     <div
                         className=" sm:translate-x-12 group-hover:translate-0 group-hover:-rotate-5 group-hover:translate-y-5 relative w-64 h-96 rounded-3xl text-emerald-300 bg-[#0e0a23] bg-gradient-to-br from-emerald-950/80 via-emerald-800/20 to-gray-950/50 flex flex-col items-center mt-3 p-6 outline-2 -outline-offset-10 outline-emerald-400 -rotate-3 transition-all duration-300 border-4 border-emerald-100 dark:border-emerald-200 drop-shadow-[0_0_16px_] drop-shadow-emerald-400"
