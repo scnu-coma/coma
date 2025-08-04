@@ -7,14 +7,14 @@ import { recruitmentTerm, recruitmentYear } from "@/data/recruitment";
 
 export default function QuickMenus() {
     return (
-        <div className="grid lg:w-full lg:grid-cols-6 lg:grid-rows-6 grid-cols-1 lg:gap-2 gap-12 mt-6 mx-auto">
+        <div className="xl:w-6xl grid xl:grid-cols-3 grid-cols-1 xl:grid-rows-2 xl:gap-2 mx-auto">
             {/* 좌측 일정표(달력) */}
-            <div className="lg:col-span-3 lg:col-start-2 lg:row-span-6 flex flex-col gap-2">
+            <div className="xl:col-span-2 xl:row-span-2 flex flex-col mt-6 gap-2">
                 <TypographyH4 className="mb-2">이번 학기 행사</TypographyH4>
                 <CalendarWithEventSlots />
             </div>
             {/* 우측 바로가기 버튼들 */}
-            <div className="lg:col-span-1 lg:row-span-3 flex flex-col gap-2">
+            <div className="xl:col-span-1 xl:row-span-1 flex flex-col gap-2 mt-6">
                 <TypographyH4 className="mb-2">서비스 바로가기</TypographyH4>
                 {/* 코마 혜택 */}
                 <Link href="#" className="h-full">
@@ -52,7 +52,7 @@ export default function QuickMenus() {
                         <ChevronRightIcon className="ml-auto" />
                     </Button>
                 </Link>
-                <div className="h-36 lg:hidden" />
+                <div className="h-36 xl:hidden" />
             </div>
         </div>
     );

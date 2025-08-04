@@ -24,7 +24,7 @@ export default function CalendarWithEventSlots() {
     // 가능하면 개선 바랍니다...
     const [dates, setDates] = React.useState<Date[]>(events.map((event) => new Date(event.from)));
     return (
-        <Card className="w-full py-4 flex lg:flex-row">
+        <Card className="w-full py-4 flex xl:flex-row">
             <CardContent className="px-4 self-center">
                 <Calendar
                     defaultMonth={today}
@@ -37,7 +37,7 @@ export default function CalendarWithEventSlots() {
                 />
             </CardContent>
             {/* 20xx년 x학기 행사, 행사 목록(텍스트) */}
-            <CardFooter className="w-full flex flex-col items-start gap-3 border-l px-4 !pt-4">
+            <CardFooter className="w-full flex flex-col items-start gap-3 xl:border-l px-4 !pt-4">
                 <div className="flex w-full items-center justify-between px-1">
                     <div className="text-sm font-medium">
                         {/* 현재 날짜가 1 ~ 6월일 경우 1학기, 7 ~ 12월일 경우 2학기로 표시 */}
