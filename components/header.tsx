@@ -11,6 +11,7 @@ import { HomeIcon, MenuIcon, UserRoundIcon } from "lucide-react";
 import { Drawer, DrawerClose, DrawerContent, DrawerTrigger } from "./ui/drawer";
 import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from "./ui/dialog";
 import { useEffect, useState } from "react";
+import { recruitmentOpen, recruitmentTerm, recruitmentYear } from "@/data/recruitment";
 
 // 웹사이트 메뉴 목록은 이 배열을 수정하세요
 // 절대로 다른 코드에서 직접 추가하지 마세요
@@ -69,13 +70,19 @@ export default function Header() {
                                     </Link>
                                 </NavigationMenuItem>
                             ))}
-                            {/* '부원 모집 중' 버튼은 모집 기간에 따라 자동으로 숨김 및 비활성화 처리 로직 구현 필요 */}
-                            <NavigationMenuItem className="flex flex-col text-primary after:block after:content-[''] after:h-0.5 after:bg-primary after:w-full after:scale-x-0 hover:after:scale-x-100 after:transition after:duration-300 after:origin-left">
-                                <Link href="/recruitment/2025-2" className="px-4 py-2 text-sm">
-                                    부원 모집 중
-                                </Link>
-                            </NavigationMenuItem>
-                            <Ping />
+                            {recruitmentOpen() && (
+                                <>
+                                    <NavigationMenuItem className="flex flex-col text-primary after:block after:content-[''] after:h-0.5 after:bg-primary after:w-full after:scale-x-0 hover:after:scale-x-100 after:transition after:duration-300 after:origin-left">
+                                        <Link
+                                            href={`/recruitment/${recruitmentYear}-${recruitmentTerm}`}
+                                            className="px-4 py-2 text-sm"
+                                        >
+                                            부원 모집 중
+                                        </Link>
+                                    </NavigationMenuItem>
+                                    <Ping />
+                                </>
+                            )}
                         </div>
                     </NavigationMenuList>
                     {/* 우측 메뉴 (회원가입, 로그인, 모드 전환) */}
@@ -151,11 +158,13 @@ export default function Header() {
                                                     </Link>
                                                 </li>
                                             ))}
-                                            <li>
-                                                <Link href="/recruitment/2025-2">
-                                                    <DrawerClose>부원 모집 중</DrawerClose>
-                                                </Link>
-                                            </li>
+                                            {recruitmentOpen() && (
+                                                <li>
+                                                    <Link href={`/recruitment/${recruitmentYear}-${recruitmentTerm}`}>
+                                                        <DrawerClose>부원 모집 중</DrawerClose>
+                                                    </Link>
+                                                </li>
+                                            )}
                                         </ul>
                                     </nav>
                                 </DrawerContent>

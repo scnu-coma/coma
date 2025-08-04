@@ -3,6 +3,7 @@ import CalendarWithEventSlots from "./calendar-with-event-slots";
 import { Button } from "./ui/button";
 import { TypographyH4 } from "./typography/typography";
 import Link from "next/link";
+import { recruitmentTerm, recruitmentYear } from "@/data/recruitment";
 
 export default function QuickMenus() {
     return (
@@ -40,7 +41,7 @@ export default function QuickMenus() {
                     </Button>
                 </Link>
                 {/* 부원 모집안내 */}
-                <Link href="/recruitment/2025-2" className="h-full">
+                <Link href={`/recruitment/${recruitmentYear}-${recruitmentTerm}`} className="h-full">
                     <Button
                         variant="outline"
                         size="lg"
