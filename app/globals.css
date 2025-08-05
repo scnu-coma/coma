@@ -48,6 +48,16 @@
             transform: none;
         }
     }
+    --animate-upDown: upDown;
+    @keyframes upDown {
+        0%,
+        100% {
+            transform: translateY(1%);
+        }
+        50% {
+            transform: translateY(50%);
+        }
+    }
 }
 
 /* 웹폰트 */
