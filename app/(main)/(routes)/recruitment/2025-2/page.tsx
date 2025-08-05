@@ -124,14 +124,22 @@ export default function Page() {
                 <Image
                     src={title}
                     alt="국립순천대학교 코딩동아리 코마 2학기 신규 부원 모집"
-                    className="w-5xl dark:invert"
+                    className="w-5xl dark:invert opacity-0 animate-[revealOpacityDown_0.7s_forwards]"
                     id="01"
                 />
-                <Image src={dividerShort} alt="short divider" className="sm:h-6 h-4 my-8 dark:invert" />
+                <Image
+                    src={dividerShort}
+                    alt="short divider"
+                    className="sm:h-6 h-4 my-8 dark:invert opacity-0 animate-[revealOpacityDown_0.7s_ease-out_400ms_forwards]"
+                />
                 {/* 01 모집대상 */}
-                <TypographyH1 className="mb-4 font-samulham">01</TypographyH1>
-                <TypographyH1 className="lg:scale-100 scale-75 font-samulham">부원 모집대상</TypographyH1>
-                <TypographyP>
+                <TypographyH1 className="mb-4 font-samulham opacity-0 animate-[revealOpacityDown_0.7s_ease-out_400ms_forwards]">
+                    01
+                </TypographyH1>
+                <TypographyH1 className="lg:scale-100 scale-75 font-samulham opacity-0 animate-[revealOpacityDown_0.7s_ease-out_400ms_forwards]">
+                    부원 모집대상
+                </TypographyH1>
+                <TypographyP className="opacity-0 animate-[revealOpacityDown_0.7s_ease-out_400ms_forwards]">
                     전공무관! 국립순천대학교에 <strong>재학 중</strong>인 모든 학생
                 </TypographyP>
                 <div className="w-full justify-between relative mt-10 lg:mb-10 font-dovemayo">
@@ -141,12 +149,12 @@ export default function Page() {
                             alt="python 3d icon"
                             className="xl:w-72 xl:h-72 md:w-64 md:h-64 w-32 h-32 animate-slowlyBounce absolute lg:-top-18 top-6"
                         />
-                        <p className="my-12 md:w-96 w-2/3 md:mx-auto ml-28 md:scale-100 scale-75 h-24 mx-auto bg-[#0e0a23] dark:bg-[#f1f5dc] text-[#f1f5dc] dark:text-[#0e0a23] text-xl flex items-center justify-center rounded-3xl rounded-tl-none">
+                        <p className="my-12 md:w-96 w-2/3 md:mx-auto ml-28 md:scale-100 scale-75 h-24 mx-auto bg-[#0e0a23] dark:bg-[#f1f5dc] text-[#f1f5dc] dark:text-[#0e0a23] text-xl flex items-center justify-center rounded-3xl rounded-tl-none opacity-0 animate-[revealOpacityDown_0.7s_ease-out_800ms_forwards]">
                             <span className="underline">비전공자</span>인데, 괜찮을까?
                         </p>
                     </div>
                     <div>
-                        <p className="my-12 md:w-96 w-5/6 md:mx-auto mr-28 md:scale-100 scale-75 h-24 mx-auto bg-[#0e0a23] dark:bg-[#f1f5dc] text-[#f1f5dc] dark:text-[#0e0a23] text-xl flex items-center justify-center rounded-3xl rounded-tr-none">
+                        <p className="my-12 md:w-96 w-5/6 md:mx-auto mr-28 md:scale-100 scale-75 h-24 mx-auto bg-[#0e0a23] dark:bg-[#f1f5dc] text-[#f1f5dc] dark:text-[#0e0a23] text-xl flex items-center justify-center rounded-3xl rounded-tr-none opacity-0 animate-[revealOpacityDown_0.7s_ease-out_1200ms_forwards]">
                             <span className="underline">전공 관련 활동</span>을 하고 싶은데...
                         </p>
                         <Image

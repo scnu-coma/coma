@@ -34,6 +34,20 @@
             opacity: 100%;
         }
     }
+    --animate-revealOpacityDown: revealOpacityDown;
+    @keyframes revealOpacityDown {
+        0% {
+            opacity: 20%;
+            transform: translateY(-5px);
+        }
+        90% {
+            opacity: 100%;
+        }
+        100% {
+            opacity: 100%;
+            transform: none;
+        }
+    }
 }
 
 /* 웹폰트 */
