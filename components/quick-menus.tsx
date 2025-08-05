@@ -4,6 +4,7 @@ import { Button } from "./ui/button";
 import { TypographyH4 } from "./typography/typography";
 import Link from "next/link";
 import { recruitmentTerm, recruitmentYear } from "@/data/recruitment";
+import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from "./ui/dialog";
 
 export default function QuickMenus() {
     return (
@@ -17,29 +18,46 @@ export default function QuickMenus() {
             <div className="xl:col-span-1 xl:row-span-1 flex flex-col gap-2 mt-6">
                 <TypographyH4 className="mb-2">서비스 바로가기</TypographyH4>
                 {/* 코마 혜택 */}
-                <Link href="#" className="h-full">
-                    <Button
-                        variant="outline"
-                        size="lg"
-                        className="flex gap-6 justify-start w-full h-full hover:cursor-pointer"
-                    >
-                        <KeyIcon />
-                        <span>코마 혜택</span>
-                        <ChevronRightIcon className="ml-auto" />
-                    </Button>
-                </Link>
+                <Dialog>
+                    <DialogTrigger className="h-full">
+                        {/* <Link href="#" className="h-full"> */}
+                        <Button
+                            variant="outline"
+                            size="lg"
+                            className="flex gap-6 justify-start w-full h-full hover:cursor-pointer"
+                        >
+                            <KeyIcon />
+                            <span>코마 혜택</span>
+                            <ChevronRightIcon className="ml-auto" />
+                        </Button>
+                        {/* </Link> */}
+                    </DialogTrigger>
+                    <DialogContent>
+                        <DialogTitle>안내</DialogTitle>
+                        <DialogDescription>준비중입니다.</DialogDescription>
+                    </DialogContent>
+                </Dialog>
                 {/* 부실 예약 */}
-                <Link href="#" className="h-full">
-                    <Button
-                        variant="outline"
-                        size="lg"
-                        className="flex gap-6 justify-start w-full h-full hover:cursor-pointer"
-                    >
-                        <ClockIcon />
-                        <span>부실 예약</span>
-                        <ChevronRightIcon className="ml-auto" />
-                    </Button>
-                </Link>
+                <Dialog>
+                    <DialogTrigger className="h-full">
+                        {/* <Link href="#" className="h-full"> */}
+                        <Button
+                            variant="outline"
+                            size="lg"
+                            className="flex gap-6 justify-start w-full h-full hover:cursor-pointer"
+                        >
+                            <ClockIcon />
+                            <span>부실 예약</span>
+                            <ChevronRightIcon className="ml-auto" />
+                        </Button>
+                        {/* </Link> */}
+                    </DialogTrigger>
+                    <DialogContent>
+                        <DialogTitle>안내</DialogTitle>
+                        <DialogDescription>준비중입니다.</DialogDescription>
+                    </DialogContent>
+                </Dialog>
+
                 {/* 부원 모집안내 */}
                 <Link href={`/recruitment/${recruitmentYear}-${recruitmentTerm}`} className="h-full">
                     <Button

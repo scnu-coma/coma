@@ -65,9 +65,21 @@ export default function Header() {
                                     key={component.title}
                                     className="flex flex-col after:block after:content-[''] after:h-0.5 after:bg-primary after:w-full after:scale-x-0 hover:after:scale-x-100 after:transition after:duration-300 after:origin-left"
                                 >
-                                    <Link href={component.href} className="px-4 py-2 text-sm">
-                                        {component.title}
-                                    </Link>
+                                    {component.href === "#" ? (
+                                        <Dialog>
+                                            <DialogTrigger className="px-4 py-2 text-sm">
+                                                {component.title}
+                                            </DialogTrigger>
+                                            <DialogContent>
+                                                <DialogTitle>안내</DialogTitle>
+                                                <DialogDescription>준비중입니다.</DialogDescription>
+                                            </DialogContent>
+                                        </Dialog>
+                                    ) : (
+                                        <Link href={component.href} className="px-4 py-2 text-sm">
+                                            {component.title}
+                                        </Link>
+                                    )}
                                 </NavigationMenuItem>
                             ))}
                             {recruitmentOpen() && (
@@ -153,9 +165,21 @@ export default function Header() {
                                         <ul className="pl-8 py-10 space-y-6 text-xl font-semibold">
                                             {components.map((component) => (
                                                 <li key={component.title}>
-                                                    <Link href={component.href}>
-                                                        <DrawerClose>{component.title}</DrawerClose>
-                                                    </Link>
+                                                    {component.href === "#" ? (
+                                                        <Dialog>
+                                                            <DialogTrigger>
+                                                                <DrawerClose>{component.title}</DrawerClose>
+                                                            </DialogTrigger>
+                                                            <DialogContent>
+                                                                <DialogTitle>안내</DialogTitle>
+                                                                <DialogDescription>준비중입니다.</DialogDescription>
+                                                            </DialogContent>
+                                                        </Dialog>
+                                                    ) : (
+                                                        <Link href={component.href}>
+                                                            <DrawerClose>{component.title}</DrawerClose>
+                                                        </Link>
+                                                    )}
                                                 </li>
                                             ))}
                                             {recruitmentOpen() && (
