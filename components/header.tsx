@@ -12,6 +12,8 @@ import { Drawer, DrawerClose, DrawerContent, DrawerTrigger } from "./ui/drawer";
 import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from "./ui/dialog";
 import { useEffect, useState } from "react";
 import { recruitmentOpen, recruitmentTerm, recruitmentYear } from "@/data/recruitment";
+import useAuth from "@/hooks/useAuth";
+import { Button } from "./ui/button";
 
 // 웹사이트 메뉴 목록은 이 배열을 수정하세요
 // 절대로 다른 코드에서 직접 추가하지 마세요
@@ -23,7 +25,7 @@ const components: { title: string; href: string }[] = [
 ];
 
 export default function Header() {
-    // const { user } = useAuth();
+    const { user, login, logout } = useAuth();
 
     // 모바일 버전에서
     // 아래로 스크롤 시 최상단 header와 최하단 메뉴바가 사라지고
@@ -99,31 +101,18 @@ export default function Header() {
                     </NavigationMenuList>
                     {/* 우측 메뉴 (회원가입, 로그인, 모드 전환) */}
                     <NavigationMenuList className="flex ml-auto space-x-4">
-                        <span className="truncate font-medium">홍길동 님</span>
-                        <NavigationMenuItem>
-                            <Tooltip open>
-                                <TooltipTrigger>
-                                    {/* 기능이 완성되면 Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription 컴포넌트를 삭제할 수 있습니다 */}
-                                    <Dialog>
-                                        <DialogTrigger>
-                                            {/* 로그인 버튼 */}
-                                            <LoginButton size="default" />
-                                        </DialogTrigger>
-                                        <DialogContent>
-                                            <DialogTitle>안내</DialogTitle>
-                                            <DialogDescription>준비중입니다.</DialogDescription>
-                                        </DialogContent>
-                                    </Dialog>
-                                </TooltipTrigger>
-                                <TooltipContent
-                                    className={`${
-                                        scrollDown ? "opacity-0 lg:opacity-100" : "opacity-100"
-                                    } transition-opacity duration-300 lg:block hidden`}
-                                >
-                                    카카오로 1초만에 로그인!
-                                </TooltipContent>
-                            </Tooltip>
-                        </NavigationMenuItem>
+                        <span className="truncate font-medium">
+                            {user ? (user.user_metadata?.name || user.email || user.id) : "홍길동"} 님
+                        </span>
+                        {user ? (
+                            <NavigationMenuItem>
+                                <Button size="default" onClick={logout}>로그아웃</Button>
+                            </NavigationMenuItem>
+                        ) : (
+                            <NavigationMenuItem>
+                                <Button size="default" onClick={login}>카카오로 로그인</Button>
+                            </NavigationMenuItem>
+                        )}
                         <NavigationMenuItem>
                             {/* 다크 모드 / 라이트 모드 테마 전환 버튼 */}
                             <ModeToggle />
