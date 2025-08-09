@@ -10,7 +10,7 @@ import event from "@/public/images/event.webp";
 
 export default function QuickMenus() {
     return (
-        <div className="xl:w-6xl grid xl:grid-cols-3 grid-cols-1 xl:grid-rows-2 grid-rows-2 xl:gap-2 mx-auto">
+        <div className="xl:w-6xl grid xl:grid-cols-3 grid-cols-1 xl:grid-rows-1 xl:gap-2 mx-auto">
             {/* 좌측 일정표(달력) */}
             <div className="xl:col-span-2 xl:row-span-1 flex flex-col mt-6 gap-2">
                 <TypographyH4 className="mb-2">이번 학기 행사</TypographyH4>
