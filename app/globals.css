@@ -5,14 +5,28 @@
 
 /* 커스텀 애니메이션 */
 @theme {
-    --animate-slowlyBounce: slowlyBounce 2.5s ease-in-out infinite;
+    --animate-slowlyBounce: slowlyBounce;
     @keyframes slowlyBounce {
         0%,
         100% {
             transform: translateY(-8%);
+            opacity: 100%;
         }
         50% {
             transform: none;
+            opacity: 100%;
+        }
+    }
+    --animate-slowlyBounceUp: slowlyBounceUp;
+    @keyframes slowlyBounceUp {
+        0%,
+        100% {
+            transform: translateY(8%);
+            opacity: 100%;
+        }
+        50% {
+            transform: none;
+            opacity: 100%;
         }
     }
     --animate-progress: progress;
@@ -56,6 +70,27 @@
         }
         50% {
             transform: translateY(50%);
+        }
+    }
+    --animate-twinkle: twinkle;
+    @keyframes twinkle {
+        0%,
+        20% {
+            transform: scale(0.4) rotate(0deg);
+            opacity: 0%;
+        }
+        30% {
+            transform: scale(1) rotate(0deg);
+            opacity: 100%;
+        }
+        60% {
+            transform: scale(1) rotate(270deg);
+            opacity: 100%;
+        }
+        80%,
+        100% {
+            transform: scale(0.4) rotate(270deg);
+            opacity: 0%;
         }
     }
 }
