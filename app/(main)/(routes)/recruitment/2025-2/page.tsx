@@ -6,9 +6,10 @@ import dividerShort from "@/public/recruitment/divider_short.svg";
 import dividerLong from "@/public/recruitment/divider_long.svg";
 import python from "@/public/recruitment/python.webp";
 import computer from "@/public/recruitment/computer.webp";
+import deco01 from "@/public/recruitment/deco_01.svg";
+import deco02 from "@/public/recruitment/deco_02.svg";
 import { TypographyH1, TypographyP } from "@/components/typography/typography";
-import { Progress } from "@/components/ui/progress";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import pythonIcon from "@/public/logo/python.svg";
 import cIcon from "@/public/logo/c.svg";
@@ -16,6 +17,7 @@ import javaIcon from "@/public/logo/java.svg";
 
 import {
     AppWindowIcon,
+    ArrowDownIcon,
     BookMarkedIcon,
     CircleQuestionMarkIcon,
     DatabaseZapIcon,
@@ -26,6 +28,16 @@ import InflearnIcon from "@/public/logo/inflearn";
 import ChatGPTIcon from "@/public/logo/chatgpt";
 import CanvaIcon from "@/public/logo/canva";
 import Link from "next/link";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Button } from "@/components/ui/button";
+
+import comaday01 from "@/public/recruitment/comaday01.webp";
+import comaday02 from "@/public/recruitment/comaday02.webp";
+import comaday03 from "@/public/recruitment/comaday03.webp";
+import comaday04 from "@/public/recruitment/comaday04.webp";
+
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import Autoplay from "embla-carousel-autoplay";
 
 // 02 다채로운 스터디 그룹 (아이콘, 아이콘이름)
 const icons = [
@@ -63,19 +75,56 @@ const icons = [
     },
 ];
 
+// 04 코마데이 사진들
+const comadayImages = [
+    {
+        src: comaday01,
+    },
+    { src: comaday02 },
+    { src: comaday03 },
+    { src: comaday04 },
+];
+
 export default function Page() {
-    // 우측 TOC progress bar (미완성)
-    const [progress, setProgress] = useState(10);
-    // const h1 = document.querySelectorAll("h1");
-    // const scroll = () => {
-    //     window.scrollTo({
-    //         top: 0,
-    //         behavior: "smooth",
-    //     });
-    // };
+    // 스크롤에 따른 TOC 강조 효과
+    // 관찰 대상에 id, ref 부여, 애니메이션 대상에 isVisible['id'] 부여
+    const [isVisible, setVisible] = useState<{ [key: string]: boolean }>({
+        trigger01: false,
+        trigger02: false,
+        trigger03: false,
+        trigger04: false,
+        trigger05: false,
+    });
+    const triggerRefs = {
+        trigger01: useRef<HTMLDivElement>(null),
+        trigger02: useRef<HTMLDivElement>(null),
+        trigger03: useRef<HTMLDivElement>(null),
+        trigger04: useRef<HTMLDivElement>(null),
+        trigger05: useRef<HTMLDivElement>(null),
+    };
     useEffect(() => {
-        const timer = setTimeout(() => setProgress(66), 200);
-        return () => clearTimeout(timer);
+        const elements = ["trigger01", "trigger02", "trigger03", "trigger04", "trigger05"].map((id) =>
+            document.getElementById(id)
+        );
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    const id = entry.target.id;
+                    setVisible((prev) => ({
+                        ...prev,
+                        [id]: entry.isIntersecting,
+                    }));
+                });
+            },
+            { threshold: 0.1 }
+        );
+
+        elements.forEach((el) => {
+            if (el) observer.observe(el);
+        });
+
+        return () => observer.disconnect();
     }, []);
 
     // 03 코마 부원 전용 혜택 카드 클릭 시 카드 그룹이 이동하는 애니메이션
@@ -94,29 +143,103 @@ export default function Page() {
     };
 
     return (
-        <div className="relative mt-12" onClick={handleOutsideClick}>
+        <div className="relative mt-12 animate-[revealOpacity_5s_linear]" onClick={handleOutsideClick}>
             {/* 그라디언트 배경 */}
             <div className="-z-10 absolute left-0 w-full my-24 p-12 h-[800px] bg-gradient-to-br from-indigo-200/50 via-red-200/50 to-yellow-100/50 saturate-150 blur-[100px] dark:bg-gradient-to-tl dark:from-green-300/20 dark:via-blue-500/20 dark:to-purple-600/20" />
             {/* TOC progress bar */}
-            <div className="fixed xl:flex hidden z-10 right-24 bottom-24 gap-8">
-                {/* left */}
-                <Progress value={progress} className="rotate-90 w-[350px] h-1 origin-left mt-3 -mr-84" />
-                {/* right */}
-                <ul className="space-y-16">
+            <div
+                className={`fixed h-screen right-24 bottom-0 xl:flex hidden z-10 gap-8 text-right text-sm text-muted-foreground`}
+            >
+                <ul className="space-y-4 my-auto">
                     <li>
-                        <Link href="#01">모집 대상 알아보기</Link>
+                        <Link href="#01" className="flex items-center gap-4 justify-end">
+                            <span
+                                className={`${
+                                    isVisible["trigger01"] ? `text-foreground` : ``
+                                } transition-all origin-center`}
+                            >
+                                부원 모집대상
+                            </span>
+                            <span
+                                className={`${
+                                    isVisible["trigger01"]
+                                        ? `border-foreground bg-foreground `
+                                        : `border-muted-foreground bg-none `
+                                } transition-colors w-2 h-2 rounded-full border mt-1`}
+                            />
+                        </Link>
                     </li>
                     <li>
-                        <Link href="#02">스터디 알아보기</Link>
+                        <Link href="#02" className="flex items-center gap-4 justify-end">
+                            <span
+                                className={`${
+                                    isVisible["trigger02"] ? `text-foreground` : ``
+                                } transition-all origin-center`}
+                            >
+                                스터디 그룹
+                            </span>
+                            <span
+                                className={`${
+                                    isVisible["trigger02"]
+                                        ? `border-foreground bg-foreground `
+                                        : `border-muted-foreground bg-none `
+                                } transition-colors w-2 h-2 rounded-full border mt-1`}
+                            />
+                        </Link>
                     </li>
                     <li>
-                        <Link href="#03">전용 혜택 알아보기</Link>
+                        <Link href="#03" className="flex items-center gap-4 justify-end">
+                            <span
+                                className={`${
+                                    isVisible["trigger03"] ? `text-foreground` : ``
+                                } transition-all origin-center`}
+                            >
+                                부원 전용 혜택
+                            </span>
+                            <span
+                                className={`${
+                                    isVisible["trigger03"]
+                                        ? `border-foreground bg-foreground `
+                                        : `border-muted-foreground bg-none `
+                                } transition-colors w-2 h-2 rounded-full border mt-1`}
+                            />
+                        </Link>
                     </li>
                     <li>
-                        <Link href="#04">코마데이 알아보기</Link>
+                        <Link href="#04" className="flex items-center gap-4 justify-end">
+                            <span
+                                className={`${
+                                    isVisible["trigger04"] ? `text-foreground` : ``
+                                } transition-all origin-center`}
+                            >
+                                코마데이
+                            </span>
+                            <span
+                                className={`${
+                                    isVisible["trigger04"]
+                                        ? `border-foreground bg-foreground `
+                                        : `border-muted-foreground bg-none `
+                                } transition-colors w-2 h-2 rounded-full border mt-1`}
+                            />
+                        </Link>
                     </li>
                     <li>
-                        <Link href="#05">코마 가입 신청하기</Link>
+                        <Link href="#05" className="flex items-center gap-4 justify-end">
+                            <span
+                                className={`${
+                                    isVisible["trigger05"] ? `text-foreground` : ``
+                                } transition-all origin-center`}
+                            >
+                                가입 신청하기
+                            </span>
+                            <span
+                                className={`${
+                                    isVisible["trigger05"]
+                                        ? `border-foreground bg-foreground `
+                                        : `border-muted-foreground bg-none `
+                                } transition-colors w-2 h-2 rounded-full border mt-1`}
+                            />
+                        </Link>
                     </li>
                 </ul>
             </div>
@@ -124,43 +247,56 @@ export default function Page() {
                 <Image
                     src={title}
                     alt="국립순천대학교 코딩동아리 코마 2학기 신규 부원 모집"
-                    className="w-5xl dark:invert opacity-0 animate-[revealOpacityDown_0.7s_forwards]"
+                    className="w-5xl dark:invert opacity-0 animate-[revealOpacityDown_0.7s_forwards] mt-16"
                     id="01"
                 />
-                <Image
-                    src={dividerShort}
-                    alt="short divider"
-                    className="sm:h-6 h-4 my-8 dark:invert opacity-0 animate-[revealOpacityDown_0.7s_ease-out_400ms_forwards]"
-                />
+                <div className="relative opacity-0 animate-[revealOpacityDown_0.7s_ease-out_400ms_forwards] flex justify-center items-center my-14 gap-8 font-samulham">
+                    <Image src={dividerShort} alt="short divider" className="sm:h-4 h-2 w-fit my-8 dark:invert" />
+                    <div className="flex flex-col items-center gap-2">
+                        <span>SCROLL</span>
+                        <ArrowDownIcon size={28} className="animate-bounce" />
+                    </div>
+                    <Image src={dividerShort} alt="short divider" className="sm:h-4 h-2 w-fit my-8 dark:invert" />
+                </div>
                 {/* 01 모집대상 */}
                 <TypographyH1 className="mb-4 font-samulham opacity-0 animate-[revealOpacityDown_0.7s_ease-out_400ms_forwards]">
                     01
                 </TypographyH1>
-                <TypographyH1 className="lg:scale-100 scale-75 font-samulham opacity-0 animate-[revealOpacityDown_0.7s_ease-out_400ms_forwards]">
+                <TypographyH1 className="lg:scale-100 scale-75 font-samulham opacity-0 animate-[revealOpacityDown_0.7s_ease-out_400ms_forwards] text-transparent bg-clip-text bg-gradient-to-b from-[#0e0a23] to-indigo-900 dark:from-[#f1f5dc] dark:to-orange-200">
                     부원 모집대상
                 </TypographyH1>
                 <TypographyP className="opacity-0 animate-[revealOpacityDown_0.7s_ease-out_400ms_forwards]">
                     전공무관! 국립순천대학교에 <strong>재학 중</strong>인 모든 학생
                 </TypographyP>
                 <div className="w-full justify-between relative mt-10 lg:mb-10 font-dovemayo">
-                    <div>
+                    <div id="trigger01" ref={triggerRefs["trigger01"]}>
                         <Image
                             src={python}
                             alt="python 3d icon"
-                            className="xl:w-72 xl:h-72 md:w-64 md:h-64 w-32 h-32 animate-slowlyBounce absolute lg:-top-18 top-6"
+                            className="xl:w-72 xl:h-72 md:w-64 md:h-64 w-32 h-32 absolute lg:-top-18 top-6 animate-[slowlyBounce_2.5s_ease-in-out_infinite]"
+                        />
+                        <Image
+                            src={deco01}
+                            alt="반짝이는 별 그림"
+                            className="absolute w-10 h-fit -translate-y-56 translate-x-64 animate-[twinkle_5s_infinite] sepia dark:invert"
                         />
                         <p className="my-12 md:w-96 w-2/3 md:mx-auto ml-28 md:scale-100 scale-75 h-24 mx-auto bg-[#0e0a23] dark:bg-[#f1f5dc] text-[#f1f5dc] dark:text-[#0e0a23] text-xl flex items-center justify-center rounded-3xl rounded-tl-none opacity-0 animate-[revealOpacityDown_0.7s_ease-out_800ms_forwards]">
                             <span className="underline">비전공자</span>인데, 괜찮을까?
                         </p>
                     </div>
                     <div>
+                        <Image
+                            src={deco02}
+                            alt="반짝이는 별 그림"
+                            className="absolute sepia dark:invert w-6 h-fit right-0 -translate-x-64 -translate-y-56 animate-[twinkle_6s_infinite_400ms] opacity-0"
+                        />
                         <p className="my-12 md:w-96 w-5/6 md:mx-auto mr-28 md:scale-100 scale-75 h-24 mx-auto bg-[#0e0a23] dark:bg-[#f1f5dc] text-[#f1f5dc] dark:text-[#0e0a23] text-xl flex items-center justify-center rounded-3xl rounded-tr-none opacity-0 animate-[revealOpacityDown_0.7s_ease-out_1200ms_forwards]">
                             <span className="underline">전공 관련 활동</span>을 하고 싶은데...
                         </p>
                         <Image
                             src={computer}
                             alt="computer 3d icon"
-                            className="md:w-80 w-40 animate-slowlyBounce absolute right-0 lg:top-20 top-36"
+                            className="md:w-80 w-40 opacity-0 animate-[slowlyBounceUp_2.5s_ease-in-out_infinite] transition-opacity absolute right-0 lg:top-20 top-36"
                         />
                     </div>
                 </div>
@@ -168,13 +304,19 @@ export default function Page() {
                 <Image src={dividerLong} alt="Long divider" className="h-6 my-14 dark:invert" />
                 {/* 02 다채로운 스터디 그룹 */}
                 <TypographyH1 className="mb-4 font-samulham">02</TypographyH1>
-                <TypographyH1 className="lg:scale-100 scale-75 font-samulham">다채로운 스터디 그룹</TypographyH1>
+                <TypographyH1 className="lg:scale-100 scale-75 font-samulham text-transparent bg-clip-text bg-gradient-to-b from-[#0e0a23] to-blue-900 dark:from-[#f1f5dc] dark:to-orange-200">
+                    다채로운 스터디 그룹
+                </TypographyH1>
                 <TypographyP>코딩은 물론, 비개발 분야까지 함께 성장해요</TypographyP>
                 {/* 스터디 그룹 아이콘들 */}
                 <ul className="grid grid-cols-4 grid-rows-2 lg:w-4xl lg:gap-y-12 gap-y-4 justify-between lg:my-14 my-8">
                     {icons.map((icon) => (
                         <li key={icon.title} className="flex flex-col items-center gap-3">
-                            <div className="bg-[#0e0a23] dark:bg-[#f1f5dc] lg:p-6 p-4 lg:rounded-3xl rounded-2xl shadow-[0_0_20px_#0e0a23]/30 dark:shadow-[0_0_20px_#f1f5dc]/50 hover:scale-110 transition-transform duration-300">
+                            <div
+                                className="bg-[#0e0a23] dark:bg-[#f1f5dc] lg:p-6 p-4 lg:rounded-3xl rounded-2xl shadow-[0_0_20px_#0e0a23]/30 dark:shadow-[0_0_20px_#f1f5dc]/50 hover:scale-110 transition-transform duration-300"
+                                id="trigger02"
+                                ref={triggerRefs["trigger02"]}
+                            >
                                 {icon.element && icon.element}
                                 {icon.image && (
                                     <Image
@@ -224,9 +366,15 @@ export default function Page() {
                 <Image src={dividerLong} alt="Long divider" className="h-6 my-14 dark:invert" />
                 {/* 03 코마 부원 전용 혜택 */}
                 <TypographyH1 className="mb-4 font-samulham">03</TypographyH1>
-                <TypographyH1 className="lg:scale-100 scale-75 font-samulham">코마 부원 전용 혜택</TypographyH1>
+                <TypographyH1 className="lg:scale-100 scale-75 font-samulham text-transparent bg-clip-text bg-gradient-to-b from-[#0e0a23] to-cyan-900 dark:from-[#f1f5dc] dark:to-orange-200">
+                    코마 부원 전용 혜택
+                </TypographyH1>
                 <TypographyP>코마의 학습지원과 함께 코딩실력을 LEVEL UP</TypographyP>
-                <div className="flex gap-8 lg:py-14 py-8 font-dovemayo lg:scale-100 scale-75 group">
+                <div
+                    className="flex gap-8 lg:py-14 py-8 font-dovemayo lg:scale-100 scale-75 group"
+                    id="trigger03"
+                    ref={triggerRefs["trigger03"]}
+                >
                     {/* 인프런 카드 */}
                     <div
                         className=" sm:translate-x-12 group-hover:translate-0 group-hover:-rotate-5 group-hover:translate-y-5 relative w-64 h-96 rounded-3xl text-emerald-300 bg-[#0e0a23] bg-gradient-to-br from-emerald-950/80 via-emerald-800/20 to-gray-950/50 flex flex-col items-center mt-3 p-6 outline-2 -outline-offset-10 outline-emerald-400 -rotate-3 transition-all duration-300 border-4 border-emerald-100 dark:border-emerald-200 drop-shadow-[0_0_16px_] drop-shadow-emerald-400"
@@ -300,9 +448,101 @@ export default function Page() {
                 <Image src={dividerLong} alt="Long divider" className="h-6 my-14 dark:invert" />
                 {/* 04 코마데이 */}
                 <TypographyH1 className="mb-4 font-samulham">04</TypographyH1>
-                <TypographyH1 className="lg:scale-100 scale-75 font-samulham">코마데이</TypographyH1>
-                <TypographyP>공부만 하나요? 놀기도 해야죠!</TypographyP>
-                <div className="flex gap-8 lg:my-14 my-8">코마데이</div>
+                <TypographyH1 className="lg:scale-100 scale-75 font-samulham text-transparent bg-clip-text bg-gradient-to-b from-[#0e0a23] to-green-900 dark:from-[#f1f5dc] dark:to-orange-200">
+                    코마데이
+                </TypographyH1>
+                <TypographyP className="text-center">
+                    코딩은 잊고 특별한 하루를 보내자!
+                    <br />
+                    {/* 일정은 예시, 나중에 변경할 것 */}
+                    <strong>매월 첫째주 월요일</strong> 코마와 함께 다양한 활동을 즐겨보세요
+                </TypographyP>
+                <div className="flex gap-8 lg:my-14 my-8" id="trigger04" ref={triggerRefs["trigger04"]}>
+                    <Carousel
+                        className="w-3xl h-[500px]"
+                        opts={{ loop: true }}
+                        plugins={[
+                            Autoplay({
+                                delay: 2000,
+                            }),
+                        ]}
+                    >
+                        <CarouselContent>
+                            {comadayImages.map((image, index) => (
+                                <CarouselItem key={index}>
+                                    <Image
+                                        src={image.src}
+                                        alt="comaday image"
+                                        key={index}
+                                        className="w-3xl h-[500px] overflow-hidden flex items-center object-cover rounded-3xl"
+                                    />
+                                </CarouselItem>
+                            ))}
+                        </CarouselContent>
+                        <CarouselPrevious />
+                        <CarouselNext />
+                    </Carousel>
+                </div>
+                <span id="05" />
+                <div
+                    className="my-32 flex flex-col items-center justify-between gap-y-32"
+                    id="trigger05"
+                    ref={triggerRefs["trigger05"]}
+                >
+                    {/* <Image src={dividerLong} alt="Long divider" className="h-6 my-14 dark:invert" /> */}
+                    {/* 지원하기 */}
+                    <Link href="#" target="_blank">
+                        <Button className="w-64 h-18 rounded-3xl text-base hover:cursor-pointer drop-shadow-[0_0_4px_] drop-shadow-[#0e0a23] dark:drop-shadow-[#f1f5dc] bg-[#0e0a23] dark:bg-gradient-to-b dark:from-white dark:via-amber-100 dark:to-[#f1f5dc] dark:hover:via-amber-200 dark:hover:to-yellow-100">
+                            코마 가입 신청하기
+                        </Button>
+                    </Link>
+                    {/* FAQ */}
+                    <Accordion type="single" collapsible className="md:w-2xl w-full break-keep">
+                        <AccordionItem value="item-1">
+                            <AccordionTrigger>코딩을 잘 몰라도 가입할 수 있나요?</AccordionTrigger>
+                            <AccordionContent className="flex flex-col gap-4 text-balance">
+                                <p>물론이죠! 코딩을 잘 몰라도 개발에 관심이 있는 모든 분을 위한 동아리입니다.</p>
+                            </AccordionContent>
+                        </AccordionItem>
+                        <AccordionItem value="item-2">
+                            <AccordionTrigger>관련 학과가 아니어도 가입할 수 있나요?</AccordionTrigger>
+                            <AccordionContent className="flex flex-col gap-4 text-balance">
+                                <p>네! 사범대학, 예체능분야 등 관련 학과가 아닌 분들도 동아리에 많이 계십니다.</p>
+                            </AccordionContent>
+                        </AccordionItem>
+                        <AccordionItem value="item-3">
+                            <AccordionTrigger>모집 절차가 궁금해요.</AccordionTrigger>
+                            <AccordionContent className="flex flex-col gap-4 text-balance">
+                                <p>
+                                    모집은 X월 X일 X시부터 X월 X일 X시까지 홈페이지 내 폼을 통해 지원 접수가 진행되며,
+                                    이후 X월 X일부터 간단한 면접을 통해 최종 모집이 완료됩니다.
+                                </p>
+                                <p>면접 이전, 이후에는 순차적으로 문자메시지를 통해 연락을 드릴 예정입니다.</p>
+                                <p>면접에서는 코딩에 관한 흥미와 뭘 물어본다고 간단히 설명</p>
+                            </AccordionContent>
+                        </AccordionItem>
+                        <AccordionItem value="item-4">
+                            <AccordionTrigger>코마에서는 어떤 활동을 하나요?</AccordionTrigger>
+                            <AccordionContent className="flex flex-col gap-4 text-balance">
+                                <p>
+                                    코마의 주 활동은 주 1회 그룹 스터디 및 모각코(모여서 각자 코딩)입니다.
+                                    <br />
+                                    동아리 박람회, 코마데이, 개강/종강총회 등 매월 즐길 수 있는 다양한 행사도
+                                    진행됩니다.
+                                </p>
+                            </AccordionContent>
+                        </AccordionItem>
+                        <AccordionItem value="item-5">
+                            <AccordionTrigger>회비는 얼마인가요?</AccordionTrigger>
+                            <AccordionContent className="flex flex-col gap-4 text-balance">
+                                <p>
+                                    회비는 학기 당 2만 원으로 부원들을 위한 강의 구매, 챗GPT 등 다양한 혜택을 위해
+                                    사용됩니다.
+                                </p>
+                            </AccordionContent>
+                        </AccordionItem>
+                    </Accordion>
+                </div>
             </div>
         </div>
     );
