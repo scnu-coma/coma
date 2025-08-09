@@ -12,88 +12,10 @@ import {
 import bg from "@/public/images/vishnu-mohanan-pfR18JNEMv8-unsplash.webp";
 import { TypographyH2 } from "@/components/typography/typography";
 import Link from "next/link";
-
-const posts = [
-    {
-        tag: "공지",
-        title: "1번째 공지사항",
-        author: "운영진",
-        date: "2025-05-01",
-        postId: 1,
-    },
-    {
-        tag: "공지",
-        title: "한 페이지당 10개까지만 표시됨",
-        author: "운영진",
-        date: "2025-06-01",
-        postId: 2,
-    },
-    {
-        tag: "행사",
-        title: "3번째 공지사항",
-        author: "운영진",
-        date: "2025-07-01",
-        postId: 3,
-    },
-    {
-        tag: "공지",
-        title: "코마 웹사이트 오픈",
-        author: "운영진",
-        date: "2025-08-01",
-        postId: 4,
-    },
-    {
-        tag: "행사",
-        title: "2025년 2학기 신규 부원 모집안내",
-        author: "운영진",
-        date: "2025-09-01",
-        postId: 5,
-    },
-    {
-        tag: "행사",
-        title: "공지사항",
-        author: "운영진",
-        date: "2025-10-01",
-        postId: 6,
-    },
-    {
-        tag: "행사",
-        title: "공지사항",
-        author: "운영진",
-        date: "2025-11-01",
-        postId: 7,
-    },
-    {
-        tag: "행사",
-        title: "공지사항",
-        author: "운영진",
-        date: "2025-12-01",
-        postId: 8,
-    },
-    {
-        tag: "행사",
-        title: "공지사항",
-        author: "운영진",
-        date: "2026-01-01",
-        postId: 9,
-    },
-    {
-        tag: "행사",
-        title: "공지사항공지사항공지사항공지사항공지사항공지사항공지사항",
-        author: "운영진",
-        date: "2026-02-01",
-        postId: 10,
-    },
-    {
-        tag: "행사",
-        title: "11번째 공지사항",
-        author: "운영진",
-        date: "2026-03-01",
-        postId: 11,
-    },
-];
+import { getAllPosts } from "@/lib/api";
 
 export default function Page() {
+    const posts = getAllPosts("_notice");
     return (
         <>
             {/* 제목 배너 */}
@@ -112,9 +34,9 @@ export default function Page() {
                 <TableBody>
                     {posts
                         .map((post) => (
-                            <TableRow key={post.postId} className="w-full block">
+                            <TableRow key={post.slug} className="w-full block">
                                 <Link
-                                    href={`/notice/${post.postId}`}
+                                    href={`/notice/${post.slug}`}
                                     className="w-full flex lg:flex-row flex-col h-24 lg:items-center lg:justify-between justify-center text-base"
                                 >
                                     <div>
@@ -130,7 +52,7 @@ export default function Page() {
                                     <div>
                                         <TableCell>
                                             <span className="text-sm ml-auto xl:mr-36 lg:mr-24 mr-2 not-lg:ml-2.5">
-                                                {post.author}
+                                                {post.author.name}
                                             </span>
                                         </TableCell>
                                         <TableCell>
@@ -140,8 +62,7 @@ export default function Page() {
                                 </Link>
                             </TableRow>
                         ))
-                        .slice(-10)
-                        .reverse()}
+                        .slice(-10)}
                 </TableBody>
             </Table>
             {/* 페이지네이션 */}
