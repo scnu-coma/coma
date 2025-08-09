@@ -247,16 +247,16 @@ export default function Page() {
                 <Image
                     src={title}
                     alt="국립순천대학교 코딩동아리 코마 2학기 신규 부원 모집"
-                    className="w-5xl dark:invert opacity-0 animate-[revealOpacityDown_0.7s_forwards] mt-16"
+                    className="w-5xl dark:invert opacity-0 animate-[revealOpacityDown_0.7s_forwards] sm:mt-16"
                     id="01"
                 />
                 <div className="relative opacity-0 animate-[revealOpacityDown_0.7s_ease-out_400ms_forwards] flex justify-center items-center my-14 gap-8 font-samulham">
-                    <Image src={dividerShort} alt="short divider" className="sm:h-4 h-2 w-fit my-8 dark:invert" />
+                    <Image src={dividerShort} alt="short divider" className="h-4 w-fit my-8 dark:invert" />
                     <div className="flex flex-col items-center gap-2">
                         <span>SCROLL</span>
                         <ArrowDownIcon size={28} className="animate-bounce" />
                     </div>
-                    <Image src={dividerShort} alt="short divider" className="sm:h-4 h-2 w-fit my-8 dark:invert" />
+                    <Image src={dividerShort} alt="short divider" className="h-4 w-fit my-8 dark:invert" />
                 </div>
                 {/* 01 모집대상 */}
                 <TypographyH1 className="mb-4 font-samulham opacity-0 animate-[revealOpacityDown_0.7s_ease-out_400ms_forwards]">
@@ -459,7 +459,7 @@ export default function Page() {
                 </TypographyP>
                 <div className="flex gap-8 lg:my-14 my-8" id="trigger04" ref={triggerRefs["trigger04"]}>
                     <Carousel
-                        className="w-3xl h-[500px]"
+                        className="md:w-3xl md:h-[500px] w-full h-full"
                         opts={{ loop: true }}
                         plugins={[
                             Autoplay({
@@ -474,22 +474,21 @@ export default function Page() {
                                         src={image.src}
                                         alt="comaday image"
                                         key={index}
-                                        className="w-3xl h-[500px] overflow-hidden flex items-center object-cover rounded-3xl"
+                                        className="md:w-3xl md:h-[500px] w-full h-full overflow-hidden flex items-center object-cover rounded-3xl"
                                     />
                                 </CarouselItem>
                             ))}
                         </CarouselContent>
-                        <CarouselPrevious />
-                        <CarouselNext />
+                        <CarouselPrevious className="not-md:hidden" />
+                        <CarouselNext className="not-md:hidden" />
                     </Carousel>
                 </div>
                 <span id="05" />
                 <div
-                    className="my-32 flex flex-col items-center justify-between gap-y-32"
+                    className="w-full md:my-32 my-24 flex flex-col items-center justify-between gap-y-32"
                     id="trigger05"
                     ref={triggerRefs["trigger05"]}
                 >
-                    {/* <Image src={dividerLong} alt="Long divider" className="h-6 my-14 dark:invert" /> */}
                     {/* 지원하기 */}
                     <Link href="#" target="_blank">
                         <Button className="w-64 h-18 rounded-3xl text-base hover:cursor-pointer drop-shadow-[0_0_4px_] drop-shadow-[#0e0a23] dark:drop-shadow-[#f1f5dc] bg-[#0e0a23] dark:bg-gradient-to-b dark:from-white dark:via-amber-100 dark:to-[#f1f5dc] dark:hover:via-amber-200 dark:hover:to-yellow-100">
