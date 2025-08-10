@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
+import { AuthProvider } from "@/context/AuthContext";
 
 const notoSansKR = Noto_Sans_KR({
     variable: "--font-noto-sans-kr",
@@ -26,12 +27,14 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body className={`${notoSansKR.className} antialiased lg:mt-[86px] mt-14`}>
-                {/* 다크 모드 / 라이트 모드 테마 전역 관리 */}
-                <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-                    <Header />
-                    {children}
-                    <Footer />
-                </ThemeProvider>
+                {/* 다크 모드 / 라이트 모드 테마 전역 관리 + 인증 전역 관리 */}
+                <AuthProvider>
+                    <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+                        <Header />
+                        {children}
+                        <Footer />
+                    </ThemeProvider>
+                </AuthProvider>
             </body>
         </html>
     );
