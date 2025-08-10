@@ -3,7 +3,6 @@ import { ModeToggle } from "@/components/theme/theme-toggler";
 import Link from "next/link";
 import { NavigationMenu, NavigationMenuItem, NavigationMenuList } from "./ui/navigation-menu";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
-import LoginButton from "./auth/login-button";
 import logoFull from "@/public/logo/logo-full.svg";
 import Image from "next/image";
 import Ping from "./ui/ping";
@@ -100,19 +99,32 @@ export default function Header() {
                         </div>
                     </NavigationMenuList>
                     {/* 우측 메뉴 (회원가입, 로그인, 모드 전환) */}
-                    <NavigationMenuList className="flex ml-auto space-x-4">
-                        <span className="truncate font-medium">
-                            {user ? (user.user_metadata?.name || user.email || user.id) : "홍길동"} 님
-                        </span>
-                        {user ? (
-                            <NavigationMenuItem>
-                                <Button size="default" onClick={logout}>로그아웃</Button>
-                            </NavigationMenuItem>
-                        ) : (
-                            <NavigationMenuItem>
-                                <Button size="default" onClick={login}>카카오로 로그인</Button>
-                            </NavigationMenuItem>
-                        )}
+                    <NavigationMenuList>
+                        <NavigationMenuItem>
+                            {user && user ? (
+                                <div className="flex ml-auto space-x-4 items-center">
+                                    <span className="truncate font-medium">{user.user_metadata.name} 님</span>
+                                    <Button size="default" onClick={logout}>
+                                        로그아웃
+                                    </Button>
+                                </div>
+                            ) : (
+                                <Tooltip open>
+                                    <TooltipTrigger>
+                                        <Button size="default" onClick={login}>
+                                            로그인
+                                        </Button>
+                                    </TooltipTrigger>
+                                    <TooltipContent
+                                        className={`${
+                                            scrollDown ? "opacity-0 lg:opacity-100" : "opacity-100"
+                                        } transition-opacity duration-300 lg:block hidden`}
+                                    >
+                                        카카오로 1초만에 로그인!
+                                    </TooltipContent>
+                                </Tooltip>
+                            )}
+                        </NavigationMenuItem>
                         <NavigationMenuItem>
                             {/* 다크 모드 / 라이트 모드 테마 전환 버튼 */}
                             <ModeToggle />
@@ -142,8 +154,8 @@ export default function Header() {
                 } transition-transform duration-500 fixed lg:hidden w-full bottom-0 py-4 z-50 px-5 text-center bg-background/90 backdrop-blur supports-[backdrop-filter]:bg-background/60`}
             >
                 <nav className="lg:hidden min-w-full">
-                    {/* 좌측 메뉴 (게시판 관련) */}
                     <ul className="flex justify-center items-center gap-x-28">
+                        {/* (모바일 버전) 메뉴 버튼 */}
                         <li>
                             <Drawer>
                                 <DrawerTrigger asChild>
@@ -183,22 +195,33 @@ export default function Header() {
                                 </DrawerContent>
                             </Drawer>
                         </li>
+                        {/* (모바일 버전) 홈 버튼 */}
                         <li>
                             <Link href="/">
                                 <HomeIcon />
                             </Link>
                         </li>
+                        {/* (모바일 버전) 유저 버튼 */}
                         <li>
-                            <Dialog>
-                                {/* DialogTrigger 컴포넌트에 의해 의문의 여백 5px이 발생했다... 로그인 기능이 완성되면 해결될 문제 */}
-                                <DialogTrigger>
+                            {user && user ? (
+                                <Drawer>
+                                    <DrawerTrigger>
+                                        <UserRoundIcon />
+                                    </DrawerTrigger>
+                                    <DrawerContent>
+                                        <ul className="px-8 py-10 space-y-6 text-xl font-semibold flex justify-between">
+                                            <li>{user && user.user_metadata.name} 님</li>
+                                            <li>
+                                                <Button onClick={logout}>로그아웃</Button>
+                                            </li>
+                                        </ul>
+                                    </DrawerContent>
+                                </Drawer>
+                            ) : (
+                                <span onClick={login}>
                                     <UserRoundIcon />
-                                </DialogTrigger>
-                                <DialogContent>
-                                    <DialogTitle>안내</DialogTitle>
-                                    <DialogDescription>준비중입니다.</DialogDescription>
-                                </DialogContent>
-                            </Dialog>
+                                </span>
+                            )}
                         </li>
                     </ul>
                 </nav>
