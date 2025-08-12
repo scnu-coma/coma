@@ -102,8 +102,13 @@ export default function Header() {
                     <NavigationMenuList>
                         <NavigationMenuItem>
                             {user && user ? (
-                                <div className="flex ml-auto space-x-4 items-center">
-                                    <span className="truncate font-medium">{user.user_metadata.name} 님</span>
+                                <div className="flex ml-auto items-center">
+                                    {/* 권한 수준에 따라 수정할 것 */}
+                                    {/* 인증 대기 / 코마 부원 / 운영진 / 관리자 */}
+                                    <span className="border rounded-full text-sm text-muted-foreground px-3 py-0.5 mr-2 bg-background">
+                                        인증 대기
+                                    </span>
+                                    <span className="truncate font-medium mr-4">{user.user_metadata.name} 님</span>
                                     <Button size="default" onClick={logout}>
                                         로그아웃
                                     </Button>
@@ -210,7 +215,13 @@ export default function Header() {
                                     </DrawerTrigger>
                                     <DrawerContent>
                                         <ul className="px-8 py-10 space-y-6 text-xl font-semibold flex justify-between">
-                                            <li>{user && user.user_metadata.name} 님</li>
+                                            <li>
+                                                {user && user.user_metadata.name} 님{/* 권한 수준에 따라 수정할 것 */}
+                                                {/* 인증 대기 / 코마 부원 / 운영진 / 관리자 */}
+                                                <span className="border rounded-full text-sm text-muted-foreground px-3 py-0.5 ml-2 bg-background">
+                                                    인증 대기
+                                                </span>
+                                            </li>
                                             <li>
                                                 <Button onClick={logout}>로그아웃</Button>
                                             </li>
