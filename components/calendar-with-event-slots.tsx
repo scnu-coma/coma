@@ -24,8 +24,8 @@ export default function CalendarWithEventSlots() {
     // 가능하면 개선 바랍니다...
     const [dates, setDates] = React.useState<Date[]>(events.map((event) => new Date(event.from)));
     return (
-        <Card className="w-full py-4 flex xl:flex-row">
-            <CardContent className="px-4 self-center">
+        <Card className="w-full py-4 flex xl:flex-row xl:h-120">
+            <CardContent className="px-4 self-center mb-auto">
                 <Calendar
                     defaultMonth={today}
                     mode="multiple"
