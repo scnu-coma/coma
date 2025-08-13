@@ -13,6 +13,7 @@ import bg from "@/public/images/vishnu-mohanan-pfR18JNEMv8-unsplash.webp";
 import { TypographyH2 } from "@/components/typography/typography";
 import Link from "next/link";
 import { getAllPosts } from "@/lib/api";
+import { parseDate } from "@/lib/parse-date";
 
 export default function Page() {
     const posts = getAllPosts("_notice");
@@ -56,7 +57,9 @@ export default function Page() {
                                             </span>
                                         </TableCell>
                                         <TableCell>
-                                            <span className="text-xs text-muted-foreground mr-4">{post.date}</span>
+                                            <span className="text-xs text-muted-foreground mr-4">
+                                                {parseDate(post.date)}
+                                            </span>
                                         </TableCell>
                                     </div>
                                 </Link>

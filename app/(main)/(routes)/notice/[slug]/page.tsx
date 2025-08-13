@@ -1,5 +1,9 @@
-import { TypographyH1 } from "@/components/typography/typography";
+import PostHeader from "@/components/posts/post-header";
+import { Button } from "@/components/ui/button";
 import { getAllPosts, getPostBySlug } from "@/lib/api";
+import MarkdownRenderer from "@/lib/markdown-renderer";
+import { parseDate } from "@/lib/parse-date";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 
 const all = getAllPosts("_notice");
@@ -13,13 +17,15 @@ type Slugs = {
 export default async function Page({ params }: Slugs) {
     const post = getPostBySlug("_notice", (await params).slug);
     if (!post) return notFound();
-
     return (
         <>
-            <TypographyH1>{post.title}</TypographyH1>
-            <p>{post.date}</p>
-            <p>{decodeURI(post.slug)}</p>
-            <p>{post.content}</p>
+            <PostHeader tag={post.tag} title={post.title} date={parseDate(post.date)} author={post.author.name} />
+            <MarkdownRenderer post={post.content} />
+            <div className="w-full flex my-12">
+                <Link href="/notice" className="mx-auto">
+                    <Button className="w-36 h-12 rounded-3xl hover:cursor-pointer">목록으로</Button>
+                </Link>
+            </div>
         </>
     );
 }
