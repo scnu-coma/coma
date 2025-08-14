@@ -116,9 +116,19 @@ export default function Header() {
                             ) : (
                                 <Tooltip open>
                                     <TooltipTrigger>
-                                        <Button size="default" onClick={login}>
+                                        <Dialog>
+                                            <DialogTrigger>
+                                                <Button size="default">로그인</Button>
+                                            </DialogTrigger>
+                                            <DialogContent>
+                                                <DialogTitle>안내</DialogTitle>
+                                                <DialogDescription>준비중입니다.</DialogDescription>
+                                            </DialogContent>
+                                        </Dialog>
+                                        {/* 로그인 기능 정식 오픈 시 교체할 것 */}
+                                        {/* <Button size="default" onClick={login}>
                                             로그인
-                                        </Button>
+                                        </Button> */}
                                     </TooltipTrigger>
                                     <TooltipContent
                                         className={`${
@@ -229,9 +239,19 @@ export default function Header() {
                                     </DrawerContent>
                                 </Drawer>
                             ) : (
-                                <span onClick={login}>
-                                    <UserRoundIcon />
-                                </span>
+                                <Dialog>
+                                    <DialogTrigger>
+                                        <UserRoundIcon />
+                                    </DialogTrigger>
+                                    <DialogContent>
+                                        <DialogTitle>안내</DialogTitle>
+                                        <DialogDescription>준비중입니다.</DialogDescription>
+                                    </DialogContent>
+                                </Dialog>
+                                /* 로그인 기능 정식 오픈 시 교체할 것 */
+                                // <span onClick={login}>
+                                //     <UserRoundIcon />
+                                // </span>
                             )}
                         </li>
                     </ul>
