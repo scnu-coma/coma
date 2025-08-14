@@ -24,7 +24,7 @@ export default function Footer() {
             <span>© 2025 | Coding Master</span>
             <ul className="lg:text-center col-span-4 flex lg:flex-row flex-col lg:gap-12 gap-6 my-6 justify-center">
                 <li>
-                    <Link href="/privacy" className="text-primary">
+                    <Link href="/privacy/v1" className="text-primary">
                         개인정보 처리방침
                     </Link>
                 </li>
