@@ -455,7 +455,7 @@ export default function Page() {
                     코딩은 잊고 특별한 하루를 보내자!
                     <br />
                     {/* 일정은 예시, 나중에 변경할 것 */}
-                    <strong>매월 첫째주 월요일</strong> 코마와 함께 다양한 활동을 즐겨보세요
+                    코마와 함께 다양한 활동을 즐겨보세요
                 </TypographyP>
                 <div className="flex gap-8 lg:my-14 my-8" id="trigger04" ref={triggerRefs["trigger04"]}>
                     <Carousel
@@ -484,19 +484,24 @@ export default function Page() {
                     </Carousel>
                 </div>
                 <span id="05" />
+                {/* 05 지원하기 */}
                 <div
-                    className="w-full md:my-32 my-24 flex flex-col items-center justify-between gap-y-32"
+                    className="w-full md:my-32 my-24 flex flex-col items-center justify-between"
                     id="trigger05"
                     ref={triggerRefs["trigger05"]}
                 >
-                    {/* 지원하기 */}
+                    <TypographyH1 className="lg:scale-100 scale-75 font-samulham text-transparent bg-clip-text bg-gradient-to-b from-[#0e0a23] to-green-900 dark:from-[#f1f5dc] dark:to-orange-200 leading-12 pb-12">
+                        1차 신청기간 : 8월 15일 ~ 8월 22일
+                        <br />
+                        2차 신청기간 : 8월 25일 ~ 9월 3일
+                    </TypographyH1>
                     <Link href="#" target="_blank">
                         <Button className="w-64 h-18 rounded-3xl text-base hover:cursor-pointer drop-shadow-[0_0_4px_] drop-shadow-[#0e0a23] dark:drop-shadow-[#f1f5dc] bg-[#0e0a23] dark:bg-gradient-to-b dark:from-white dark:via-amber-100 dark:to-[#f1f5dc] dark:hover:via-amber-200 dark:hover:to-yellow-100">
                             코마 가입 신청하기
                         </Button>
                     </Link>
                     {/* FAQ */}
-                    <Accordion type="single" collapsible className="md:w-2xl w-full break-keep">
+                    <Accordion type="single" collapsible className="md:w-2xl w-full break-keep pt-32">
                         <AccordionItem value="item-1">
                             <AccordionTrigger>코딩을 잘 몰라도 가입할 수 있나요?</AccordionTrigger>
                             <AccordionContent className="flex flex-col gap-4 text-balance">
@@ -513,11 +518,10 @@ export default function Page() {
                             <AccordionTrigger>모집 절차가 궁금해요.</AccordionTrigger>
                             <AccordionContent className="flex flex-col gap-4 text-balance">
                                 <p>
-                                    모집은 X월 X일 X시부터 X월 X일 X시까지 홈페이지 내 폼을 통해 지원 접수가 진행되며,
-                                    이후 X월 X일부터 간단한 면접을 통해 최종 모집이 완료됩니다.
+                                    모집은 8월 15일 9월 3일까지 홈페이지 내 폼을 통해 지원 접수가 진행되며, 이후 간단한
+                                    면접을 통해 최종 모집이 완료됩니다.
                                 </p>
                                 <p>면접 이전, 이후에는 순차적으로 문자메시지를 통해 연락을 드릴 예정입니다.</p>
-                                <p>면접에서는 코딩에 관한 흥미와 뭘 물어본다고 간단히 설명</p>
                             </AccordionContent>
                         </AccordionItem>
                         <AccordionItem value="item-4">
@@ -526,8 +530,7 @@ export default function Page() {
                                 <p>
                                     코마의 주 활동은 주 1회 그룹 스터디 및 모각코(모여서 각자 코딩)입니다.
                                     <br />
-                                    동아리 박람회, 코마데이, 개강/종강총회 등 매월 즐길 수 있는 다양한 행사도
-                                    진행됩니다.
+                                    동아리 박람회, 코마데이, 개강/종강총회 등 다양한 행사도 진행됩니다.
                                 </p>
                             </AccordionContent>
                         </AccordionItem>
