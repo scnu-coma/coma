@@ -1,7 +1,7 @@
 // 메인화면 hero section(배너)에 표시할 공지사항
 // 4개만 쓰세요
 
-import hero1 from "@/public/images/nidhin-mohan-p_wC_T2HUPk-unsplash.jpg";
+import hero1 from "@/public/images/nidhin-mohan-p_wC_T2HUPk-unsplash.webp";
 import hero2 from "@/public/images/banner_recruitment.webp";
 
 export const notices = [
