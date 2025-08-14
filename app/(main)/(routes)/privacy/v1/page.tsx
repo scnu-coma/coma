@@ -258,16 +258,7 @@ export default function Page() {
                     </TypographyP>
                 </li>
             </ol>
-            <TypographyH2 className="mt-12 text-lg font-extrabold!">제7조 : 개인정보 보호책임자</TypographyH2>
-            <ol className="list-decimal ml-4">
-                <li>
-                    <TypographyP>
-                        코마는 개인정보 처리에 관한 업무를 총괄해서 책임지고, 개인정보 처리와 관련한 정보주체의 불만처리
-                        및 피해구제 등을 위하여 아래와 같이 개인정보 보호책임자 및 보호담당자를 지정하고 있습니다.
-                    </TypographyP>
-                </li>
-            </ol>
-            <TypographyH2 className="mt-12 text-lg font-extrabold!">제8조 : 개인정보에 관한 민원</TypographyH2>
+            <TypographyH2 className="mt-12 text-lg font-extrabold!">제7조 : 개인정보에 관한 민원</TypographyH2>
             <TypographyP>
                 코마는 개인정보 처리에 관한 업무를 총괄해서 책임지고, 개인정보 처리와 관련한 정보주체의 불만처리 및
                 피해구제 등을 위하여 아래와 같이 개인정보 보호 책임자를 지정하고 있습니다.
@@ -300,23 +291,19 @@ export default function Page() {
                     <TypographyP>경찰청 사이버수사국 (ecrm.cyber.go.kr; ☎ 182)</TypographyP>
                 </li>
             </ol>
-            <TypographyH2 className="mt-12 text-lg font-extrabold!">제9조 : 개인정보 처리방침 변경</TypographyH2>
-            <ol className="list-decimal ml-4">
+            <TypographyH2 className="mt-12 text-lg font-extrabold!">제8조 : 개인정보 처리방침 변경</TypographyH2>
+            <TypographyP>
+                이 개인정보 처리방침은 아래 고지된 시행일로부터 적용되며, 법령 및 방침에 따른 변경내용의 추가, 삭제 및
+                정정이 있는 경우에는 변경사항의 시행 7일 전부터 공지사항을 통하여 고지할 것입니다.
+            </TypographyP>
+            <TypographyUnlisted>
                 <li>
-                    <TypographyP>
-                        이 개인정보 처리방침은 아래 고지된 시행일로부터 적용되며, 법령 및 방침에 따른 변경내용의 추가,
-                        삭제 및 정정이 있는 경우에는 변경사항의 시행 7일 전부터 공지사항을 통하여 고지할 것입니다.
-                    </TypographyP>
-                    <TypographyUnlisted>
-                        <li>
-                            <TypographyP>공고일자: 2025년 8월 14일 </TypographyP>
-                        </li>
-                        <li>
-                            <TypographyP>시행일자: 2025년 8월 14일</TypographyP>
-                        </li>
-                    </TypographyUnlisted>
+                    <TypographyP>공고일자: 2025년 8월 14일 </TypographyP>
                 </li>
-            </ol>
+                <li>
+                    <TypographyP>시행일자: 2025년 8월 14일</TypographyP>
+                </li>
+            </TypographyUnlisted>
         </div>
     );
 }
