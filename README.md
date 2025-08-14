@@ -1,36 +1,21 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## 코딩마스터 공식 홈페이지
 
-## Getting Started
+코딩마스터는 대학교에서 코딩을 즐기고 배우기 위해 모인 동아리입니다.<br />
+게임 개발, 백엔드, 모각코, 자격증 대비 등 다양한 분야의 스터디를 운영하며, 서로의 성장을 목표로 활동하고 있습니다.
 
-First, run the development server:
+이번에 공식 홈페이지를 새롭게 오픈했습니다.<br />
+앞으로 동아리 활동을 더 편하고 재미있게 즐길 수 있도록 꾸준히 개선해 나가겠습니다.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### 주요 기능
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- 부원 모집: 온라인 신청 폼을 통한 간편 가입
+- 부실 예약: 로그인 후 사용 가능한 예약 시스템
+- 공지사항: 동아리 및 학교 행사 관련 소식 확인
+- 동아리 소개: 활동 분야와 운영 방식 안내
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 문의
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+홈페이지나 프로젝트에 관심이 있다면 이슈 생성 또는 아래로 연락 주세요.
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+관리자: 코마 관리국장 김지원
+- [이메일](mailto:phthalos64@gmail.com)
