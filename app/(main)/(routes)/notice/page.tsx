@@ -14,6 +14,7 @@ import { TypographyH2 } from "@/components/typography/typography";
 import Link from "next/link";
 import { getAllPosts } from "@/lib/api";
 import { parseDate } from "@/lib/parse-date";
+import PostTag from "@/components/posts/post-tag";
 
 export default function Page() {
     const posts = getAllPosts("_notice");
@@ -42,9 +43,7 @@ export default function Page() {
                                 >
                                     <div>
                                         <TableCell>
-                                            <span className="font-medium text-center text-sm text-primary border border-accent w-fit lg:mx-4 lg:px-6 px-4 py-1 bg-background rounded-3xl">
-                                                {post.tag}
-                                            </span>
+                                            <PostTag>{post.tag}</PostTag>
                                         </TableCell>
                                         <TableCell>
                                             <span className="lg:ml-2 min-w-20 break-all">{post.title}</span>
