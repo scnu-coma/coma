@@ -495,7 +495,7 @@ export default function Page() {
                         <br />
                         2차 신청기간 : 8월 25일 ~ 9월 3일
                     </TypographyH1>
-                    <Link href="#" target="_blank">
+                    <Link href="https://forms.gle/sUieSkz9nQtr3rGL7" target="_blank">
                         <Button className="w-64 h-18 rounded-3xl text-base hover:cursor-pointer drop-shadow-[0_0_4px_] drop-shadow-[#0e0a23] dark:drop-shadow-[#f1f5dc] bg-[#0e0a23] dark:bg-gradient-to-b dark:from-white dark:via-amber-100 dark:to-[#f1f5dc] dark:hover:via-amber-200 dark:hover:to-yellow-100">
                             코마 가입 신청하기
                         </Button>
