@@ -7,6 +7,10 @@ import { TypographyH2, TypographyP } from "@/components/typography/typography";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import useAuth from "@/hooks/useAuth";
+import { createUserProfile } from "@/lib/userService";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 // Zod 스키마 정의
 const registerSchema = z.object({
@@ -24,12 +28,15 @@ const registerSchema = z.object({
 type RegisterFormData = z.infer<typeof registerSchema>;
 
 export default function Register() {
+    const { user, refreshProfile } = useAuth();
+    const router = useRouter();
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     // React Hook Form 설정
     const {
         register,
         handleSubmit,
-        formState: { errors, isSubmitting }
+        formState: { errors }
     } = useForm<RegisterFormData>({
         resolver: zodResolver(registerSchema),
         defaultValues: {
@@ -42,18 +49,58 @@ export default function Register() {
     });
 
     const onSubmit = async (data: RegisterFormData) => {
+        if (!user) {
+            console.error("사용자 정보가 없습니다.");
+            return;
+        }
+
+        setIsSubmitting(true);
         try {
-            // TODO: 추가 정보를 데이터베이스에 저장하는 로직
-            console.log("완성된 사용자 정보:", {
-                ...data
-            });
+            // 사용자 프로필 생성
+            const profileData = {
+                name: data.name,
+                department: data.department,
+                student_id: data.studentId,
+                grade: data.grade,
+                phone: data.phone
+                
+            };
+            const profile = await createUserProfile(user.id, profileData);
             
-            // 성공 시 처리 로직 (예: 리다이렉트)
-            // router.push('/dashboard');
+            if (profile) {
+                console.log("완성된 사용자 정보:", {
+                    id: profile.id,
+                    user_id: profile.user_id,
+                    name: profile.name,
+                    department: profile.department,
+                    student_id: profile.student_id,
+                    grade: profile.grade,
+                    phone: profile.phone,
+                    role: profile.role,
+                    is_approved: profile.is_approved,
+                    created_at: profile.created_at,
+                    updated_at: profile.updated_at
+                });
+                
+                // 프로필 새로고침
+                await refreshProfile();
+                // 성공 시 메인 페이지로 리다이렉트
+                router.push('/');
+            } else {
+                console.error("프로필 생성에 실패했습니다.");
+            }
         } catch (error) {
             console.error("가입 처리 중 오류:", error);
+        } finally {
+            setIsSubmitting(false);
         }
     };
+
+    // 로그인하지 않은 사용자는 로그인 페이지로 리다이렉트
+    if (!user) {
+        router.push('/');
+        return null;
+    }
 
     return (
         <div className="xl:w-6xl xl:mx-auto lg:mx-16 mx-5 min-h-screen flex items-center justify-center py-12">
