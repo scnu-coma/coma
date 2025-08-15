@@ -55,14 +55,14 @@ const MarkdownRenderer = ({ post }: { post: string }) => {
                 },
                 h2: function H2Component({ children, ...props }: HTMLAttributes<HTMLHeadingElement>) {
                     return (
-                        <TypographyH2 {...props} className="text-2xl!">
+                        <TypographyH2 {...props} className="text-2xl! pt-12">
                             {children}
                         </TypographyH2>
                     );
                 },
                 h3: function H3Component({ children, ...props }: HTMLAttributes<HTMLHeadingElement>) {
                     return (
-                        <TypographyH3 {...props} className="text-xl!">
+                        <TypographyH3 {...props} className="text-xl! pt-8">
                             {children}
                         </TypographyH3>
                     );
@@ -110,14 +110,49 @@ const MarkdownRenderer = ({ post }: { post: string }) => {
                 table: function TableComponent({ children, ...props }: TableHTMLAttributes<HTMLTableElement>) {
                     return <TypographyTable {...props}>{children}</TypographyTable>;
                 },
+                thead: function TheadComponent({ children, ...props }: HTMLAttributes<HTMLTableSectionElement>) {
+                    return (
+                        <thead {...props} className={cn("not-md:hidden", props.className)}>
+                            {children}
+                        </thead>
+                    );
+                },
+                tbody: function TbodyComponent({ children, ...props }: HTMLAttributes<HTMLTableSectionElement>) {
+                    return <tbody {...props}>{children}</tbody>;
+                },
                 tr: function TrComponent({ children, ...props }: HTMLAttributes<HTMLTableRowElement>) {
-                    return <TypographyTr {...props}>{children}</TypographyTr>;
+                    return (
+                        <TypographyTr {...props} className={cn("not-md:block not-md:mb-2.5", props.className)}>
+                            {children}
+                        </TypographyTr>
+                    );
                 },
                 td: function TdComponent({ children, ...props }: TdHTMLAttributes<HTMLTableCellElement>) {
-                    return <TypographyTd {...props}>{children}</TypographyTd>;
+                    return (
+                        <TypographyTd
+                            {...props}
+                            className={cn(
+                                "not-md:block not-md:text-sm not-md:border-t-0 not-md:nth-[1]:text-center not-md:nth-[1]:font-semibold not-md:nth-[1]:bg-accent not-md:bg-background",
+                                props.className
+                            )}
+                        >
+                            {children}
+                        </TypographyTd>
+                    );
                 },
                 th: function ThComponent({ children, ...props }: ThHTMLAttributes<HTMLTableCellElement>) {
-                    return <TypographyTh {...props}>{children}</TypographyTh>;
+                    return (
+                        <TypographyTh {...props} className={cn("max-md:block", props.className)}>
+                            {children}
+                        </TypographyTh>
+                    );
+                },
+                caption: function CaptionComponent({ children, ...props }: HTMLAttributes<HTMLElement>) {
+                    return (
+                        <caption {...props} className={cn("max-md:text-xl", props.className)}>
+                            {children}
+                        </caption>
+                    );
                 },
             },
         }),
