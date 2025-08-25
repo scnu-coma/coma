@@ -8,6 +8,24 @@ import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } 
 import Image from "next/image";
 import event from "@/public/images/event.webp";
 
+const services = [
+    {
+        title: "코마 혜택",
+        icon: <KeyIcon />,
+        href: "#",
+    },
+    {
+        title: "부실 예약",
+        icon: <ClockIcon />,
+        href: "#",
+    },
+    {
+        title: "부원 모집안내",
+        icon: <CakeIcon />,
+        href: `/recruitment/${recruitmentYear}-${recruitmentTerm}`,
+    },
+];
+
 export default function QuickMenus() {
     return (
         <div className="xl:w-6xl grid xl:grid-cols-3 grid-cols-1 xl:grid-rows-1 xl:gap-2 mx-auto">
@@ -20,60 +38,41 @@ export default function QuickMenus() {
             <div className="xl:col-span-1 xl:row-span-1 row-span-1 mt-6 grid grid-rows-2 grid-cols-1 gap-2">
                 <div className="row-span-1 col-span-1 flex flex-col gap-2">
                     <TypographyH4 className="mb-2">서비스 바로가기</TypographyH4>
-                    {/* 코마 혜택 */}
-                    <Dialog>
-                        <DialogTrigger className="h-full" asChild>
-                            {/* <Link href="#" className="h-full"> */}
-                            <Button
-                                variant="outline"
-                                size="lg"
-                                className="flex gap-6 justify-start w-full h-full hover:cursor-pointer rounded-xl"
-                            >
-                                <KeyIcon />
-                                <span>코마 혜택</span>
-                                <ChevronRightIcon className="ml-auto" />
-                            </Button>
-                            {/* </Link> */}
-                        </DialogTrigger>
-                        <DialogContent>
-                            <DialogTitle>안내</DialogTitle>
-                            <DialogDescription>준비중입니다.</DialogDescription>
-                        </DialogContent>
-                    </Dialog>
-                    {/* 부실 예약 */}
-                    <Dialog>
-                        <DialogTrigger className="h-full" asChild>
-                            {/* <Link href="#" className="h-full"> */}
-                            <Button
-                                variant="outline"
-                                size="lg"
-                                className="flex gap-6 justify-start w-full h-full hover:cursor-pointer rounded-xl"
-                            >
-                                <ClockIcon />
-                                <span>부실 예약</span>
-                                <ChevronRightIcon className="ml-auto" />
-                            </Button>
-                            {/* </Link> */}
-                        </DialogTrigger>
-                        <DialogContent>
-                            <DialogTitle>안내</DialogTitle>
-                            <DialogDescription>준비중입니다.</DialogDescription>
-                        </DialogContent>
-                    </Dialog>
-
-                    {/* 부원 모집안내 */}
-                    <Link href={`/recruitment/${recruitmentYear}-${recruitmentTerm}`} className="h-full">
-                        <Button
-                            variant="outline"
-                            size="lg"
-                            className="flex gap-6 justify-start w-full h-full hover:cursor-pointer rounded-xl"
-                        >
-                            <CakeIcon />
-                            <span>부원 모집안내</span>
-                            <ChevronRightIcon className="ml-auto" />
-                        </Button>
-                    </Link>
+                    {services.map((service, index) =>
+                        service.href === "#" ? (
+                            <Dialog key={index}>
+                                <DialogTrigger asChild>
+                                    <Button
+                                        variant="outline"
+                                        size="lg"
+                                        className="flex gap-6 justify-start w-full h-16 hover:cursor-pointer rounded-xl"
+                                    >
+                                        {service.icon}
+                                        <span>{service.title}</span>
+                                        <ChevronRightIcon className="ml-auto" />
+                                    </Button>
+                                </DialogTrigger>
+                                <DialogContent>
+                                    <DialogTitle>안내</DialogTitle>
+                                    <DialogDescription>준비중입니다.</DialogDescription>
+                                </DialogContent>
+                            </Dialog>
+                        ) : (
+                            <Link key={index} href={service.href}>
+                                <Button
+                                    variant="outline"
+                                    size="lg"
+                                    className="flex gap-6 justify-start w-full h-16 hover:cursor-pointer rounded-xl"
+                                >
+                                    {service.icon}
+                                    <span>{service.title}</span>
+                                    <ChevronRightIcon className="ml-auto" />
+                                </Button>
+                            </Link>
+                        )
+                    )}
                 </div>
+                {/* 코미와 콤마 */}
                 <div className="row-span-1 col-span-1 border overflow-hidden rounded-xl xl:w-95 max-w-99 max-h-64 h-fit flex items-center shadow-sm">
                     <Image
                         src={event}
