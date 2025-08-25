@@ -7,6 +7,7 @@ import { events } from "@/data/index-events";
 import { ko } from "date-fns/locale";
 
 const today = new Date();
+const thisMonth = today.getMonth() + 1;
 const dateTimeFormat = new Intl.DateTimeFormat("ko-KR", {
     // weekday: "long",
     year: "numeric",
@@ -48,18 +49,19 @@ export default function CalendarWithEventSlots() {
                         학기 행사
                     </div>
                 </div>
-                <div className="flex w-full flex-col gap-2">
+                <div className="flex w-full flex-col gap-2 h-full overflow-scroll">
                     {events.map(
-                        (event) =>
-                            (new Date(event.from) >= today || (event.to && new Date(event.to) >= today)) && (
+                        (event, index) =>
+                            (new Date(event.from) >= new Date(thisMonth) ||
+                                (event.to && new Date(event.to) >= new Date(thisMonth))) && (
                                 <div
-                                    key={event.title}
+                                    key={index}
                                     className="bg-muted after:bg-primary/70 relative rounded-md p-2 pl-6 text-sm after:absolute after:inset-y-2 after:left-2 after:w-1 after:rounded-full"
                                 >
                                     <div className="font-medium">{event.title}</div>
                                     <div className="text-muted-foreground text-xs">
                                         {dateTimeFormat.format(new Date(event.from))}
-                                        {event.to && " ~ " + dateTimeFormat.format(new Date(event.to))}
+                                        {event.from !== event.to && " ~ " + dateTimeFormat.format(new Date(event.to))}
                                     </div>
                                 </div>
                             )
