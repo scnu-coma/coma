@@ -115,9 +115,9 @@ export default function Header() {
                                 </div>
                             ) : (
                                 <Tooltip open>
-                                    <TooltipTrigger>
+                                    <TooltipTrigger asChild>
                                         <Dialog>
-                                            <DialogTrigger>
+                                            <DialogTrigger asChild>
                                                 <Button size="default">로그인</Button>
                                             </DialogTrigger>
                                             <DialogContent>

@@ -33,7 +33,7 @@ export function ModeToggle() {
     return (
         <TooltipProvider delayDuration={100}>
             <Tooltip>
-                <TooltipTrigger suppressHydrationWarning>
+                <TooltipTrigger asChild>
                     <Button variant="ghost" size="icon" onClick={() => toggleTheme()}>
                         <Sun className="h-[1.2rem] w-[1.2rem] transition-all dark:scale-0" />
                         <Moon className="absolute h-[1.2rem] w-[1.2rem] transition-all scale-0 dark:scale-100" />

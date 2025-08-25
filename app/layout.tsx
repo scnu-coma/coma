@@ -25,7 +25,7 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en">
+        <html lang="ko" suppressHydrationWarning>
             <body className={`${notoSansKR.className} antialiased lg:mt-[86px] mt-14`}>
                 {/* 인증 전역 관리 */}
                 <AuthProvider>

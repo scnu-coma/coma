@@ -22,7 +22,7 @@ export default function QuickMenus() {
                     <TypographyH4 className="mb-2">서비스 바로가기</TypographyH4>
                     {/* 코마 혜택 */}
                     <Dialog>
-                        <DialogTrigger className="h-full">
+                        <DialogTrigger className="h-full" asChild>
                             {/* <Link href="#" className="h-full"> */}
                             <Button
                                 variant="outline"
@@ -42,7 +42,7 @@ export default function QuickMenus() {
                     </Dialog>
                     {/* 부실 예약 */}
                     <Dialog>
-                        <DialogTrigger className="h-full">
+                        <DialogTrigger className="h-full" asChild>
                             {/* <Link href="#" className="h-full"> */}
                             <Button
                                 variant="outline"
