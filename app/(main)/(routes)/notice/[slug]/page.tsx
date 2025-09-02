@@ -19,7 +19,7 @@ export default async function Page({ params }: Slugs) {
     if (!post) return notFound();
     return (
         <>
-            <PostHeader tag={post.tag} title={post.title} date={parseDate(post.date)} author={post.author.name} />
+            <PostHeader tag={post.tag} title={post.title} date={parseDate(post.date)} author={post.author} />
             <MarkdownRenderer post={post.content} />
             <div className="w-full flex my-12">
                 <Link href="/notice" className="mx-auto">
