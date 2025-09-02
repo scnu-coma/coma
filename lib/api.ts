@@ -30,6 +30,6 @@ export function getAllPosts(category: string): Post[] {
     // 날짜 내림차순으로 정렬 (최신글일수록 상단)
     const posts = slugs
         .map((slug) => getPostBySlug(category, slug))
-        .sort((post1, post2) => (post1.date > post2.date ? -1 : 1));
+        .sort((post1, post2) => (post1.date > post2.date ? 1 : -1));
     return posts;
 }

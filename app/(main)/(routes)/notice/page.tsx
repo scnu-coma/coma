@@ -1,20 +1,9 @@
 import Image from "next/image";
-import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
-import {
-    Pagination,
-    PaginationContent,
-    PaginationEllipsis,
-    PaginationItem,
-    PaginationLink,
-    PaginationNext,
-    PaginationPrevious,
-} from "@/components/ui/pagination";
 import bg from "@/public/images/vishnu-mohanan-pfR18JNEMv8-unsplash.webp";
 import { TypographyH2 } from "@/components/typography/typography";
-import Link from "next/link";
 import { getAllPosts } from "@/lib/api";
-import { parseDate } from "@/lib/parse-date";
-import PostTag from "@/components/posts/post-tag";
+import { DataTable } from "@/components/notice/data-table";
+import { columns } from "@/components/notice/columns";
 
 export default function Page() {
     const posts = getAllPosts("_notice");
@@ -32,66 +21,7 @@ export default function Page() {
                     <p className="md:text-sm text-xs md:mt-2 mt-1">코마 새소식을 가장 먼저 만나보세요</p>
                 </div>
             </div>
-            <Table className="md:my-16 my-12">
-                <TableBody>
-                    {posts
-                        .map((post) => (
-                            <TableRow key={post.slug} className="w-full block">
-                                <Link
-                                    href={`/notice/${post.slug}`}
-                                    className="w-full flex lg:flex-row flex-col h-24 lg:items-center lg:justify-between justify-center text-base"
-                                >
-                                    <div>
-                                        <TableCell>
-                                            <PostTag>{post.tag}</PostTag>
-                                        </TableCell>
-                                        <TableCell>
-                                            <span className="lg:ml-2 min-w-20 break-all">{post.title}</span>
-                                        </TableCell>
-                                    </div>
-                                    <div>
-                                        <TableCell>
-                                            <span className="text-sm ml-auto xl:mr-36 lg:mr-24 mr-2 not-lg:ml-2.5">
-                                                {post.author.name}
-                                            </span>
-                                        </TableCell>
-                                        <TableCell>
-                                            <span className="text-xs text-muted-foreground mr-4">
-                                                {parseDate(post.date)}
-                                            </span>
-                                        </TableCell>
-                                    </div>
-                                </Link>
-                            </TableRow>
-                        ))
-                        .slice(-10)}
-                </TableBody>
-            </Table>
-            {/* 페이지네이션 */}
-            <Pagination className="mb-16">
-                <PaginationContent>
-                    <PaginationItem>
-                        <PaginationPrevious href="#" />
-                    </PaginationItem>
-                    <PaginationItem>
-                        <PaginationLink href="#" isActive>
-                            1
-                        </PaginationLink>
-                    </PaginationItem>
-                    {/* <PaginationItem>
-                        <PaginationLink href="#">2</PaginationLink>
-                    </PaginationItem>
-                    <PaginationItem>
-                        <PaginationLink href="#">3</PaginationLink>
-                    </PaginationItem>
-                    <PaginationItem>
-                        <PaginationEllipsis />
-                    </PaginationItem> */}
-                    <PaginationItem>
-                        <PaginationNext href="#" />
-                    </PaginationItem>
-                </PaginationContent>
-            </Pagination>
+            <DataTable columns={columns} data={posts} />
         </>
     );
 }
