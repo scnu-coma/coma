@@ -1,21 +1,18 @@
 // 코마 혜택 페이지
-import { TypographyH2 } from "@/components/typography/typography";
+import Title from "@/components/custom/title";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { advantages } from "@/data/advantages";
 
 export default function Page() {
     // 부원 확인 로직
     const isMember = false;
-    // 부원이라면 페이지 정상 표시
-    if (isMember)
+    // 최고관리자, 간부진, 부원 등급이 아닐 경우 (인증 대기, 비로그인일 경우)
+    if (!isMember) return <>부원 인증 후 이용하실 수 있습니다.</>;
+    // 최고관리자, 간부진, 부원 등급일 경우 페이지 정상 표시
+    else
         return (
             <>
-                <div className="relative flex w-full justify-center md:h-42 h-24 rounded-3xl overflow-hidden">
-                    <div className="absolute self-center text-center">
-                        <TypographyH2 className="not-md:text-xl not-md:pb-1!">코마 혜택</TypographyH2>
-                        <p className="md:text-sm text-xs md:mt-2 mt-1">코마 부원에게만 제공되는 특별한 혜택</p>
-                    </div>
-                </div>
+                <Title title="코마 혜택" description="코마 부원에게만 제공되는 특별한 혜택" />
                 <ul className="grid xl:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-2">
                     {advantages.map((advantage, index) => (
                         <li key={index}>
@@ -40,6 +37,4 @@ export default function Page() {
                 </ul>
             </>
         );
-    // 부원이 아니라면 페이지 접근 제한
-    else return <>로그인 후 이용하실 수 있습니다.</>;
 }
