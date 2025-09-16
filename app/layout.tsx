@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/theme/theme-provider";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import { AuthProvider } from "@/context/AuthContext";
+import { Toaster } from "sonner";
 
 const notoSansKR = Noto_Sans_KR({
     variable: "--font-noto-sans-kr",
@@ -34,6 +35,7 @@ export default function RootLayout({
                         <Header />
                         {children}
                         <Footer />
+                        <Toaster position="top-center" expand richColors closeButton />
                     </ThemeProvider>
                 </AuthProvider>
             </body>
