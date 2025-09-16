@@ -49,7 +49,7 @@ export default function CalendarWithEventSlots() {
                         학기 행사
                     </div>
                 </div>
-                <div className="flex w-full flex-col gap-2 h-full overflow-scroll">
+                <div className="flex w-full flex-col gap-2 xl:h-full h-48 overflow-scroll">
                     {events.map(
                         (event, index) =>
                             (new Date(event.from) >= new Date(thisMonth) ||
