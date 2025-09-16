@@ -195,7 +195,7 @@ export default function Register() {
                         className={errors.phone ? "border-destructive" : ""}
                     />
                 </li>
-                <li className="mt-12">
+                <li className="my-12">
                     <Button type="submit" className="w-full h-12" disabled={isSubmitting}>
                         {isSubmitting ? "처리 중..." : "작성 완료"}
                     </Button>
