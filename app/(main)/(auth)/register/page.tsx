@@ -47,6 +47,7 @@ const registerSchema = z.object({
         .string()
         .min(1, "전화번호를 입력하세요.")
         .regex(/^010\d{8}$/, "올바른 전화번호 형식을 입력하세요."),
+    role: z.string(),
 });
 
 type RegisterFormData = z.infer<typeof registerSchema>;
@@ -92,6 +93,7 @@ export default function Register() {
             studentId: "",
             grade: "",
             phone: "",
+            role: "standby",
         },
     });
 
@@ -108,6 +110,7 @@ export default function Register() {
                     student_id: data.studentId,
                     grade: data.grade,
                     phone: data.phone,
+                    user_role: data.role,
                 });
             } catch (error) {
                 toast.dismiss();
