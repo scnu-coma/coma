@@ -6,8 +6,16 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 import logoFull from "@/public/logo/logo-full.svg";
 import Image from "next/image";
 import Ping from "./ui/ping";
-import { HomeIcon, MenuIcon, UserRoundIcon } from "lucide-react";
-import { Drawer, DrawerClose, DrawerContent, DrawerTrigger } from "./ui/drawer";
+import { HomeIcon, MenuIcon, MessageCircleIcon, UserRoundIcon } from "lucide-react";
+import {
+    Drawer,
+    DrawerClose,
+    DrawerContent,
+    DrawerDescription,
+    DrawerHeader,
+    DrawerTitle,
+    DrawerTrigger,
+} from "./ui/drawer";
 import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from "./ui/dialog";
 import { useEffect, useState } from "react";
 import { recruitmentOpen, recruitmentTerm, recruitmentYear } from "@/data/recruitment";
@@ -25,6 +33,7 @@ const components: { title: string; href: string }[] = [
 
 export default function Header() {
     const { user, login, logout } = useAuth();
+    const [mobileDrawerControl, setMobileDrawerControl] = useState(false);
 
     // 모바일 버전에서
     // 아래로 스크롤 시 최상단 header와 최하단 메뉴바가 사라지고
@@ -102,33 +111,29 @@ export default function Header() {
                     <NavigationMenuList>
                         <NavigationMenuItem>
                             {user && user ? (
-                                <div className="flex ml-auto items-center">
+                                <div className="flex ml-auto items-center text-sm">
                                     {/* 권한 수준에 따라 수정할 것 */}
                                     {/* 인증 대기 / 코마 부원 / 운영진 / 관리자 */}
-                                    <span className="border rounded-full text-sm text-muted-foreground px-3 py-0.5 mr-2 bg-background">
+                                    <span className="border rounded-full text-xs text-muted-foreground px-3 py-0.5 mr-2 bg-background">
                                         인증 대기
                                     </span>
-                                    <span className="truncate font-medium mr-4">{user.user_metadata.name} 님</span>
-                                    <Button size="default" onClick={logout}>
+                                    <span className="truncate font-medium mr-4">
+                                        {/* authentication의 메타데이터 기반 정보 우선 표시, 추가정보 입력 전이라면 메타데이터상의 이름이 없으므로 카카오톡에서 가져온 이름 표시 */}
+                                        {user.user_metadata.display_name
+                                            ? user.user_metadata.display_name
+                                            : user.user_metadata.name}{" "}
+                                        님
+                                    </span>
+                                    <Button size="default" onClick={logout} className="text-sm">
                                         로그아웃
                                     </Button>
                                 </div>
                             ) : (
                                 <Tooltip open>
                                     <TooltipTrigger asChild>
-                                        <Dialog>
-                                            <DialogTrigger asChild>
-                                                <Button size="default">로그인</Button>
-                                            </DialogTrigger>
-                                            <DialogContent>
-                                                <DialogTitle>안내</DialogTitle>
-                                                <DialogDescription>준비중입니다.</DialogDescription>
-                                            </DialogContent>
-                                        </Dialog>
-                                        {/* 로그인 기능 정식 오픈 시 교체할 것 */}
-                                        {/* <Button size="default" onClick={login}>
+                                        <Button size="default" onClick={login} className="text-sm">
                                             로그인
-                                        </Button> */}
+                                        </Button>
                                     </TooltipTrigger>
                                     <TooltipContent
                                         className={`${
@@ -177,6 +182,9 @@ export default function Header() {
                                     <MenuIcon />
                                 </DrawerTrigger>
                                 <DrawerContent>
+                                    <DrawerHeader className="hidden">
+                                        <DrawerTitle>사이트맵</DrawerTitle>
+                                    </DrawerHeader>
                                     <nav>
                                         <ul className="pl-8 py-10 space-y-6 text-xl font-semibold">
                                             {components.map((component) => (
@@ -207,6 +215,7 @@ export default function Header() {
                                             )}
                                         </ul>
                                     </nav>
+                                    <DrawerDescription />
                                 </DrawerContent>
                             </Drawer>
                         </li>
@@ -218,41 +227,55 @@ export default function Header() {
                         </li>
                         {/* (모바일 버전) 유저 버튼 */}
                         <li>
-                            {user && user ? (
-                                <Drawer>
-                                    <DrawerTrigger>
-                                        <UserRoundIcon />
-                                    </DrawerTrigger>
-                                    <DrawerContent>
+                            <Drawer open={mobileDrawerControl} onClose={() => setMobileDrawerControl(false)}>
+                                <DrawerTrigger onClick={() => setMobileDrawerControl(true)}>
+                                    <UserRoundIcon />
+                                </DrawerTrigger>
+                                <DrawerContent>
+                                    <DrawerHeader className="opacity-0">
+                                        <DrawerTitle />
+                                    </DrawerHeader>
+                                    {user && user ? (
                                         <ul className="px-8 py-10 space-y-6 text-xl font-semibold flex justify-between">
                                             <li>
-                                                {user && user.user_metadata.name} 님{/* 권한 수준에 따라 수정할 것 */}
+                                                <span>{user && user.user_metadata.name} 님</span>
+                                                {/* 권한 수준에 따라 수정할 것 */}
                                                 {/* 인증 대기 / 코마 부원 / 운영진 / 관리자 */}
-                                                <span className="border rounded-full text-sm text-muted-foreground px-3 py-0.5 ml-2 bg-background">
+                                                <span className="border rounded-full text-xs text-muted-foreground px-3 py-0.5 ml-2 bg-background">
                                                     인증 대기
                                                 </span>
                                             </li>
                                             <li>
-                                                <Button onClick={logout}>로그아웃</Button>
+                                                <Button
+                                                    onClick={() => {
+                                                        logout();
+                                                        setMobileDrawerControl(false);
+                                                    }}
+                                                >
+                                                    로그아웃
+                                                </Button>
                                             </li>
                                         </ul>
-                                    </DrawerContent>
-                                </Drawer>
-                            ) : (
-                                <Dialog>
-                                    <DialogTrigger>
-                                        <UserRoundIcon />
-                                    </DialogTrigger>
-                                    <DialogContent>
-                                        <DialogTitle>안내</DialogTitle>
-                                        <DialogDescription>준비중입니다.</DialogDescription>
-                                    </DialogContent>
-                                </Dialog>
-                                /* 로그인 기능 정식 오픈 시 교체할 것 */
-                                // <span onClick={login}>
-                                //     <UserRoundIcon />
-                                // </span>
-                            )}
+                                    ) : (
+                                        <ul className="px-8 py-10 space-y-6 text-xl font-semibold flex justify-between">
+                                            <li>
+                                                <span>로그인이 필요합니다.</span>
+                                            </li>
+                                            <li>
+                                                <Button
+                                                    onClick={() => {
+                                                        login();
+                                                        setMobileDrawerControl(false);
+                                                    }}
+                                                >
+                                                    <MessageCircleIcon /> 카카오톡으로 로그인
+                                                </Button>
+                                            </li>
+                                        </ul>
+                                    )}
+                                    <DrawerDescription />
+                                </DrawerContent>
+                            </Drawer>
                         </li>
                     </ul>
                 </nav>

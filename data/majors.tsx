@@ -13,10 +13,6 @@ import {
 // 학과 목록
 export const majors = [
     {
-        school: "목록에 없음",
-        major: ["직접 입력하기..."],
-    },
-    {
         school: "우주항공첨단소재스쿨",
         icon: <CpuIcon />,
         major: [
