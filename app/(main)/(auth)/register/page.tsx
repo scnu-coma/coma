@@ -57,33 +57,30 @@ export default function Register() {
     const [pageLoading, setPageLoading] = useState(true);
     const [majorOpen, setMajorOpen] = useState(false);
     const [majorCustomInput, setMajorCustomInput] = useState(false);
-    const route = useRouter();
-    const { session } = useAuth();
+    const router = useRouter();
+    const { user } = useAuth();
 
     // 페이지 초기 로딩 시 정보 등록 여부 확인
     useEffect(() => {
         setPageLoading(true);
-        console.log(session);
         supabase.auth.getSession().then(async () => {
-            const uuid = await supabase.from("users").select("user_id").eq("user_id", session?.user.id).single();
-            // 세션이 없는 경우 비로그인으로 판단
-            // 이미 로그인 된 경우에도 세션이 완전히 로드되기 전에 코드 실행이 먼저 시작되어 이 toast가 먼저 뜨는 문제가 있음
-            // 세션을 완전히 로드한 후 이 코드를 실행할 수 있다면 좋을 것 같다...
-            if (!session) {
-                toast.dismiss();
-                toast.warning("로그인이 필요합니다.");
-                route.push("/");
-                // 승인 여부와 관계없이, 이미 등록이 완료되었다면 메인화면으로 강제이동
-            } else if (session && uuid.data?.user_id) {
+            const uuid = await supabase.from("users").select("user_id").eq("user_id", user?.id).single();
+            // 승인 여부와 관계없이, 이미 등록이 완료되었다면 메인화면으로 강제이동
+            if (user && uuid.data?.user_id) {
                 toast.dismiss();
                 toast.warning("이미 추가정보 등록이 완료되었습니다.");
-                route.push("/");
-                // 그렇지 않을 경우 로딩 해제
+                router.push("/");
+                // 세션이 없는 경우 비로그인으로 판단
+            } else if (!user) {
+                toast.dismiss();
+                toast.warning("로그인이 필요합니다.");
+                router.push("/");
+                // 그 외의 경우 로그인&미등록으로 판단
             } else {
                 setPageLoading(false);
             }
         });
-    }, [route, session]);
+    }, [router, user]);
 
     // React Hook Form 설정
     const {
@@ -146,7 +143,7 @@ export default function Register() {
             console.error(error);
             return;
         } finally {
-            route.push("/");
+            router.push("/");
             toast.dismiss();
             toast.info("관리자 승인 후 서비스 이용이 가능합니다.");
             toast.success("등록이 완료되었습니다.");
