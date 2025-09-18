@@ -35,6 +35,7 @@ import {
 } from "@/components/ui/dialog";
 import { supabase } from "@/lib/supabaseClient";
 import { useRouter } from "next/navigation";
+import useAuth from "@/hooks/useAuth";
 
 // Zod 스키마 정의
 const registerSchema = z.object({
@@ -57,14 +58,23 @@ export default function Register() {
     const [majorOpen, setMajorOpen] = useState(false);
     const [majorCustomInput, setMajorCustomInput] = useState(false);
     const route = useRouter();
+    const { session } = useAuth();
 
     // 페이지 초기 로딩 시 정보 등록 여부 확인
     useEffect(() => {
         setPageLoading(true);
-        supabase.auth.getSession().then(async ({ data }) => {
-            const uuid = await supabase.from("users").select("user_id").eq("user_id", data.session?.user.id).single();
-            // 승인 여부와 관계없이, 이미 등록이 완료되었다면 메인화면으로 강제이동
-            if (data.session && uuid.data?.user_id) {
+        console.log(session);
+        supabase.auth.getSession().then(async () => {
+            const uuid = await supabase.from("users").select("user_id").eq("user_id", session?.user.id).single();
+            // 세션이 없는 경우 비로그인으로 판단
+            // 이미 로그인 된 경우에도 세션이 완전히 로드되기 전에 코드 실행이 먼저 시작되어 이 toast가 먼저 뜨는 문제가 있음
+            // 세션을 완전히 로드한 후 이 코드를 실행할 수 있다면 좋을 것 같다...
+            if (!session) {
+                toast.dismiss();
+                toast.warning("로그인이 필요합니다.");
+                route.push("/");
+                // 승인 여부와 관계없이, 이미 등록이 완료되었다면 메인화면으로 강제이동
+            } else if (session && uuid.data?.user_id) {
                 toast.dismiss();
                 toast.warning("이미 추가정보 등록이 완료되었습니다.");
                 route.push("/");
@@ -73,7 +83,7 @@ export default function Register() {
                 setPageLoading(false);
             }
         });
-    }, [route]);
+    }, [route, session]);
 
     // React Hook Form 설정
     const {
