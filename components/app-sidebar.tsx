@@ -13,17 +13,55 @@ import {
     SidebarMenuSubItem,
     SidebarRail,
 } from "@/components/ui/sidebar";
+import Link from "next/link";
 
 const data = {
     navMain: [
         {
             title: "회원 관리",
-            url: "#",
+            url: "/admin/members",
             items: [
                 {
-                    title: "회원 관리",
-                    url: "#",
+                    title: "회원정보",
+                    url: "/admin/members",
                     isActive: true,
+                },
+            ],
+        },
+        {
+            title: "폼 관리",
+            url: "/admin/recruitment",
+            items: [
+                {
+                    title: "부원 모집",
+                    url: "/admin/recruitment",
+                    isActive: false,
+                },
+                {
+                    title: "스터디그룹 & 모각코",
+                    url: "/admin/study",
+                    isActive: false,
+                },
+            ],
+        },
+        {
+            title: "홈페이지 관리",
+            url: "/admin/hero",
+            items: [
+                {
+                    title: "메인 배너",
+                    url: "/admin/hero",
+                    isActive: false,
+                },
+                {
+                    title: "학사일정",
+                    url: "/admin/schedule",
+                    isActive: false,
+                },
+                {
+                    title: "코마 혜택",
+                    url: "/admin/advantage",
+                    isActive: false,
                 },
             ],
         },
@@ -34,13 +72,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     return (
         <Sidebar {...props}>
             <SidebarHeader>
-                <SidebarMenu>
-                    <SidebarMenuItem>
-                        <SidebarMenuButton size="lg" asChild>
-                            <span className="font-medium">관리자 페이지</span>
-                        </SidebarMenuButton>
-                    </SidebarMenuItem>
-                </SidebarMenu>
+                <span className="font-medium ml-2 mt-4 text-sm">관리자 페이지</span>
             </SidebarHeader>
             <SidebarContent>
                 <SidebarGroup>
@@ -48,16 +80,16 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                         {data.navMain.map((item) => (
                             <SidebarMenuItem key={item.title}>
                                 <SidebarMenuButton asChild>
-                                    <a href={item.url} className="font-medium">
+                                    <Link href={item.url} className="font-medium">
                                         {item.title}
-                                    </a>
+                                    </Link>
                                 </SidebarMenuButton>
                                 {item.items?.length ? (
                                     <SidebarMenuSub>
                                         {item.items.map((item) => (
                                             <SidebarMenuSubItem key={item.title}>
                                                 <SidebarMenuSubButton asChild isActive={item.isActive}>
-                                                    <a href={item.url}>{item.title}</a>
+                                                    <Link href={item.url}>{item.title}</Link>
                                                 </SidebarMenuSubButton>
                                             </SidebarMenuSubItem>
                                         ))}

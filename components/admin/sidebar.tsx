@@ -24,7 +24,7 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
                             <Breadcrumb>
                                 <BreadcrumbList>
                                     <BreadcrumbItem className="hidden md:block">
-                                        <BreadcrumbLink href="#">회원 관리</BreadcrumbLink>
+                                        <BreadcrumbLink>회원 관리</BreadcrumbLink>
                                     </BreadcrumbItem>
                                     <BreadcrumbSeparator className="hidden md:block" />
                                     <BreadcrumbItem>
