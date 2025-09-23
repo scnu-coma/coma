@@ -27,7 +27,7 @@ import { Button } from "./ui/button";
 const components: { title: string; href: string }[] = [
     { title: "공지사항", href: "/notice" },
     { title: "동아리 소개", href: "#" },
-    { title: "코마 혜택", href: "#" },
+    { title: "코마 혜택", href: "/advantage" },
     { title: "부실 예약", href: "#" },
 ];
 

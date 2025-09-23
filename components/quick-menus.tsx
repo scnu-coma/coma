@@ -12,7 +12,7 @@ const services = [
     {
         title: "코마 혜택",
         icon: <KeyIcon />,
-        href: "#",
+        href: "/advantage",
     },
     {
         title: "부실 예약",
