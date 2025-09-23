@@ -21,6 +21,7 @@ import { useEffect, useState } from "react";
 import { recruitmentOpen, recruitmentTerm, recruitmentYear } from "@/data/recruitment";
 import useAuth from "@/hooks/useAuth";
 import { Button } from "./ui/button";
+import { supabase } from "@/lib/supabaseClient";
 
 // 웹사이트 메뉴 목록은 이 배열을 수정하세요
 // 절대로 다른 코드에서 직접 추가하지 마세요
@@ -33,12 +34,21 @@ const components: { title: string; href: string }[] = [
 
 export default function Header() {
     const { user, login, logout } = useAuth();
+    const [role, setRole] = useState("로딩중...");
     const [mobileDrawerControl, setMobileDrawerControl] = useState(false);
+
+    const [scrollDown, setScrollDown] = useState(false);
+
+    // 미등록 / 인증 대기 / 코마 부원 / 간부진 / 최고관리자 role 정보 받아오기
+    async function initRole() {
+        const session = await supabase.auth.getSession();
+        const { data } = await supabase.from("users").select("*").eq("user_id", session.data.session?.user.id).single();
+        setRole(data.user_role);
+    }
 
     // 모바일 버전에서
     // 아래로 스크롤 시 최상단 header와 최하단 메뉴바가 사라지고
     // 위로 스크롤 시 다시 나타나는 효과
-    const [scrollDown, setScrollDown] = useState(false);
     useEffect(() => {
         let prevPos = window.scrollY;
         window.addEventListener("scroll", () => {
@@ -50,6 +60,7 @@ export default function Header() {
             }
             prevPos = currentPos;
         });
+        initRole();
     }, []);
     return (
         <>
@@ -115,7 +126,16 @@ export default function Header() {
                                     {/* 권한 수준에 따라 수정할 것 */}
                                     {/* 인증 대기 / 코마 부원 / 운영진 / 관리자 */}
                                     <span className="border rounded-full text-xs text-muted-foreground px-3 py-0.5 mr-2 bg-background">
-                                        인증 대기
+                                        {/* 개선가능한 코드, 개선 시 아래쪽 모바일 버전도 함께 수정할 것 */}
+                                        {role === "admin"
+                                            ? "최고관리자"
+                                            : role === "manager"
+                                            ? "간부진"
+                                            : role === "member"
+                                            ? "코마 부원"
+                                            : role === "standby"
+                                            ? "인증 대기"
+                                            : "미등록"}
                                     </span>
                                     <span className="truncate font-medium mr-4">
                                         {/* authentication의 메타데이터 기반 정보 우선 표시, 추가정보 입력 전이라면 메타데이터상의 이름이 없으므로 카카오톡에서 가져온 이름 표시 */}
@@ -242,7 +262,15 @@ export default function Header() {
                                                 {/* 권한 수준에 따라 수정할 것 */}
                                                 {/* 인증 대기 / 코마 부원 / 운영진 / 관리자 */}
                                                 <span className="border rounded-full text-xs text-muted-foreground px-3 py-0.5 ml-2 bg-background">
-                                                    인증 대기
+                                                    {role === "admin"
+                                                        ? "최고관리자"
+                                                        : role === "manager"
+                                                        ? "간부진"
+                                                        : role === "member"
+                                                        ? "코마 부원"
+                                                        : role === "standby"
+                                                        ? "인증 대기"
+                                                        : "미등록"}
                                                 </span>
                                             </li>
                                             <li>

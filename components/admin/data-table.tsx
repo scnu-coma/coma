@@ -19,7 +19,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 
 export type Member = {
     name: string;
-    authority: "인증 대기" | "부원" | "운영진" | "관리자";
+    authority: "미등록" | "인증 대기" | "부원" | "운영진" | "관리자";
     email: string;
 };
 
