@@ -1,31 +1,17 @@
+"use client";
 import { columns } from "@/components/admin/column";
 import { DataTable, Member } from "@/components/admin/data-table";
-
-// 샘플 데이터
-// 실제 데이터는 supabase에서 가져오세요.
-const data: Member[] = [
-    {
-        name: "김연지",
-        authority: "인증 대기",
-        email: "ken99@example.com",
-    },
-    {
-        name: "김지원",
-        authority: "부원",
-        email: "Abe45@example.com",
-    },
-    {
-        name: "고재우",
-        authority: "운영진", // 간부진
-        email: "Monserrat44@example.com",
-    },
-    {
-        name: "박시현",
-        authority: "관리자",
-        email: "Silas22@example.com",
-    },
-];
+import { supabase } from "@/lib/supabaseClient";
+import { useEffect, useState } from "react";
 
 export default function Page() {
-    return <DataTable columns={columns} data={data} />;
+    const [userData, setData] = useState<Member[]>([]);
+    async function fetchData() {
+        const { data } = await supabase.from("users").select("name,major,student_id,grade,phone,user_role");
+        if (data) setData(data);
+    }
+    useEffect(() => {
+        fetchData();
+    }, []);
+    return <DataTable columns={columns} data={userData} />;
 }

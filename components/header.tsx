@@ -42,8 +42,14 @@ export default function Header() {
     // 미등록 / 인증 대기 / 코마 부원 / 간부진 / 최고관리자 role 정보 받아오기
     async function initRole() {
         const session = await supabase.auth.getSession();
-        const { data } = await supabase.from("users").select("*").eq("user_id", session.data.session?.user.id).single();
-        setRole(data.user_role);
+        if (session.data.session) {
+            const { data } = await supabase
+                .from("users")
+                .select("*")
+                .eq("user_id", session.data.session.user.id)
+                .single();
+            setRole(data.user_role);
+        }
     }
 
     // 모바일 버전에서

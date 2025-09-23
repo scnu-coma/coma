@@ -35,28 +35,43 @@ export const columns: ColumnDef<Member>[] = [
         enableHiding: false,
     },
     {
-        accessorKey: "authority",
-        header: () => <div>권한</div>,
+        accessorKey: "user_role",
+        header: () => "권한",
         cell: ({ row }) => {
-            return <div>{row.getValue("authority")}</div>;
+            return <div>{row.getValue("user_role")}</div>;
         },
     },
     {
         accessorKey: "name",
-        header: "이름",
-        cell: ({ row }) => <div className="capitalize">{row.getValue("name")}</div>,
-    },
-    {
-        accessorKey: "email",
         header: ({ column }) => {
             return (
                 <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-                    이메일
+                    이름
                     <ArrowUpDown />
                 </Button>
             );
         },
-        cell: ({ row }) => <div className="lowercase">{row.getValue("email")}</div>,
+        cell: ({ row }) => <div>{row.getValue("name")}</div>,
+    },
+    {
+        accessorKey: "student_id",
+        header: "학번",
+        cell: ({ row }) => <div>{row.getValue("student_id")}</div>,
+    },
+    {
+        accessorKey: "major",
+        header: "학과",
+        cell: ({ row }) => <div>{row.getValue("major")}</div>,
+    },
+    {
+        accessorKey: "grade",
+        header: "학년",
+        cell: ({ row }) => <div>{row.getValue("grade")}</div>,
+    },
+    {
+        accessorKey: "phone",
+        header: "전화번호",
+        cell: ({ row }) => <div>{row.getValue("phone")}</div>,
     },
     {
         id: "actions",

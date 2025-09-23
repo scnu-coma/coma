@@ -18,9 +18,12 @@ import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 export type Member = {
+    user_role: "미등록" | "인증 대기" | "부원" | "운영진" | "관리자";
     name: string;
-    authority: "미등록" | "인증 대기" | "부원" | "운영진" | "관리자";
-    email: string;
+    student_id: number;
+    major: string;
+    grade: number;
+    phone: string;
 };
 
 interface DataTableProps<TData, TValue> {
