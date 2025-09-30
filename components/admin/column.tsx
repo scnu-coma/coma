@@ -27,6 +27,27 @@ import {
     DialogTrigger,
 } from "../ui/dialog";
 import { toast } from "sonner";
+import { supabase } from "@/lib/supabaseClient";
+
+// 권한 변경 기능
+// 지금은 권한 변경 후 페이지 새로고침을 해야 변경된 내용 확인이 가능하고, 도표 내용이 실시간으로 바뀌는 기능을 추가해야 합니다. (subscribe)
+// 이름, 학번, 변경할 권한명을 매개변수로 받습니다.
+const updateRole = async (name: string, student_id: string, newRole: string) => {
+    try {
+        // users 테이블에서 매개변수로 받은 학번을 가진 사람의 user_role을 변경할 권한명으로 변경합니다.
+        await supabase
+            .from("users")
+            .update({ user_role: newRole })
+            .eq("student_id", student_id)
+            // 성공한다면 다음과 같은 내용의 알림이 뜹니다.
+            .then(() => toast.success(`${name}님의 권한이 변경되었습니다.`));
+        // 에러가 발생할 경우 에러 알림이 뜹니다.
+    } catch (error) {
+        toast.dismiss();
+        toast.error(`등록 중 오류가 발생했습니다. ${(error as Error).message}`);
+        return;
+    }
+};
 
 export const columns: ColumnDef<Member>[] = [
     {
@@ -160,19 +181,37 @@ export const columns: ColumnDef<Member>[] = [
                                         <DropdownMenuSubContent>
                                             <DropdownMenuItem
                                                 disabled={row.getValue("user_role") === "manager" ? true : false}
-                                                onClick={() => toast.error("아직 구현되지 않은 기능입니다.")}
+                                                onClick={() =>
+                                                    updateRole(
+                                                        row.getValue("name"),
+                                                        row.getValue("student_id"),
+                                                        "manager"
+                                                    )
+                                                }
                                             >
                                                 간부진
                                             </DropdownMenuItem>
                                             <DropdownMenuItem
                                                 disabled={row.getValue("user_role") === "member" ? true : false}
-                                                onClick={() => toast.error("아직 구현되지 않은 기능입니다.")}
+                                                onClick={() =>
+                                                    updateRole(
+                                                        row.getValue("name"),
+                                                        row.getValue("student_id"),
+                                                        "member"
+                                                    )
+                                                }
                                             >
                                                 코마 부원
                                             </DropdownMenuItem>
                                             <DropdownMenuItem
                                                 disabled={row.getValue("user_role") === "guest" ? true : false}
-                                                onClick={() => toast.error("아직 구현되지 않은 기능입니다.")}
+                                                onClick={() =>
+                                                    updateRole(
+                                                        row.getValue("name"),
+                                                        row.getValue("student_id"),
+                                                        "guest"
+                                                    )
+                                                }
                                             >
                                                 미인증
                                             </DropdownMenuItem>
