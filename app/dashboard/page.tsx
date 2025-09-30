@@ -80,7 +80,6 @@ export default function Register() {
             setMajor(data.major);
             setGrade(data.grade);
             setPhone(data.phone);
-
             setPageLoading(false);
         }
     };
@@ -171,7 +170,7 @@ export default function Register() {
     if (pageLoading) return <div className="h-svh"></div>;
     else
         return (
-            <div className="max-w-lg mx-auto px-5">
+            <div className="max-w-lg mx-auto px-5 my-12">
                 <TypographyH1 className="text-3xl!">대시보드</TypographyH1>
                 <TypographyP>나의 정보를 확인할 수 있습니다.</TypographyP>
                 <form
@@ -381,7 +380,6 @@ export default function Register() {
                         <Input
                             type="tel"
                             value={phone}
-                            placeholder="01012345678"
                             maxLength={11}
                             disabled
                             {...register("phone")}

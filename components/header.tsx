@@ -6,7 +6,15 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 import logoFull from "@/public/logo/logo-full.svg";
 import Image from "next/image";
 import Ping from "./ui/ping";
-import { HomeIcon, MenuIcon, MessageCircleIcon, UserRoundIcon } from "lucide-react";
+import {
+    ChevronDownIcon,
+    HomeIcon,
+    MenuIcon,
+    MessageCircleIcon,
+    ShieldAlertIcon,
+    UserPenIcon,
+    UserRoundIcon,
+} from "lucide-react";
 import {
     Drawer,
     DrawerClose,
@@ -22,6 +30,7 @@ import { recruitmentOpen, recruitmentTerm, recruitmentYear } from "@/data/recrui
 import useAuth from "@/hooks/useAuth";
 import { Button } from "./ui/button";
 import { supabase } from "@/lib/supabaseClient";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu";
 
 // 웹사이트 메뉴 목록은 이 배열을 수정하세요
 // 절대로 다른 코드에서 직접 추가하지 마세요
@@ -143,13 +152,37 @@ export default function Header() {
                                             ? "인증 대기"
                                             : "미등록"}
                                     </span>
-                                    <span className="truncate font-medium mr-4">
-                                        {/* authentication의 메타데이터 기반 정보 우선 표시, 추가정보 입력 전이라면 메타데이터상의 이름이 없으므로 카카오톡에서 가져온 이름 표시 */}
-                                        {user.user_metadata.display_name
-                                            ? user.user_metadata.display_name
-                                            : user.user_metadata.name}{" "}
-                                        님
-                                    </span>
+                                    <DropdownMenu>
+                                        <DropdownMenuTrigger asChild className="mr-4">
+                                            <Button variant="ghost" className="truncate font-medium flex items-center">
+                                                {/* authentication의 메타데이터 기반 정보 우선 표시, 추가정보 입력 전이라면 메타데이터상의 이름이 없으므로 카카오톡에서 가져온 이름 표시 */}
+                                                <span>
+                                                    {user.user_metadata.display_name
+                                                        ? user.user_metadata.display_name
+                                                        : user.user_metadata.name}{" "}
+                                                    님
+                                                </span>
+                                                <ChevronDownIcon size={16} />
+                                            </Button>
+                                        </DropdownMenuTrigger>
+                                        <DropdownMenuContent>
+                                            <Link href="/dashboard">
+                                                <DropdownMenuItem>
+                                                    <UserPenIcon />
+                                                    대시보드
+                                                </DropdownMenuItem>
+                                            </Link>
+                                            {role === "manager" ||
+                                                (role === "admin" && (
+                                                    <Link href="/admin">
+                                                        <DropdownMenuItem>
+                                                            <ShieldAlertIcon />
+                                                            관리자 페이지
+                                                        </DropdownMenuItem>
+                                                    </Link>
+                                                ))}
+                                        </DropdownMenuContent>
+                                    </DropdownMenu>
                                     <Button size="default" onClick={logout} className="text-sm">
                                         로그아웃
                                     </Button>
@@ -262,24 +295,24 @@ export default function Header() {
                                         <DrawerTitle />
                                     </DrawerHeader>
                                     {user && user ? (
-                                        <ul className="px-8 py-10 space-y-6 text-xl font-semibold flex justify-between">
-                                            <li>
-                                                <span>{user && user.user_metadata.name} 님</span>
-                                                {/* 권한 수준에 따라 수정할 것 */}
-                                                {/* 인증 대기 / 코마 부원 / 운영진 / 관리자 */}
-                                                <span className="border rounded-full text-xs text-muted-foreground px-3 py-0.5 ml-2 bg-background">
-                                                    {role === "admin"
-                                                        ? "최고관리자"
-                                                        : role === "manager"
-                                                        ? "간부진"
-                                                        : role === "member"
-                                                        ? "코마 부원"
-                                                        : role === "standby"
-                                                        ? "인증 대기"
-                                                        : "미등록"}
-                                                </span>
-                                            </li>
-                                            <li>
+                                        <ul className="px-8 py-10 space-y-6 text-xl font-semibold">
+                                            <li className=" flex justify-between">
+                                                <p>
+                                                    <span>{user && user.user_metadata.name} 님</span>
+                                                    {/* 권한 수준에 따라 수정할 것 */}
+                                                    {/* 인증 대기 / 코마 부원 / 운영진 / 관리자 */}
+                                                    <span className="border rounded-full text-xs text-muted-foreground px-3 py-0.5 ml-2 bg-background">
+                                                        {role === "admin"
+                                                            ? "최고관리자"
+                                                            : role === "manager"
+                                                            ? "간부진"
+                                                            : role === "member"
+                                                            ? "코마 부원"
+                                                            : role === "standby"
+                                                            ? "인증 대기"
+                                                            : "미등록"}
+                                                    </span>
+                                                </p>
                                                 <Button
                                                     onClick={() => {
                                                         logout();
@@ -288,6 +321,11 @@ export default function Header() {
                                                 >
                                                     로그아웃
                                                 </Button>
+                                            </li>
+                                            <li>
+                                                <Link href="/dashboard">
+                                                    <p>대시보드</p>
+                                                </Link>
                                             </li>
                                         </ul>
                                     ) : (
