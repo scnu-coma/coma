@@ -172,15 +172,14 @@ export default function Header() {
                                                     대시보드
                                                 </DropdownMenuItem>
                                             </Link>
-                                            {role === "manager" ||
-                                                (role === "admin" && (
-                                                    <Link href="/admin">
-                                                        <DropdownMenuItem>
-                                                            <ShieldAlertIcon />
-                                                            관리자 페이지
-                                                        </DropdownMenuItem>
-                                                    </Link>
-                                                ))}
+                                            {(role === "manager" || role === "admin") && (
+                                                <Link href="/admin">
+                                                    <DropdownMenuItem>
+                                                        <ShieldAlertIcon />
+                                                        관리자 페이지
+                                                    </DropdownMenuItem>
+                                                </Link>
+                                            )}
                                         </DropdownMenuContent>
                                     </DropdownMenu>
                                     <Button size="default" onClick={logout} className="text-sm">
