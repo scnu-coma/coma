@@ -19,48 +19,53 @@ const data = {
     navMain: [
         {
             title: "회원 관리",
-            url: "/admin/members",
+            url: "members",
             items: [
                 {
                     title: "회원정보",
-                    url: "/admin/members",
+                    url: "members",
                     isActive: true,
                 },
             ],
         },
         {
             title: "폼 관리",
-            url: "/admin/recruitment",
+            url: "recruitment",
             items: [
                 {
-                    title: "부원 모집",
-                    url: "/admin/recruitment",
+                    title: "부원 모집하기",
+                    url: "recruitment",
+                    isActive: false,
+                },
+                {
+                    title: "지원자 확인",
+                    url: "applicants",
                     isActive: false,
                 },
                 {
                     title: "스터디그룹 & 모각코",
-                    url: "/admin/study",
+                    url: "study",
                     isActive: false,
                 },
             ],
         },
         {
             title: "홈페이지 관리",
-            url: "/admin/hero",
+            url: "hero",
             items: [
                 {
                     title: "메인 배너",
-                    url: "/admin/hero",
+                    url: "hero",
                     isActive: false,
                 },
                 {
                     title: "학사일정",
-                    url: "/admin/schedule",
+                    url: "schedule",
                     isActive: false,
                 },
                 {
                     title: "코마 혜택",
-                    url: "/admin/advantage",
+                    url: "advantage",
                     isActive: false,
                 },
             ],
@@ -89,7 +94,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                                         {item.items.map((item) => (
                                             <SidebarMenuSubItem key={item.title}>
                                                 <SidebarMenuSubButton asChild isActive={item.isActive}>
-                                                    <Link href={item.url}>{item.title}</Link>
+                                                    <Link href={`/admin/${item.url}`}>{item.title}</Link>
                                                 </SidebarMenuSubButton>
                                             </SidebarMenuSubItem>
                                         ))}
