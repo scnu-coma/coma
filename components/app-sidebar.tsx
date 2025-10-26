@@ -33,7 +33,7 @@ const data = {
             url: "recruitment",
             items: [
                 {
-                    title: "부원 모집하기",
+                    title: "부원 모집",
                     url: "recruitment",
                     isActive: false,
                 },
@@ -42,9 +42,20 @@ const data = {
                     url: "applicants",
                     isActive: false,
                 },
+            ],
+        },
+        {
+            title: "스터디 관리",
+            url: "timetable",
+            items: [
                 {
-                    title: "스터디그룹 & 모각코",
-                    url: "study",
+                    title: "시간표",
+                    url: "timetable",
+                    isActive: false,
+                },
+                {
+                    title: "스터디그룹 배정",
+                    url: "studygroups",
                     isActive: false,
                 },
             ],
@@ -75,9 +86,9 @@ const data = {
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     return (
-        <Sidebar {...props}>
+        <Sidebar {...props} className="pt-22">
             <SidebarHeader>
-                <span className="font-medium ml-2 mt-4 text-sm">관리자 페이지</span>
+                <span className="font-medium mt-4 text-sm">관리자 페이지</span>
             </SidebarHeader>
             <SidebarContent>
                 <SidebarGroup>
