@@ -44,6 +44,7 @@ const components: { title: string; href: string }[] = [
 export default function Header() {
     const { user, login, logout } = useAuth();
     const [role, setRole] = useState("로딩중...");
+    const [uuid, setUuid] = useState<string | null>(null);
     const [mobileDrawerControl, setMobileDrawerControl] = useState(false);
 
     const [scrollDown, setScrollDown] = useState(false);
@@ -52,14 +53,35 @@ export default function Header() {
     async function initRole() {
         const session = await supabase.auth.getSession();
         if (session.data.session) {
-            const { data } = await supabase
-                .from("users")
-                .select("*")
-                .eq("user_id", session.data.session.user.id)
-                .single();
+            const userId = session.data.session.user.id;
+            const { data, error } = await supabase.from("users").select("*").eq("user_id", userId).single();
+
+            if (error) console.error(error);
+
+            setUuid(userId);
             setRole(data.user_role);
         }
     }
+
+    // 역할 태그 변경 실시간 반영
+    useEffect(() => {
+        if (!uuid) return;
+        const channel = supabase
+            .channel("members_updates")
+            .on(
+                "postgres_changes",
+                { event: "UPDATE", schema: "public", table: "users", filter: `user_id=eq.${uuid}` },
+                (payload) => {
+                    const updatedData = payload.new;
+                    setRole(updatedData.user_role);
+                }
+            )
+            .subscribe();
+
+        return () => {
+            supabase.removeChannel(channel);
+        };
+    }, [uuid]);
 
     // 모바일 버전에서
     // 아래로 스크롤 시 최상단 header와 최하단 메뉴바가 사라지고
