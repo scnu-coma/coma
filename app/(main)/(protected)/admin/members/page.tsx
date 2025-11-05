@@ -13,5 +13,30 @@ export default function Page() {
     useEffect(() => {
         fetchData();
     }, []);
+
+    // 회원정보 변경사항 실시간 반영
+    useEffect(() => {
+        const channel = supabase
+            .channel("members_updates")
+            .on("postgres_changes", { event: "*", schema: "public", table: "users" }, (payload) => {
+                if (payload.eventType === "INSERT") {
+                    const newData = payload.new as Member;
+                    setData((prev) => [newData, ...prev]);
+                } else if (payload.eventType === "UPDATE") {
+                    const updatedData = payload.new as Member;
+                    setData((prev) =>
+                        prev.map((data) => (data.student_id === updatedData.student_id ? updatedData : data))
+                    );
+                } else if (payload.eventType === "DELETE") {
+                    const deletedData = payload.old as Member;
+                    setData((prev) => prev.filter((data) => data.student_id !== deletedData.student_id));
+                }
+            })
+            .subscribe();
+        return () => {
+            supabase.removeChannel(channel);
+        };
+    }, []);
+
     return <DataTable columns={columns} data={userData} />;
 }
