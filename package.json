@@ -71,7 +71,7 @@
         "@types/react": "^19",
         "@types/react-dom": "^19",
         "@types/sanitize-html": "^2.16.1",
-        "baseline-browser-mapping": "^2.10.12",
+        "baseline-browser-mapping": "latest",
         "eslint": "^9",
         "eslint-config-next": "15.4.2",
         "tailwindcss": "^4",
