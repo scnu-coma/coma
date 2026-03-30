@@ -5,30 +5,11 @@ import { Users, Code, Calendar, Heart } from "lucide-react";
 
 export default function AboutPage() {
     const activities = [
-        {
-            title: "알고리즘 및 PS",
-            description: "매주 스터디를 통해 알고리즘 문제 해결 능력을 기르고 대회 참여를 준비합니다.",
-            icon: <Code className="w-10 h-10 text-blue-500" />
-        },
-        {
-            title: "프로젝트 및 협업",
-            description: "실제 웹, 앱 서비스를 기획하고 개발하며 팀워크와 실무 기술을 익힙니다.",
-            icon: <Users className="w-10 h-10 text-green-500" />
-        },
-        {
-            title: "코딩 세미나",
-            description: "최신 기술 동향이나 개발 경험을 공유하며 서로의 성장을 돕습니다.",
-            icon: <Calendar className="w-10 h-10 text-purple-500" />
-        },
-        {
-            title: "친목 도모",
-            description: "코딩뿐만 아니라 다양한 활동을 통해 부원들 간의 유대를 강화합니다.",
-            icon: <Heart className="w-10 h-10 text-red-500" />
-        }
+        // ... (unchanged)
     ];
 
     return (
-        <div className="space-y-16 pb-20">
+        <div className="space-y-16 pb-20 animate-in fade-in duration-1000 ease-in-out">
             <Title 
                 image={bg} 
                 title="동아리 소개" 

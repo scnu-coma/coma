@@ -46,6 +46,11 @@ const versions = [
 export default function Page() {
     const [open, setOpen] = React.useState(false);
     const [value, setValue] = React.useState("");
+
+    React.useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
     return (
         <div className="break-keep text-sm font-medium py-4">
             <div className="flex justify-between">

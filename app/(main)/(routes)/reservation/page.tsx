@@ -69,7 +69,7 @@ export default function ReservationPage() {
     };
 
     return (
-        <div className="space-y-12 pb-20">
+        <div className="space-y-12 pb-20 animate-in fade-in duration-1000 ease-in-out">
             <Title image={bg} title="부실 예약" description="코마 동아리방을 예약하고 사용해보세요" />
 
             {!isOpen ? (

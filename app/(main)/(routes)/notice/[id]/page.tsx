@@ -8,48 +8,106 @@ import { parseDate } from "@/lib/parse-date";
 import Link from "next/link";
 import { toast } from "sonner";
 import DOMPurify from "dompurify";
+import { useAuth } from "@/hooks/useAuth";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import Editor from "@/components/notice/editor";
+import { Pencil, Trash2 } from "lucide-react";
 
 export default function NoticeDetailPage() {
     const { id } = useParams();
     const router = useRouter();
+    const { user } = useAuth();
     const [notice, setNotice] = useState<any>(null);
     const [isLoading, setIsLoading] = useState(true);
+    
+    // 수정용 상태
+    const [isEditOpen, setIsEditOpen] = useState(false);
+    const [form, setForm] = useState({ title: "", content: "" });
+
+    const fetchNotice = async () => {
+        try {
+            const res = await fetch(`/api/notice/${id}`);
+            if (res.ok) {
+                const data = await res.json();
+                setNotice(data);
+                setForm({ title: data.title, content: data.content });
+            } else {
+                toast.error("게시글을 불러올 수 없습니다.");
+                router.push("/notice");
+            }
+        } catch (error) {
+            console.error("Fetch notice detail error:", error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
     useEffect(() => {
-        const fetchNotice = async () => {
-            try {
-                const res = await fetch(`/api/notice/${id}`);
-                if (res.ok) {
-                    const data = await res.json();
-                    setNotice(data);
-                } else {
-                    toast.error("게시글을 불러올 수 없습니다.");
-                    router.push("/notice");
-                }
-            } catch (error) {
-                console.error("Fetch notice detail error:", error);
-            } finally {
-                setIsLoading(false);
-            }
-        };
-
         if (id) fetchNotice();
-    }, [id, router]);
+    }, [id]);
+
+    const handleUpdate = async () => {
+        try {
+            const res = await fetch(`/api/notice/${id}`, {
+                method: "PATCH",
+                body: JSON.stringify(form),
+                headers: { "Content-Type": "application/json" }
+            });
+            if (res.ok) {
+                toast.success("수정되었습니다.");
+                setIsEditOpen(false);
+                fetchNotice();
+            } else {
+                toast.error("수정 실패");
+            }
+        } catch (error) {
+            toast.error("오류 발생");
+        }
+    };
+
+    const handleDelete = async () => {
+        if (!confirm("정말로 이 공지사항을 삭제하시겠습니까?")) return;
+        try {
+            const res = await fetch(`/api/notice/${id}`, { method: "DELETE" });
+            if (res.ok) {
+                toast.success("삭제되었습니다.");
+                router.push("/notice");
+            } else {
+                toast.error("삭제 실패");
+            }
+        } catch (error) {
+            toast.error("오류 발생");
+        }
+    };
 
     if (isLoading) return <div className="py-20 text-center text-muted-foreground">로딩 중...</div>;
     if (!notice) return null;
 
-    // Sanitize HTML content
     const sanitizedContent = DOMPurify.sanitize(notice.content);
+    const canManage = user && (user.id === notice.author_id || user.role === "ADMIN");
 
     return (
-        <div className="container mx-auto px-4 py-8">
-            <PostHeader 
-                tag="공지" 
-                title={notice.title} 
-                date={parseDate(notice.created_at)} 
-                author={notice.author_name} 
-            />
+        <div className="container mx-auto px-4 py-8 animate-in fade-in duration-1000 ease-in-out">
+            <div className="flex justify-between items-start mb-4">
+                <PostHeader 
+                    tag="공지" 
+                    title={notice.title} 
+                    date={parseDate(notice.created_at)} 
+                    author={notice.author_name} 
+                />
+                {canManage && (
+                    <div className="flex gap-2">
+                        <Button variant="outline" size="icon" onClick={() => setIsEditOpen(true)}>
+                            <Pencil className="w-4 h-4" />
+                        </Button>
+                        <Button variant="outline" size="icon" className="text-red-500" onClick={handleDelete}>
+                            <Trash2 className="w-4 h-4" />
+                        </Button>
+                    </div>
+                )}
+            </div>
             
             <div 
                 className="prose dark:prose-invert max-w-none my-8 ql-editor"
@@ -58,9 +116,32 @@ export default function NoticeDetailPage() {
 
             <div className="w-full flex my-12">
                 <Link href="/notice" className="mx-auto">
-                    <Button className="w-36 h-12 rounded-3xl hover:cursor-pointer">목록으로</Button>
+                    <Button variant="outline" className="w-36 h-12 rounded-3xl hover:cursor-pointer">목록으로</Button>
                 </Link>
             </div>
+
+            {/* 수정 다이얼로그 */}
+            <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
+                <DialogContent className="max-w-4xl h-[90vh] flex flex-col">
+                    <DialogHeader>
+                        <DialogTitle>공지사항 수정</DialogTitle>
+                    </DialogHeader>
+                    <div className="flex-1 overflow-y-auto space-y-4 py-4">
+                        <div className="space-y-2">
+                            <Label>제목</Label>
+                            <Input value={form.title} onChange={e => setForm({...form, title: e.target.value})} />
+                        </div>
+                        <div className="space-y-2">
+                            <Label>내용</Label>
+                            <Editor value={form.content} onChange={val => setForm({...form, content: val})} />
+                        </div>
+                    </div>
+                    <DialogFooter>
+                        <Button variant="outline" onClick={() => setIsEditOpen(false)}>취소</Button>
+                        <Button onClick={handleUpdate}>수정완료</Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
         </div>
     );
 }

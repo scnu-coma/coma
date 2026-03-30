@@ -2,9 +2,15 @@
 
 import dynamic from "next/dynamic";
 import "react-quill/dist/quill.snow.css";
-import { useMemo, useEffect } from "react";
+import { useMemo, useEffect, useRef } from "react";
 
-const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
+const ReactQuill = dynamic(
+    async () => {
+        const { default: RQ } = await import("react-quill");
+        return ({ forwardedRef, ...props }: any) => <RQ ref={forwardedRef} {...props} />;
+    },
+    { ssr: false }
+);
 
 interface EditorProps {
     value: string;
@@ -12,6 +18,7 @@ interface EditorProps {
 }
 
 export default function Editor({ value, onChange }: EditorProps) {
+    const quillRef = useRef<any>(null);
     // 툴팁 텍스트 맵핑
     const tooltips: Record<string, string> = {
         'ql-bold': '굵게',
@@ -35,20 +42,15 @@ export default function Editor({ value, onChange }: EditorProps) {
     };
 
     useEffect(() => {
-        // Quill 버튼들에 title 속성(툴팁) 추가
         const timer = setTimeout(() => {
             const buttons = document.querySelectorAll('.ql-toolbar button, .ql-toolbar .ql-picker');
             buttons.forEach((btn) => {
                 const className = Array.from(btn.classList).find(c => tooltips[c]);
                 if (className) {
                     btn.setAttribute('title', tooltips[className]);
-                } else if (btn.classList.contains('ql-picker')) {
-                    // Picker 형식(Header, Font 등) 처리
-                    const pickerClass = Array.from(btn.classList).find(c => tooltips[c]);
-                    if (pickerClass) btn.setAttribute('title', tooltips[pickerClass]);
                 }
             });
-        }, 500);
+        }, 1000);
         return () => clearTimeout(timer);
     }, []);
 
@@ -62,17 +64,17 @@ export default function Editor({ value, onChange }: EditorProps) {
                 [{ list: "ordered" }, { list: "bullet" }],
                 [{ align: [] }],
                 ["link", "image", "video"],
-                ["table"], // 표 기능 추가 (Quill 기본 지원 범위 내)
+                ["table"],
                 ["clean"],
             ],
         },
     }), []);
 
     return (
-        <div className="bg-white dark:bg-neutral-900 rounded-md border border-input min-h-[450px]">
+        <div className="bg-white dark:bg-neutral-900 rounded-md border border-input min-h-[450px] relative">
             <style jsx global>{`
                 .ql-editor {
-                    min-h-[400px];
+                    min-height: 400px;
                     font-size: 1rem;
                 }
                 .ql-container.ql-snow {
@@ -89,23 +91,9 @@ export default function Editor({ value, onChange }: EditorProps) {
                     background-color: #171717;
                     border-bottom: 1px solid #262626;
                 }
-                /* 툴팁 기본 스타일 강화 */
-                .ql-toolbar button[title]:hover::after {
-                    content: attr(title);
-                    position: absolute;
-                    bottom: -30px;
-                    left: 50%;
-                    transform: translateX(-50%);
-                    background: #333;
-                    color: #fff;
-                    padding: 4px 8px;
-                    border-radius: 4px;
-                    font-size: 12px;
-                    white-space: nowrap;
-                    z-index: 1000;
-                }
             `}</style>
             <ReactQuill
+                forwardedRef={quillRef}
                 theme="snow"
                 value={value}
                 onChange={onChange}
