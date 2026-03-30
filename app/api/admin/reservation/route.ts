@@ -59,11 +59,12 @@ export async function PATCH(req: Request) {
         const { action, isOpen, reservationId, status } = await req.json();
 
         if (action === "toggle") {
-            const [result] = await pool.query("UPDATE reservation_settings SET is_open = ? WHERE id = 1", [isOpen]);
+            const openValue = isOpen ? 1 : 0;
+            const [result] = await pool.query("UPDATE reservation_settings SET is_open = ? WHERE id = 1", [openValue]);
             
             // 만약 업데이트된 행이 없다면 (초기 데이터 누락 등), INSERT 시도
             if ((result as any).affectedRows === 0) {
-                await pool.query("INSERT IGNORE INTO reservation_settings (id, is_open) VALUES (1, ?)", [isOpen]);
+                await pool.query("INSERT IGNORE INTO reservation_settings (id, is_open) VALUES (1, ?)", [openValue]);
             }
             
             return NextResponse.json({ message: `예약 시스템이 ${isOpen ? '활성화' : '비활성화'}되었습니다.` });

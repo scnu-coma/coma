@@ -1,12 +1,12 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import "react-quill/dist/quill.snow.css";
+import "react-quill-new/dist/quill.snow.css";
 import { useMemo, useEffect, useRef } from "react";
 
 const ReactQuill = dynamic(
     async () => {
-        const { default: RQ } = await import("react-quill");
+        const { default: RQ } = await import("react-quill-new");
         return ({ forwardedRef, ...props }: any) => <RQ ref={forwardedRef} {...props} />;
     },
     { ssr: false }

@@ -71,33 +71,38 @@ export default function NoticePage() {
     };
 
     return (
-        <div className="animate-in fade-in duration-1000 ease-in-out">
+        <div className="py-8 animate-in fade-in duration-1000 ease-in-out">
             <Title image={bg} title="공지사항" description="코마 새소식을 가장 먼저 만나보세요" />
             
-            <div className="container mx-auto px-4">
+            <div className="mt-12">
                 {user?.role === "ADMIN" && (
-                    <div className="flex justify-end mb-4">
+                    <div className="flex justify-end mb-8">
                         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                             <DialogTrigger asChild>
-                                <Button className="gap-2"><Plus className="w-4 h-4" /> 글쓰기</Button>
+                                <Button className="gap-2 h-12 px-6 font-bold shadow-sm"><Plus className="w-5 h-5" /> 글쓰기</Button>
                             </DialogTrigger>
-                            <DialogContent className="max-w-4xl h-[90vh] flex flex-col">
-                                <DialogHeader>
-                                    <DialogTitle>새 공지사항 작성</DialogTitle>
+                            <DialogContent className="max-w-4xl h-[90vh] flex flex-col p-0">
+                                <DialogHeader className="p-6 border-b">
+                                    <DialogTitle className="text-xl font-bold">새 공지사항 작성</DialogTitle>
                                 </DialogHeader>
-                                <div className="flex-1 overflow-y-auto space-y-4 py-4">
+                                <div className="flex-1 overflow-y-auto p-6 space-y-6">
                                     <div className="space-y-2">
-                                        <Label>제목</Label>
-                                        <Input value={form.title} onChange={e => setForm({...form, title: e.target.value})} placeholder="제목을 입력하세요" />
+                                        <Label className="font-bold">제목</Label>
+                                        <Input 
+                                            className="h-12 text-lg px-4"
+                                            value={form.title} 
+                                            onChange={e => setForm({...form, title: e.target.value})} 
+                                            placeholder="공지사항 제목을 입력하세요" 
+                                        />
                                     </div>
                                     <div className="space-y-2">
-                                        <Label>내용</Label>
+                                        <Label className="font-bold">내용</Label>
                                         <Editor value={form.content} onChange={val => setForm({...form, content: val})} />
                                     </div>
                                 </div>
-                                <DialogFooter>
+                                <DialogFooter className="p-6 border-t bg-muted/20">
                                     <Button variant="outline" onClick={() => setIsDialogOpen(false)}>취소</Button>
-                                    <Button onClick={handleSave}>등록하기</Button>
+                                    <Button onClick={handleSave} className="px-8 font-bold">등록하기</Button>
                                 </DialogFooter>
                             </DialogContent>
                         </Dialog>
@@ -107,7 +112,9 @@ export default function NoticePage() {
                 {isLoading ? (
                     <div className="py-20 text-center text-muted-foreground">로딩 중...</div>
                 ) : (
-                    <DataTable columns={columns} data={posts} />
+                    <div className="bg-card border rounded-2xl overflow-hidden shadow-sm">
+                        <DataTable columns={columns} data={posts} />
+                    </div>
                 )}
             </div>
         </div>

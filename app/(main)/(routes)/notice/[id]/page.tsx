@@ -14,6 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Editor from "@/components/notice/editor";
 import { Pencil, Trash2 } from "lucide-react";
+import MarkdownRenderer from "@/lib/markdown-renderer";
 
 export default function NoticeDetailPage() {
     const { id } = useParams();
@@ -85,12 +86,15 @@ export default function NoticeDetailPage() {
     if (isLoading) return <div className="py-20 text-center text-muted-foreground">로딩 중...</div>;
     if (!notice) return null;
 
-    const sanitizedContent = DOMPurify.sanitize(notice.content);
+    // HTML인지 마크다운인지 판별 (간단하게 < 태그가 있으면 HTML로 간주)
+    const isHtml = notice.content.trim().startsWith('<');
+    const sanitizedContent = isHtml ? DOMPurify.sanitize(notice.content) : notice.content;
+    
     const canManage = user && (user.id === notice.author_id || user.role === "ADMIN");
 
     return (
-        <div className="container mx-auto px-4 py-8 animate-in fade-in duration-1000 ease-in-out">
-            <div className="flex justify-between items-start mb-4">
+        <div className="py-8 animate-in fade-in duration-1000 ease-in-out">
+            <div className="flex justify-between items-start mb-12">
                 <PostHeader 
                     tag="공지" 
                     title={notice.title} 
@@ -98,7 +102,7 @@ export default function NoticeDetailPage() {
                     author={notice.author_name} 
                 />
                 {canManage && (
-                    <div className="flex gap-2">
+                    <div className="flex gap-2 shrink-0">
                         <Button variant="outline" size="icon" onClick={() => setIsEditOpen(true)}>
                             <Pencil className="w-4 h-4" />
                         </Button>
@@ -109,36 +113,46 @@ export default function NoticeDetailPage() {
                 )}
             </div>
             
-            <div 
-                className="prose dark:prose-invert max-w-none my-8 ql-editor"
-                dangerouslySetInnerHTML={{ __html: sanitizedContent }}
-            />
+            <div className="my-12">
+                {isHtml ? (
+                    <div 
+                        className="prose dark:prose-invert max-w-none ql-editor"
+                        dangerouslySetInnerHTML={{ __html: sanitizedContent }}
+                    />
+                ) : (
+                    <MarkdownRenderer post={sanitizedContent} />
+                )}
+            </div>
 
-            <div className="w-full flex my-12">
+            <div className="w-full flex my-20">
                 <Link href="/notice" className="mx-auto">
-                    <Button variant="outline" className="w-36 h-12 rounded-3xl hover:cursor-pointer">목록으로</Button>
+                    <Button variant="outline" className="w-36 h-12 rounded-3xl hover:cursor-pointer shadow-sm">목록으로</Button>
                 </Link>
             </div>
 
             {/* 수정 다이얼로그 */}
             <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
-                <DialogContent className="max-w-4xl h-[90vh] flex flex-col">
-                    <DialogHeader>
+                <DialogContent className="max-w-4xl h-[90vh] flex flex-col p-0">
+                    <DialogHeader className="p-6 border-b">
                         <DialogTitle>공지사항 수정</DialogTitle>
                     </DialogHeader>
-                    <div className="flex-1 overflow-y-auto space-y-4 py-4">
+                    <div className="flex-1 overflow-y-auto p-6 space-y-6">
                         <div className="space-y-2">
-                            <Label>제목</Label>
-                            <Input value={form.title} onChange={e => setForm({...form, title: e.target.value})} />
+                            <Label className="font-bold">제목</Label>
+                            <Input 
+                                className="h-12 text-lg px-4"
+                                value={form.title} 
+                                onChange={e => setForm({...form, title: e.target.value})} 
+                            />
                         </div>
                         <div className="space-y-2">
-                            <Label>내용</Label>
+                            <Label className="font-bold">내용</Label>
                             <Editor value={form.content} onChange={val => setForm({...form, content: val})} />
                         </div>
                     </div>
-                    <DialogFooter>
+                    <DialogFooter className="p-6 border-t bg-muted/20">
                         <Button variant="outline" onClick={() => setIsEditOpen(false)}>취소</Button>
-                        <Button onClick={handleUpdate}>수정완료</Button>
+                        <Button onClick={handleUpdate} className="px-8 font-bold">수정완료</Button>
                     </DialogFooter>
                 </DialogContent>
             </Dialog>
