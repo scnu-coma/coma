@@ -24,7 +24,6 @@ import {
 } from "./ui/drawer";
 import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from "./ui/dialog";
 import { useEffect, useState } from "react";
-import { recruitmentOpen, recruitmentTerm, recruitmentYear } from "@/data/recruitment";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "./ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu";
@@ -42,9 +41,17 @@ export default function Header() {
     const [mobileDrawerControl, setMobileDrawerControl] = useState(false);
     const [scrollDown, setScrollDown] = useState(false);
     const [isMounted, setIsMounted] = useState(false);
+    const [recruitment, setRecruitment] = useState({ is_actually_open: false, year: 2025, term: 2 });
 
     useEffect(() => {
         setIsMounted(true);
+        
+        // 모집 설정 가져오기
+        fetch("/api/recruitment/settings")
+            .then(res => res.json())
+            .then(data => setRecruitment(data))
+            .catch(err => console.error("Recruitment fetch error:", err));
+
         let prevPos = window.scrollY;
         const handleScroll = () => {
             const currentPos = window.scrollY;
@@ -103,11 +110,11 @@ export default function Header() {
                                     )}
                                 </NavigationMenuItem>
                             ))}
-                            {recruitmentOpen() && (
+                            {recruitment.is_actually_open && (
                                 <>
                                     <NavigationMenuItem className="flex flex-col text-primary after:block after:content-[''] after:h-0.5 after:bg-primary after:w-full after:scale-x-0 hover:after:scale-x-100 after:transition after:duration-300 after:origin-left">
                                         <Link
-                                            href={`/recruitment/${recruitmentYear}-${recruitmentTerm}`}
+                                            href={`/recruitment/${recruitment.year}-${recruitment.term}`}
                                             className="px-4 py-2 text-sm"
                                         >
                                             부원 모집 중

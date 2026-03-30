@@ -1,32 +1,51 @@
+"use client";
+
 import { CakeIcon, ChevronRightIcon, ClockIcon, KeyIcon } from "lucide-react";
 import CalendarWithEventSlots from "./calendar-with-event-slots";
 import { Button } from "./ui/button";
 import { TypographyH4 } from "./typography/typography";
 import Link from "next/link";
-import { recruitmentTerm, recruitmentYear } from "@/data/recruitment";
+import { useEffect, useState } from "react";
 import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from "./ui/dialog";
 import Image from "next/image";
 import event from "@/public/images/event.webp";
 
-const services = [
-    {
-        title: "코마 혜택",
-        icon: <KeyIcon />,
-        href: "/advantage",
-    },
-    {
-        title: "부실 예약",
-        icon: <ClockIcon />,
-        href: "#",
-    },
-    {
-        title: "부원 모집안내",
-        icon: <CakeIcon />,
-        href: `/recruitment/${recruitmentYear}-${recruitmentTerm}`,
-    },
-];
-
 export default function QuickMenus() {
+    const [recruitment, setRecruitment] = useState({ is_actually_open: false, year: 2025, term: 2 });
+    const [reservationOpen, setReservationOpen] = useState(false);
+
+    useEffect(() => {
+        // 모집 설정 가져오기
+        fetch("/api/recruitment/settings")
+            .then(res => res.json())
+            .then(data => setRecruitment(data))
+            .catch(err => console.error("Recruitment fetch error:", err));
+
+        // 예약 설정 가져오기
+        fetch("/api/reservation")
+            .then(res => res.json())
+            .then(data => setReservationOpen(data.is_open))
+            .catch(err => console.error("Reservation fetch error:", err));
+    }, []);
+
+    const services = [
+        {
+            title: "코마 혜택",
+            icon: <KeyIcon />,
+            href: "/advantage",
+        },
+        {
+            title: "부실 예약",
+            icon: <ClockIcon />,
+            href: reservationOpen ? "/reservation" : "#",
+        },
+        {
+            title: "부원 모집안내",
+            icon: <CakeIcon />,
+            href: recruitment.is_actually_open ? `/recruitment/${recruitment.year}-${recruitment.term}` : "#",
+        },
+    ];
+
     return (
         <div className="xl:w-6xl grid xl:grid-cols-3 grid-cols-1 xl:grid-rows-1 xl:gap-2 mx-auto">
             {/* 좌측 일정표(달력) */}

@@ -37,7 +37,7 @@ export async function GET() {
         
         return NextResponse.json({
             reservations,
-            is_open: (settings as any[])[0]?.is_open
+            is_open: !!(settings as any[])[0]?.is_open
         });
     } catch (error) {
         return NextResponse.json({ message: "조회 오류" }, { status: 500 });

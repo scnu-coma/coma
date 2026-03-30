@@ -41,7 +41,7 @@ export async function GET() {
         
         return NextResponse.json({
             reservations,
-            is_open: (settings as any[])[0]?.is_open
+            is_open: !!(settings as any[])[0]?.is_open
         });
     } catch (error) {
         return NextResponse.json({ message: "조회 오류" }, { status: 500 });
@@ -59,7 +59,13 @@ export async function PATCH(req: Request) {
         const { action, isOpen, reservationId, status } = await req.json();
 
         if (action === "toggle") {
-            await pool.query("UPDATE reservation_settings SET is_open = ? WHERE id = 1", [isOpen]);
+            const [result] = await pool.query("UPDATE reservation_settings SET is_open = ? WHERE id = 1", [isOpen]);
+            
+            // 만약 업데이트된 행이 없다면 (초기 데이터 누락 등), INSERT 시도
+            if ((result as any).affectedRows === 0) {
+                await pool.query("INSERT IGNORE INTO reservation_settings (id, is_open) VALUES (1, ?)", [isOpen]);
+            }
+            
             return NextResponse.json({ message: `예약 시스템이 ${isOpen ? '활성화' : '비활성화'}되었습니다.` });
         }
 

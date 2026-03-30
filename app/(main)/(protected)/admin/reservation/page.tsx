@@ -38,12 +38,19 @@ export default function AdminReservationPage() {
                 body: JSON.stringify({ action: "toggle", isOpen: checked }),
                 headers: { "Content-Type": "application/json" }
             });
+            
             if (res.ok) {
                 setIsOpen(checked);
                 toast.success(`예약 시스템이 ${checked ? '활성화' : '비활성화'}되었습니다.`);
+            } else {
+                const errorData = await res.json();
+                toast.error(errorData.message || "설정 변경에 실패했습니다.");
+                // 서버 상태와 동기화 (토글 상태 원복)
+                fetchAdminData();
             }
         } catch (error) {
-            toast.error("설정 변경 실패");
+            toast.error("네트워크 오류가 발생했습니다.");
+            fetchAdminData();
         }
     };
 
