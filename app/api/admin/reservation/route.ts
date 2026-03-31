@@ -56,15 +56,18 @@ export async function PATCH(req: Request) {
     }
 
     try {
-        const { action, isOpen, reservationId, status } = await req.json();
+        const body = await req.json();
+        const { action, isOpen, reservationId, status } = body;
 
         if (action === "toggle") {
             const openValue = isOpen ? 1 : 0;
+            console.log(`Toggling reservation system to: ${openValue}`);
+            
             const [result] = await pool.query("UPDATE reservation_settings SET is_open = ? WHERE id = 1", [openValue]);
             
-            // 만약 업데이트된 행이 없다면 (초기 데이터 누락 등), INSERT 시도
             if ((result as any).affectedRows === 0) {
-                await pool.query("INSERT IGNORE INTO reservation_settings (id, is_open) VALUES (1, ?)", [openValue]);
+                console.log("No rows updated, attempting to insert...");
+                await pool.query("INSERT INTO reservation_settings (id, is_open) VALUES (1, ?) ON DUPLICATE KEY UPDATE is_open = ?", [openValue, openValue]);
             }
             
             return NextResponse.json({ message: `예약 시스템이 ${isOpen ? '활성화' : '비활성화'}되었습니다.` });
@@ -76,7 +79,11 @@ export async function PATCH(req: Request) {
         }
 
         return NextResponse.json({ message: "잘못된 요청입니다." }, { status: 400 });
-    } catch (error) {
-        return NextResponse.json({ message: "업데이트 오류" }, { status: 500 });
+    } catch (error: any) {
+        console.error("Reservation Admin PATCH Error:", error);
+        return NextResponse.json({ 
+            message: "업데이트 오류", 
+            error: error.message 
+        }, { status: 500 });
     }
 }

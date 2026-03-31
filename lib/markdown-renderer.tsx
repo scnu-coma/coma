@@ -21,11 +21,13 @@ import {
     TypographyH2,
     TypographyH3,
     TypographyP,
+    TypographyStrong,
     TypographyTable,
     TypographyTd,
     TypographyTh,
     TypographyTr,
     TypographyUnlisted,
+    TypographyInlineCode,
 } from "@/components/typography/typography";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -40,7 +42,7 @@ const MarkdownRenderer = ({ post }: { post: string }) => {
                     return (
                         <a
                             {...props}
-                            className="underline hover:text-accent hover:bg-accent-foreground transition-colors duration-100 rounded-xs"
+                            className="text-primary font-medium underline underline-offset-4 hover:text-primary/80 transition-colors"
                         >
                             {children}
                         </a>
@@ -48,21 +50,21 @@ const MarkdownRenderer = ({ post }: { post: string }) => {
                 },
                 h1: function H1Component({ children, ...props }: HTMLAttributes<HTMLHeadingElement>) {
                     return (
-                        <TypographyH1 {...props} className="text-3xl!">
+                        <TypographyH1 {...props} className="text-3xl! mt-10 mb-6">
                             {children}
                         </TypographyH1>
                     );
                 },
                 h2: function H2Component({ children, ...props }: HTMLAttributes<HTMLHeadingElement>) {
                     return (
-                        <TypographyH2 {...props} className="text-2xl! pt-12">
+                        <TypographyH2 {...props} className="text-2xl! mt-8 mb-4 border-b pb-2">
                             {children}
                         </TypographyH2>
                     );
                 },
                 h3: function H3Component({ children, ...props }: HTMLAttributes<HTMLHeadingElement>) {
                     return (
-                        <TypographyH3 {...props} className="text-xl! pt-8">
+                        <TypographyH3 {...props} className="text-xl! mt-6 mb-3">
                             {children}
                         </TypographyH3>
                     );
@@ -78,41 +80,53 @@ const MarkdownRenderer = ({ post }: { post: string }) => {
                 },
                 ul: function UnlistedComponent({ children, className, ...props }: LiHTMLAttributes<HTMLElement>) {
                     if (className?.includes("contains-task-list")) {
-                        return <ul {...props}>{children}</ul>;
+                        return <ul {...props} className="my-6 space-y-2">{children}</ul>;
                     }
                     return <TypographyUnlisted {...props}>{children}</TypographyUnlisted>;
                 },
                 li: function TaskListItemComponent({ children, className, ...props }: LiHTMLAttributes<HTMLElement>) {
-                    // 체크박스와 라벨 정렬
                     if (className?.includes("task-list-item")) {
                         return (
-                            <li className="flex items-center my-1" {...props}>
+                            <li className="flex items-start gap-2 my-1" {...props}>
                                 {children}
                             </li>
                         );
                     }
-                    return <li {...props}>{children}</li>;
+                    return <li {...props} className="leading-7">{children}</li>;
                 },
                 input: function InputComponent({ type, checked, ...props }: InputHTMLAttributes<HTMLButtonElement>) {
                     if (type === "checkbox") {
                         return (
                             <Checkbox
                                 checked={checked}
-                                className={cn("mr-2 disabled:cursor-default! disabled:opacity-100!")}
+                                className={cn("mt-1.5 shrink-0 disabled:cursor-default! disabled:opacity-100!")}
                                 {...props}
                             />
                         );
                     }
                 },
                 em: function EmComponent({ children, ...props }: HTMLAttributes<HTMLElement>) {
-                    return <span {...props}>{children}</span>;
+                    return <span {...props} className="italic text-muted-foreground">{children}</span>;
+                },
+                strong: function StrongComponent({ children, ...props }: HTMLAttributes<HTMLElement>) {
+                    return <TypographyStrong {...props}>{children}</TypographyStrong>;
+                },
+                code: function CodeComponent({ children, className, ...props }: HTMLAttributes<HTMLElement>) {
+                    return <TypographyInlineCode {...props} className={className}>{children}</TypographyInlineCode>;
+                },
+                pre: function PreComponent({ children, ...props }: HTMLAttributes<HTMLPreElement>) {
+                    return (
+                        <pre {...props} className="my-6 overflow-x-auto rounded-lg bg-muted p-4 border border-border">
+                            {children}
+                        </pre>
+                    );
                 },
                 table: function TableComponent({ children, ...props }: TableHTMLAttributes<HTMLTableElement>) {
                     return <TypographyTable {...props}>{children}</TypographyTable>;
                 },
                 thead: function TheadComponent({ children, ...props }: HTMLAttributes<HTMLTableSectionElement>) {
                     return (
-                        <thead {...props} className={cn("not-md:hidden", props.className)}>
+                        <thead {...props} className={cn("bg-muted/50", props.className)}>
                             {children}
                         </thead>
                     );
@@ -122,34 +136,28 @@ const MarkdownRenderer = ({ post }: { post: string }) => {
                 },
                 tr: function TrComponent({ children, ...props }: HTMLAttributes<HTMLTableRowElement>) {
                     return (
-                        <TypographyTr {...props} className={cn("not-md:block not-md:mb-2.5", props.className)}>
+                        <TypographyTr {...props} className={props.className}>
                             {children}
                         </TypographyTr>
                     );
                 },
                 td: function TdComponent({ children, ...props }: TdHTMLAttributes<HTMLTableCellElement>) {
                     return (
-                        <TypographyTd
-                            {...props}
-                            className={cn(
-                                "not-md:block not-md:text-sm not-md:border-t-0 not-md:nth-[1]:text-center not-md:nth-[1]:font-semibold not-md:nth-[1]:bg-accent not-md:bg-background",
-                                props.className
-                            )}
-                        >
+                        <TypographyTd {...props} className={props.className}>
                             {children}
                         </TypographyTd>
                     );
                 },
                 th: function ThComponent({ children, ...props }: ThHTMLAttributes<HTMLTableCellElement>) {
                     return (
-                        <TypographyTh {...props} className={cn("max-md:block", props.className)}>
+                        <TypographyTh {...props} className={props.className}>
                             {children}
                         </TypographyTh>
                     );
                 },
                 caption: function CaptionComponent({ children, ...props }: HTMLAttributes<HTMLElement>) {
                     return (
-                        <caption {...props} className={cn("max-md:text-xl", props.className)}>
+                        <caption {...props} className={cn("text-sm text-muted-foreground mt-2", props.className)}>
                             {children}
                         </caption>
                     );

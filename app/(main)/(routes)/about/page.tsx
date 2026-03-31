@@ -42,21 +42,82 @@ export default function AboutPage() {
                 </div>
             </section>
 
-            {/* 연혁 또는 비전 섹션 */}
-            <section className="bg-muted/30 rounded-3xl p-8 md:p-16 text-center space-y-6">
-                <h2 className="text-3xl font-bold">우리의 목표</h2>
-                <div className="grid gap-8 md:grid-cols-3">
-                    <div className="space-y-2">
-                        <div className="text-4xl font-black text-primary">LEARN</div>
-                        <p className="font-semibold">함께 배우는 즐거움</p>
+            {/* 연혁 섹션 */}
+            <section className="space-y-12">
+                <div className="text-center">
+                    <h2 className="text-3xl font-bold">우리의 발자취</h2>
+                    <p className="text-muted-foreground mt-2">COMA가 걸어온 길입니다.</p>
+                </div>
+                
+                <div className="max-w-3xl mx-auto space-y-8">
+                    <div className="flex gap-6 items-start relative pb-8 after:content-[''] after:absolute after:left-[11px] after:top-[30px] after:bottom-0 after:w-[2px] after:bg-muted">
+                        <div className="w-6 h-6 rounded-full bg-primary shrink-0 z-10 mt-1" />
+                        <div>
+                            <div className="text-sm font-bold text-primary">2024 - 현재</div>
+                            <h3 className="text-lg font-bold">디지털 혁신 및 프로젝트 중심 활동</h3>
+                            <p className="text-muted-foreground mt-1 text-sm leading-relaxed">
+                                실제 서비스 개발 및 배포를 목표로 하는 다양한 프로젝트를 진행하고 있습니다. 
+                                자체 웹사이트 개발, 앱 서비스 런칭 등 실무 중심의 기술 스택을 공부합니다.
+                            </p>
+                        </div>
                     </div>
-                    <div className="space-y-2">
-                        <div className="text-4xl font-black text-primary">SHARE</div>
-                        <p className="font-semibold">기술을 나누는 문화</p>
+                    
+                    <div className="flex gap-6 items-start relative pb-8 after:content-[''] after:absolute after:left-[11px] after:top-[30px] after:bottom-0 after:w-[2px] after:bg-muted">
+                        <div className="w-6 h-6 rounded-full bg-muted-foreground/30 shrink-0 z-10 mt-1" />
+                        <div>
+                            <div className="text-sm font-bold text-muted-foreground">2023</div>
+                            <h3 className="text-lg font-bold">스터디 문화 정착 및 대외 활동 확장</h3>
+                            <p className="text-muted-foreground mt-1 text-sm leading-relaxed">
+                                알고리즘, 웹 개발, 모바일 앱 등 분야별 소규모 스터디를 활성화하여 
+                                부원들의 기초 역량을 강화하고 교내외 해커톤에 참여하였습니다.
+                            </p>
+                        </div>
                     </div>
-                    <div className="space-y-2">
-                        <div className="text-4xl font-black text-primary">GROW</div>
-                        <p className="font-semibold">함께 성장하는 부원들</p>
+
+                    <div className="flex gap-6 items-start">
+                        <div className="w-6 h-6 rounded-full bg-muted-foreground/30 shrink-0 z-10 mt-1" />
+                        <div>
+                            <div className="text-sm font-bold text-muted-foreground">Established</div>
+                            <h3 className="text-lg font-bold">COMA 동아리 창설</h3>
+                            <p className="text-muted-foreground mt-1 text-sm leading-relaxed">
+                                국립순천대학교 컴퓨터공학과를 중심으로 코딩에 열정을 가진 
+                                학생들이 모여 'Coding Master'의 약자인 COMA를 창설하였습니다.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* 오시는 길 섹션 */}
+            <section className="space-y-8">
+                <div className="text-center">
+                    <h2 className="text-3xl font-bold">오시는 길</h2>
+                    <p className="text-muted-foreground mt-2">동아리방에서 만나요!</p>
+                </div>
+                
+                <div className="grid md:grid-cols-2 gap-8 items-center">
+                    <div className="bg-muted aspect-video rounded-3xl flex items-center justify-center overflow-hidden border">
+                        {/* 실제 지도를 넣을 수 있는 자리 (iframe 등) */}
+                        <div className="text-center p-8">
+                            <Calendar className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
+                            <p className="font-bold">국립순천대학교 공과대학 1호관</p>
+                            <p className="text-sm text-muted-foreground mt-1">4층 418호 (동아리 연합회실 옆)</p>
+                        </div>
+                    </div>
+                    <div className="space-y-6">
+                        <div className="space-y-2">
+                            <h3 className="text-xl font-bold">운영 시간</h3>
+                            <p className="text-muted-foreground">학기 중: 평일 09:00 - 21:00</p>
+                            <p className="text-muted-foreground">방학 중: 유동적 운영</p>
+                        </div>
+                        <div className="space-y-2">
+                            <h3 className="text-xl font-bold">연락처</h3>
+                            <p className="text-muted-foreground">이메일: scnu_coma@gmail.com</p>
+                            <p className="text-muted-foreground">인스타그램: @scnu_coma</p>
+                        </div>
+                        <Button className="w-full h-12 rounded-xl font-bold shadow-lg shadow-primary/20">
+                            지금 바로 참여하기
+                        </Button>
                     </div>
                 </div>
             </section>

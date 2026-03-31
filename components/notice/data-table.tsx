@@ -65,63 +65,82 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
     });
 
     return (
-        <div className="md:my-16 my-12">
-            {/* 필터링 */}
-            <Input
-                placeholder={`🔍 제목으로 검색`}
-                value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
-                onChange={(event) => table.getColumn("title")?.setFilterValue(event.target.value)}
-                className="lg:max-w-sm w-full ml-auto mb-4 not-lg:text-sm"
-            />
-            <Table>
-                <TableBody>
-                    {table.getRowModel().rows?.length ? (
-                        table
-                            .getRowModel()
-                            .rows.map((row) => (
+        <div className="space-y-6">
+            <div className="flex items-center justify-between gap-4">
+                <Input
+                    placeholder="제목으로 검색..."
+                    value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
+                    onChange={(event) => table.getColumn("title")?.setFilterValue(event.target.value)}
+                    className="max-w-sm h-10 shadow-xs"
+                />
+                <div className="text-sm text-muted-foreground whitespace-nowrap">
+                    전체 <span className="font-bold text-foreground">{data.length}</span>개
+                </div>
+            </div>
+
+            <div className="rounded-xl border bg-card overflow-hidden">
+                <Table>
+                    <TableBody>
+                        {table.getRowModel().rows?.length ? (
+                            table.getRowModel().rows.map((row) => (
                                 <TableRow
                                     key={row.id}
-                                    data-state={row.getIsSelected() && "selected"}
-                                    className="w-full grid lg:grid-rows-1 grid-rows-2 lg:grid-cols-2 grid-cols-1 justify-between not-lg: py-4 cursor-pointer hover:bg-muted/50"
+                                    className="cursor-pointer hover:bg-muted/50 transition-colors border-b last:border-0"
                                     onClick={() => router.push(`/notice/${(row.original as any).id}`)}
                                 >
                                     {row.getVisibleCells().map((cell) => (
-                                        <TableCell key={cell.id} className="lg:h-24 h-10 flex items-center">
+                                        <TableCell key={cell.id} className="py-4 px-6">
                                             {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                         </TableCell>
                                     ))}
                                 </TableRow>
                             ))
-                            .reverse()
-                    ) : (
-                        <TableRow>
-                            <TableCell colSpan={columns.length} className="h-24 text-center">
-                                결과가 없습니다.
-                            </TableCell>
-                        </TableRow>
-                    )}
-                </TableBody>
-            </Table>
+                        ) : (
+                            <TableRow>
+                                <TableCell colSpan={columns.length} className="h-32 text-center text-muted-foreground">
+                                    검색 결과가 없습니다.
+                                </TableCell>
+                            </TableRow>
+                        )}
+                    </TableBody>
+                </Table>
+            </div>
 
             {/* 페이지네이션 */}
-            <Pagination className="mb-16">
+            <Pagination className="justify-center">
                 <PaginationContent>
                     <PaginationItem>
-                        <PaginationPrevious
+                        <Button
+                            variant="ghost"
                             size="sm"
                             onClick={() => table.previousPage()}
-                            aria-disabled={!table.getCanPreviousPage()}
-                        />
+                            disabled={!table.getCanPreviousPage()}
+                            className="gap-1 px-3 h-9"
+                        >
+                            <PaginationPrevious className="p-0 h-auto w-auto" />
+                        </Button>
                     </PaginationItem>
+                    
+                    <div className="flex items-center gap-1 mx-4">
+                        <span className="text-sm font-medium">
+                            {table.getState().pagination.pageIndex + 1}
+                        </span>
+                        <span className="text-sm text-muted-foreground">/</span>
+                        <span className="text-sm text-muted-foreground">
+                            {table.getPageCount()}
+                        </span>
+                    </div>
+
                     <PaginationItem>
-                        <PaginationLink>{table.getState().pagination.pageIndex + 1}</PaginationLink>
-                    </PaginationItem>
-                    <PaginationItem>
-                        <PaginationNext
+                        <Button
+                            variant="ghost"
                             size="sm"
                             onClick={() => table.nextPage()}
-                            aria-disabled={!table.getCanNextPage()}
-                        />
+                            disabled={!table.getCanNextPage()}
+                            className="gap-1 px-3 h-9"
+                        >
+                            <PaginationNext className="p-0 h-auto w-auto" />
+                        </Button>
                     </PaginationItem>
                 </PaginationContent>
             </Pagination>

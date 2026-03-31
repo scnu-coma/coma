@@ -83,50 +83,68 @@ export default function NoticeDetailPage() {
         }
     };
 
-    if (isLoading) return <div className="py-20 text-center text-muted-foreground">로딩 중...</div>;
+    if (isLoading) return (
+        <div className="max-w-4xl mx-auto py-20 space-y-8 animate-pulse">
+            <div className="h-12 bg-muted rounded-md w-3/4"></div>
+            <div className="flex gap-4">
+                <div className="h-4 bg-muted rounded w-24"></div>
+                <div className="h-4 bg-muted rounded w-24"></div>
+            </div>
+            <div className="space-y-4">
+                <div className="h-4 bg-muted rounded w-full"></div>
+                <div className="h-4 bg-muted rounded w-full"></div>
+                <div className="h-4 bg-muted rounded w-2/3"></div>
+            </div>
+        </div>
+    );
     if (!notice) return null;
 
-    // HTML인지 마크다운인지 판별 (간단하게 < 태그가 있으면 HTML로 간주)
-    const isHtml = notice.content.trim().startsWith('<');
+    // HTML 판별 로직 개선: 단순히 <로 시작하는 것뿐만 아니라, HTML 태그가 포함되어 있는지 확인
+    const isHtml = /<\/?[a-z][\s\S]*>/i.test(notice.content);
     const sanitizedContent = isHtml ? DOMPurify.sanitize(notice.content) : notice.content;
     
     const canManage = user && (user.id === notice.author_id || user.role === "ADMIN");
 
     return (
-        <div className="py-8 animate-in fade-in duration-1000 ease-in-out">
-            <div className="flex justify-between items-start mb-12">
-                <PostHeader 
-                    tag="공지" 
-                    title={notice.title} 
-                    date={parseDate(notice.created_at)} 
-                    author={notice.author_name} 
-                />
-                {canManage && (
-                    <div className="flex gap-2 shrink-0">
-                        <Button variant="outline" size="icon" onClick={() => setIsEditOpen(true)}>
-                            <Pencil className="w-4 h-4" />
-                        </Button>
-                        <Button variant="outline" size="icon" className="text-red-500" onClick={handleDelete}>
-                            <Trash2 className="w-4 h-4" />
-                        </Button>
-                    </div>
-                )}
+        <div className="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8 animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out">
+            <div className="border-b pb-8 mb-12">
+                <div className="flex flex-col sm:flex-row justify-between items-start gap-4 mb-6">
+                    <PostHeader 
+                        tag="공지" 
+                        title={notice.title} 
+                        date={parseDate(notice.created_at)} 
+                        author={notice.author_name} 
+                    />
+                    {canManage && (
+                        <div className="flex gap-2 shrink-0 self-end sm:self-start">
+                            <Button variant="ghost" size="icon" className="rounded-full hover:bg-muted" onClick={() => setIsEditOpen(true)}>
+                                <Pencil className="w-4 h-4" />
+                            </Button>
+                            <Button variant="ghost" size="icon" className="rounded-full text-destructive hover:bg-destructive/10" onClick={handleDelete}>
+                                <Trash2 className="w-4 h-4" />
+                            </Button>
+                        </div>
+                    )}
+                </div>
             </div>
             
-            <div className="my-12">
+            <article className="min-h-[300px]">
                 {isHtml ? (
                     <div 
-                        className="prose dark:prose-invert max-w-none ql-editor"
+                        className="prose dark:prose-invert max-w-none ql-editor !p-0"
                         dangerouslySetInnerHTML={{ __html: sanitizedContent }}
                     />
                 ) : (
                     <MarkdownRenderer post={sanitizedContent} />
                 )}
-            </div>
+            </article>
 
-            <div className="w-full flex my-20">
-                <Link href="/notice" className="mx-auto">
-                    <Button variant="outline" className="w-36 h-12 rounded-3xl hover:cursor-pointer shadow-sm">목록으로</Button>
+            <div className="mt-20 pt-8 border-t flex justify-center">
+                <Link href="/notice">
+                    <Button variant="outline" size="lg" className="rounded-full px-8 hover:bg-accent group transition-all">
+                        <span className="mr-2 group-hover:-translate-x-1 transition-transform">←</span>
+                        목록으로 돌아가기
+                    </Button>
                 </Link>
             </div>
 

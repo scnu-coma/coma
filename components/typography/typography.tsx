@@ -26,39 +26,39 @@ export function TypographyH4({ children, className }: Props) {
 }
 
 export function TypographyP({ children, className }: Props) {
-    return <p className={`${className} leading-7 [&:not(:first-child)]:mt-6`}>{children}</p>;
+    return <p className={`${className} leading-7 [&:not(:first-child)]:mt-6 break-words whitespace-pre-wrap`}>{children}</p>;
 }
 
 export function TypographyBlockquote({ children, className }: Props) {
-    return <blockquote className={`${className} mt-6 border-l-2 pl-6 italic`}>{children}</blockquote>;
+    return <blockquote className={`${className} mt-6 border-l-4 pl-6 italic text-muted-foreground bg-muted/30 py-2 rounded-r-md`}>{children}</blockquote>;
 }
-
-// 입력 요소가 여러 개 필요한 Table, List는 나중에 완성합시다.
 
 export function TypographyTable({ children, className }: Props) {
     return (
-        <div className={`${className} my-6 w-full overflow-y-auto`}>
-            <table className={`w-full`}>{children}</table>
+        <div className={`${className} my-6 w-full overflow-x-auto rounded-lg border border-border shadow-sm`}>
+            <table className="w-full border-collapse text-sm">{children}</table>
         </div>
     );
 }
 
 export function TypographyTr({ children, className }: Props) {
-    return <tr className={`${className} even:bg-muted m-0 border-t p-0`}>{children}</tr>;
+    return <tr className={`${className} even:bg-muted/50 m-0 border-t transition-colors hover:bg-muted/30`}>{children}</tr>;
 }
+
 export function TypographyTh({ children, className }: Props) {
     return (
         <th
-            className={`${className} border px-4 py-2 text-left font-bold [&[align=center]]:text-center [&[align=right]]:text-right`}
+            className={`${className} border-x px-4 py-3 text-left font-bold bg-muted/50 [&[align=center]]:text-center [&[align=right]]:text-right`}
         >
             {children}
         </th>
     );
 }
+
 export function TypographyTd({ children, className }: Props) {
     return (
         <td
-            className={`${className} border px-4 py-2 text-left [&[align=center]]:text-center [&[align=right]]:text-right`}
+            className={`${className} border-x px-4 py-3 text-left [&[align=center]]:text-center [&[align=right]]:text-right`}
         >
             {children}
         </td>
@@ -69,10 +69,14 @@ export function TypographyUnlisted({ children, className }: Props) {
     return <ul className={`${className} my-6 ml-6 list-disc [&>li]:mt-2`}>{children}</ul>;
 }
 
+export function TypographyStrong({ children, className }: Props) {
+    return <strong className={`${className} font-bold text-foreground`}>{children}</strong>;
+}
+
 export function TypographyInlineCode({ children, className }: Props) {
     return (
         <code
-            className={`${className} bg-muted relative rounded px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold`}
+            className={`${className} bg-muted relative rounded px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold border border-border shadow-sm`}
         >
             {children}
         </code>

@@ -10,15 +10,16 @@ type Params = {
 
 export default function PostHeader({ tag, title, date, author }: Params) {
     return (
-        <div className="my-6 py-6 flex flex-col justify-center items-center bg-muted rounded-3xl">
-            <div className="flex items-center not-lg:gap-2">
+        <div className="w-full space-y-4">
+            <div className="flex items-center gap-2">
                 <PostTag>{tag}</PostTag>
-                <TypographyH1 className="lg:text-2xl! text-lg! lg:mb-1">{title}</TypographyH1>
+                <span className="text-muted-foreground text-sm font-medium">{author}</span>
+                <span className="text-muted-foreground text-sm">•</span>
+                <span className="text-muted-foreground text-sm">{date}</span>
             </div>
-            <span className="flex items-center gap-4">
-                <TypographyMuted className="not-lg:text-xs!">{author}</TypographyMuted>
-                <TypographyMuted className="not-lg:text-xs!">{date}</TypographyMuted>
-            </span>
+            <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-foreground leading-tight">
+                {title}
+            </h1>
         </div>
     );
 }
