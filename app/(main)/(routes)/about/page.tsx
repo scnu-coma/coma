@@ -2,10 +2,30 @@ import Title from "@/components/custom/title";
 import bg from "@/public/images/nidhin-mohan-p_wC_T2HUPk-unsplash.webp";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Users, Code, Calendar, Heart } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export default function AboutPage() {
     const activities = [
-        // ... (unchanged)
+        {
+            title: "정기 스터디",
+            description: "매 학기 웹, 앱, 알고리즘 등 관심 분야별로 소규모 스터디를 운영하여 함께 성장합니다.",
+            icon: <Code className="w-8 h-8 text-primary" />,
+        },
+        {
+            title: "팀 프로젝트",
+            description: "기획부터 개발, 배포까지 실제 서비스를 만들어보는 실무 중심의 프로젝트를 진행합니다.",
+            icon: <Users className="w-8 h-8 text-primary" />,
+        },
+        {
+            title: "네트워킹",
+            description: "현업 선배님들과의 멘토링, 타 동아리와의 교류를 통해 넓은 시야를 갖습니다.",
+            icon: <Heart className="w-8 h-8 text-primary" />,
+        },
+        {
+            title: "해커톤 & 공모전",
+            description: "교내외 다양한 대회에 참여하여 실력을 검증하고 팀워크를 다집니다.",
+            icon: <Calendar className="w-8 h-8 text-primary" />,
+        },
     ];
 
     return (

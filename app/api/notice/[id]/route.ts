@@ -82,11 +82,16 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
 
         // Server-side sanitization
         const sanitizedContent = sanitizeHtml(content, {
-            allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img', 'h1', 'h2', 'span', 'u']),
+            allowedTags: sanitizeHtml.defaults.allowedTags.concat([
+                'img', 'h1', 'h2', 'h3', 'h4', 'span', 'u', 's', 'blockquote',
+                'table', 'thead', 'tbody', 'tr', 'th', 'td', 'caption', 'colgroup', 'col'
+            ]),
             allowedAttributes: {
                 ...sanitizeHtml.defaults.allowedAttributes,
-                '*': ['style', 'class'],
-                'img': ['src', 'alt', 'width', 'height']
+                '*': ['style', 'class', 'align'],
+                'img': ['src', 'alt', 'width', 'height'],
+                'td': ['rowspan', 'colspan'],
+                'th': ['rowspan', 'colspan']
             }
         });
 

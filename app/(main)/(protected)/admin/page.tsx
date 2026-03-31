@@ -66,6 +66,18 @@ export default function AdminDashboard() {
             description: "운영 중인 스터디 그룹과 시간표를 관리합니다.",
             icon: <BookOpen className="w-6 h-6 text-orange-500" />,
             href: "/admin/studygroups",
+        },
+        {
+            title: "코마 혜택 관리",
+            description: "부원들에게 제공되는 서비스 계정을 관리합니다.",
+            icon: <Settings className="w-6 h-6 text-pink-500" />,
+            href: "/admin/advantage",
+        },
+        {
+            title: "주요 일정 관리",
+            description: "메인 페이지의 학기별 주요 일정을 관리합니다.",
+            icon: <Calendar className="w-6 h-6 text-green-500" />,
+            href: "/admin/events",
         }
     ];
 

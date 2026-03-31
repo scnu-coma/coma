@@ -2,6 +2,9 @@ import { NextResponse } from "next/server";
 import pool from "@/lib/db";
 import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
+import { sendDiscordMessage } from "@/lib/discord";
+
+export const dynamic = "force-dynamic";
 
 const JWT_SECRET = process.env.JWT_SECRET || "fallback-secret";
 
@@ -12,7 +15,7 @@ async function verifyUser() {
     try {
         const decoded = jwt.verify(token, JWT_SECRET) as any;
         const [rows] = await pool.query(
-            "SELECT id, role, status FROM users WHERE id = ? AND status = 'APPROVED'", 
+            "SELECT id, name, role, status FROM users WHERE id = ? AND status = 'APPROVED'", 
             [decoded.id]
         );
         const user = (rows as any[])[0];
@@ -26,18 +29,18 @@ async function verifyUser() {
 export async function GET() {
     try {
         const [reservations] = await pool.query(`
-            SELECT r.reservation_date, r.start_time, r.end_time, u.name as user_name, r.purpose
-            FROM reservations r
+            SELECT r.reservation_date, r.start_time, r.end_time, u.name as user_name, r.title
+            FROM room_reservations r
             JOIN users u ON r.user_id = u.id
             WHERE r.status = 'APPROVED'
             ORDER BY r.reservation_date ASC, r.start_time ASC
         `);
         
-        const [settings] = await pool.query("SELECT is_open FROM reservation_settings WHERE id = 1");
+        const [settings] = await pool.query("SELECT setting_value FROM system_settings WHERE setting_key = 'is_reservation_open'");
         
         return NextResponse.json({
             reservations,
-            is_open: !!(settings as any[])[0]?.is_open
+            is_open: (settings as any[])[0]?.setting_value === 'true'
         });
     } catch (error) {
         return NextResponse.json({ message: "조회 오류" }, { status: 500 });
@@ -45,8 +48,6 @@ export async function GET() {
 }
 
 import { reservationSchema } from "@/lib/validations";
-
-// ... verifyUser function ...
 
 // 부실 예약 신청
 export async function POST(req: Request) {
@@ -56,8 +57,8 @@ export async function POST(req: Request) {
     }
 
     try {
-        const [settings] = await pool.query("SELECT is_open FROM reservation_settings WHERE id = 1");
-        if (!(settings as any[])[0]?.is_open) {
+        const [settings] = await pool.query("SELECT setting_value FROM system_settings WHERE setting_key = 'is_reservation_open'");
+        if ((settings as any[])[0]?.setting_value !== 'true') {
             return NextResponse.json({ message: "현재 부실 예약 신청 기간이 아닙니다." }, { status: 403 });
         }
 
@@ -74,9 +75,25 @@ export async function POST(req: Request) {
         const { date, startTime, endTime, purpose } = validation.data;
 
         await pool.query(
-            "INSERT INTO reservations (user_id, reservation_date, start_time, end_time, purpose) VALUES (?, ?, ?, ?, ?)",
+            "INSERT INTO room_reservations (user_id, reservation_date, start_time, end_time, title) VALUES (?, ?, ?, ?, ?)",
             [user.id, date, startTime, endTime, purpose]
         );
+
+        // Discord 알림 발송
+        await sendDiscordMessage([
+            {
+                title: "🏢 새 동아리방 예약 신청",
+                color: 0xe67e22, // Orange
+                fields: [
+                    { name: "신청자", value: user.name, inline: true },
+                    { name: "예약 날짜", value: date, inline: true },
+                    { name: "예약 시간", value: `${startTime} ~ ${endTime}`, inline: false },
+                    { name: "사용 목적", value: purpose, inline: false },
+                ],
+                timestamp: new Date().toISOString(),
+                footer: { text: "COMA 부실 예약 시스템" }
+            }
+        ]);
 
         return NextResponse.json({ message: "예약 신청이 완료되었습니다. 관리자 승인 후 확정됩니다." }, { status: 201 });
     } catch (error) {

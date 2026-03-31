@@ -114,7 +114,7 @@ export default function Header() {
                                 <>
                                     <NavigationMenuItem className="flex flex-col text-primary after:block after:content-[''] after:h-0.5 after:bg-primary after:w-full after:scale-x-0 hover:after:scale-x-100 after:transition after:duration-300 after:origin-left">
                                         <Link
-                                            href={`/recruitment/${recruitment.year}-${recruitment.term}`}
+                                            href="/recruitment/apply"
                                             className="px-4 py-2 text-sm"
                                         >
                                             부원 모집 중
@@ -222,6 +222,14 @@ export default function Header() {
                                                     )}
                                                 </li>
                                             ))}
+                                            {recruitment.is_actually_open && (
+                                                <li>
+                                                    <Link href="/recruitment/apply" className="text-primary flex items-center gap-2">
+                                                        <DrawerClose>부원 모집 중</DrawerClose>
+                                                        <Ping />
+                                                    </Link>
+                                                </li>
+                                            )}
                                         </ul>
                                     </nav>
                                     <DrawerDescription />

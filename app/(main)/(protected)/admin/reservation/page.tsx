@@ -119,7 +119,7 @@ export default function AdminReservationPage() {
                                         </TableCell>
                                         <TableCell>{res.reservation_date.split('T')[0]}</TableCell>
                                         <TableCell>{res.start_time.substring(0, 5)} ~ {res.end_time.substring(0, 5)}</TableCell>
-                                        <TableCell className="max-w-[200px] truncate">{res.purpose}</TableCell>
+                                        <TableCell className="max-w-[200px] truncate">{res.title}</TableCell>
                                         <TableCell>
                                             <Badge variant={res.status === 'APPROVED' ? 'default' : res.status === 'PENDING' ? 'secondary' : 'destructive'}>
                                                 {res.status}

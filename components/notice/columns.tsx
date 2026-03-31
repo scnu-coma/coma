@@ -10,12 +10,14 @@ export const columns: ColumnDef<Post>[] = [
         accessorKey: "title",
         cell: ({ row }) => {
             return (
-                <div>
-                    <span className={`text-xs text-muted-foreground mr-4 ml-auto`}>
-                        {row.index + 1 < 10 ? `0${row.index + 1}` : row.index + 1}
+                <div className="flex items-center gap-4">
+                    <span className="text-xs font-mono text-muted-foreground w-6 shrink-0">
+                        {(row.index + 1).toString().padStart(2, '0')}
                     </span>
                     <PostTag>{row.original.tag}</PostTag>
-                    <span className="col-start-4 col-span-7 ml-4 break-all text-base">{row.original.title}</span>
+                    <span className="font-semibold truncate max-w-[200px] sm:max-w-md">
+                        {row.original.title}
+                    </span>
                 </div>
             );
         },
@@ -24,9 +26,11 @@ export const columns: ColumnDef<Post>[] = [
         accessorKey: "author",
         cell: ({ row }) => {
             return (
-                <div className="lg:ml-auto">
-                    <span className="col-start-11 text-sm lg:mr-36 mr-4 lg:ml-0 ml-8">{row.original.author}</span>
-                    <span className="col-start-12 text-xs text-muted-foreground mr-4">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-8 justify-end">
+                    <span className="text-sm font-medium text-muted-foreground">
+                        {row.original.author}
+                    </span>
+                    <span className="text-xs text-muted-foreground/60 whitespace-nowrap">
                         {parseDate(row.original.date)}
                     </span>
                 </div>

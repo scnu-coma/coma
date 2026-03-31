@@ -29,32 +29,44 @@ const data = {
             ],
         },
         {
-            title: "폼 관리",
+            title: "커뮤니티 관리",
+            url: "notice",
+            items: [
+                {
+                    title: "공지사항",
+                    url: "notice",
+                    isActive: false,
+                },
+            ],
+        },
+        {
+            title: "시설 관리",
+            url: "reservation",
+            items: [
+                {
+                    title: "동아리방 예약",
+                    url: "reservation",
+                    isActive: false,
+                },
+            ],
+        },
+        {
+            title: "모집 관리",
             url: "recruitment",
             items: [
                 {
-                    title: "부원 모집",
+                    title: "모집 통합 관리",
                     url: "recruitment",
-                    isActive: false,
-                },
-                {
-                    title: "지원자 확인",
-                    url: "applicants",
                     isActive: false,
                 },
             ],
         },
         {
             title: "스터디 관리",
-            url: "timetable",
+            url: "studygroups",
             items: [
                 {
-                    title: "시간표",
-                    url: "timetable",
-                    isActive: false,
-                },
-                {
-                    title: "스터디그룹 배정",
+                    title: "스터디그룹 관리",
                     url: "studygroups",
                     isActive: false,
                 },
@@ -62,16 +74,11 @@ const data = {
         },
         {
             title: "홈페이지 관리",
-            url: "hero",
+            url: "events",
             items: [
                 {
-                    title: "메인 배너",
-                    url: "hero",
-                    isActive: false,
-                },
-                {
-                    title: "학사일정",
-                    url: "schedule",
+                    title: "주요 일정",
+                    url: "events",
                     isActive: false,
                 },
                 {
@@ -96,7 +103,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                         {data.navMain.map((item) => (
                             <SidebarMenuItem key={item.title}>
                                 <SidebarMenuButton asChild>
-                                    <Link href={item.url} className="font-medium">
+                                    <Link href={`/admin/${item.url}`} className="font-medium">
                                         {item.title}
                                     </Link>
                                 </SidebarMenuButton>

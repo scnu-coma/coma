@@ -3,6 +3,8 @@ import pool from "@/lib/db";
 import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
 
+export const dynamic = "force-dynamic";
+
 const JWT_SECRET = process.env.JWT_SECRET || "fallback-secret";
 
 async function verifyAdmin() {
@@ -32,16 +34,16 @@ export async function GET() {
     try {
         const [reservations] = await pool.query(`
             SELECT r.*, u.name as user_name, u.student_id, u.department
-            FROM reservations r
+            FROM room_reservations r
             JOIN users u ON r.user_id = u.id
             ORDER BY r.reservation_date DESC, r.start_time DESC
         `);
         
-        const [settings] = await pool.query("SELECT is_open FROM reservation_settings WHERE id = 1");
+        const [settings] = await pool.query("SELECT setting_value FROM system_settings WHERE setting_key = 'is_reservation_open'");
         
         return NextResponse.json({
             reservations,
-            is_open: !!(settings as any[])[0]?.is_open
+            is_open: (settings as any[])[0]?.setting_value === 'true'
         });
     } catch (error) {
         return NextResponse.json({ message: "조회 오류" }, { status: 500 });
@@ -60,21 +62,19 @@ export async function PATCH(req: Request) {
         const { action, isOpen, reservationId, status } = body;
 
         if (action === "toggle") {
-            const openValue = isOpen ? 1 : 0;
+            const openValue = isOpen ? 'true' : 'false';
             console.log(`Toggling reservation system to: ${openValue}`);
             
-            const [result] = await pool.query("UPDATE reservation_settings SET is_open = ? WHERE id = 1", [openValue]);
-            
-            if ((result as any).affectedRows === 0) {
-                console.log("No rows updated, attempting to insert...");
-                await pool.query("INSERT INTO reservation_settings (id, is_open) VALUES (1, ?) ON DUPLICATE KEY UPDATE is_open = ?", [openValue, openValue]);
-            }
+            await pool.query(
+                "INSERT INTO system_settings (setting_key, setting_value) VALUES ('is_reservation_open', ?) ON DUPLICATE KEY UPDATE setting_value = ?", 
+                [openValue, openValue]
+            );
             
             return NextResponse.json({ message: `예약 시스템이 ${isOpen ? '활성화' : '비활성화'}되었습니다.` });
         }
 
         if (action === "approve") {
-            await pool.query("UPDATE reservations SET status = ? WHERE id = ?", [status, reservationId]);
+            await pool.query("UPDATE room_reservations SET status = ? WHERE id = ?", [status, reservationId]);
             return NextResponse.json({ message: "예약 상태가 변경되었습니다." });
         }
 

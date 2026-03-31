@@ -11,7 +11,7 @@ import Image from "next/image";
 import event from "@/public/images/event.webp";
 
 export default function QuickMenus() {
-    const [recruitment, setRecruitment] = useState({ is_actually_open: false, year: 2025, term: 2 });
+    const [recruitment, setRecruitment] = useState({ is_actually_open: false, year: 2025, term: 2, google_form_url: "" });
     const [reservationOpen, setReservationOpen] = useState(false);
 
     useEffect(() => {
@@ -42,7 +42,7 @@ export default function QuickMenus() {
         {
             title: "부원 모집안내",
             icon: <CakeIcon />,
-            href: recruitment.is_actually_open ? `/recruitment/${recruitment.year}-${recruitment.term}` : "#",
+            href: recruitment.is_actually_open ? "/recruitment/apply" : "#",
         },
     ];
 

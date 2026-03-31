@@ -2,19 +2,16 @@
 
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import PostHeader from "@/components/posts/post-header";
 import { Button } from "@/components/ui/button";
+import { Pencil, Trash2, ArrowLeft, Calendar, ChevronRight } from "lucide-react";
+import { toast } from "sonner";
+import { useAuth } from "@/hooks/useAuth";
+import MarkdownRenderer from "@/lib/markdown-renderer";
+import DOMPurify from "dompurify";
 import { parseDate } from "@/lib/parse-date";
 import Link from "next/link";
-import { toast } from "sonner";
-import DOMPurify from "dompurify";
-import { useAuth } from "@/hooks/useAuth";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import Editor from "@/components/notice/editor";
-import { Pencil, Trash2 } from "lucide-react";
-import MarkdownRenderer from "@/lib/markdown-renderer";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Badge } from "@/components/ui/badge";
 
 export default function NoticeDetailPage() {
     const { id } = useParams();
@@ -22,10 +19,6 @@ export default function NoticeDetailPage() {
     const { user } = useAuth();
     const [notice, setNotice] = useState<any>(null);
     const [isLoading, setIsLoading] = useState(true);
-    
-    // 수정용 상태
-    const [isEditOpen, setIsEditOpen] = useState(false);
-    const [form, setForm] = useState({ title: "", content: "" });
 
     const fetchNotice = async () => {
         try {
@@ -33,147 +26,128 @@ export default function NoticeDetailPage() {
             if (res.ok) {
                 const data = await res.json();
                 setNotice(data);
-                setForm({ title: data.title, content: data.content });
             } else {
-                toast.error("게시글을 불러올 수 없습니다.");
+                toast.error("게시글을 찾을 수 없습니다.");
                 router.push("/notice");
             }
         } catch (error) {
-            console.error("Fetch notice detail error:", error);
+            console.error("Fetch error:", error);
         } finally {
             setIsLoading(false);
         }
     };
 
-    useEffect(() => {
-        if (id) fetchNotice();
-    }, [id]);
-
-    const handleUpdate = async () => {
-        try {
-            const res = await fetch(`/api/notice/${id}`, {
-                method: "PATCH",
-                body: JSON.stringify(form),
-                headers: { "Content-Type": "application/json" }
-            });
-            if (res.ok) {
-                toast.success("수정되었습니다.");
-                setIsEditOpen(false);
-                fetchNotice();
-            } else {
-                toast.error("수정 실패");
-            }
-        } catch (error) {
-            toast.error("오류 발생");
-        }
-    };
+    useEffect(() => { fetchNotice(); }, [id]);
 
     const handleDelete = async () => {
-        if (!confirm("정말로 이 공지사항을 삭제하시겠습니까?")) return;
+        if (!confirm("정말 삭제하시겠습니까?")) return;
         try {
             const res = await fetch(`/api/notice/${id}`, { method: "DELETE" });
             if (res.ok) {
                 toast.success("삭제되었습니다.");
                 router.push("/notice");
-            } else {
-                toast.error("삭제 실패");
             }
         } catch (error) {
-            toast.error("오류 발생");
+            toast.error("삭제 실패");
         }
     };
 
-    if (isLoading) return (
-        <div className="max-w-4xl mx-auto py-20 space-y-8 animate-pulse">
-            <div className="h-12 bg-muted rounded-md w-3/4"></div>
-            <div className="flex gap-4">
-                <div className="h-4 bg-muted rounded w-24"></div>
-                <div className="h-4 bg-muted rounded w-24"></div>
+    if (isLoading) {
+        return (
+            <div className="max-w-4xl mx-auto py-20 px-6 space-y-8">
+                <Skeleton className="h-12 w-3/4" />
+                <div className="flex gap-4"><Skeleton className="h-6 w-24" /><Skeleton className="h-6 w-24" /></div>
+                <Skeleton className="h-[400px] w-full" />
             </div>
-            <div className="space-y-4">
-                <div className="h-4 bg-muted rounded w-full"></div>
-                <div className="h-4 bg-muted rounded w-full"></div>
-                <div className="h-4 bg-muted rounded w-2/3"></div>
-            </div>
-        </div>
-    );
+        );
+    }
+
     if (!notice) return null;
 
-    // HTML 판별 로직 개선: 단순히 <로 시작하는 것뿐만 아니라, HTML 태그가 포함되어 있는지 확인
-    const isHtml = /<\/?[a-z][\s\S]*>/i.test(notice.content);
+    const hasMarkdownPattern = /[\*\_]{2,}|#{1,6}\s|\|[\-\s]+\|/.test(notice.content);
+    const isHtml = /<\/?[a-z][\s\S]*>/i.test(notice.content) && !hasMarkdownPattern;
     const sanitizedContent = isHtml ? DOMPurify.sanitize(notice.content) : notice.content;
-    
     const canManage = user && (user.id === notice.author_id || user.role === "ADMIN");
 
     return (
-        <div className="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8 animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out">
-            <div className="border-b pb-8 mb-12">
-                <div className="flex flex-col sm:flex-row justify-between items-start gap-4 mb-6">
-                    <PostHeader 
-                        tag="공지" 
-                        title={notice.title} 
-                        date={parseDate(notice.created_at)} 
-                        author={notice.author_name} 
-                    />
+        <div className="min-h-screen pb-24">
+            {/* 상단 네비게이션 경로 */}
+            <div className="bg-muted/30 border-b">
+                <div className="max-w-4xl mx-auto px-6 h-14 flex items-center gap-2 text-sm text-muted-foreground">
+                    <Link href="/" className="hover:text-primary transition-colors">홈</Link>
+                    <ChevronRight className="w-4 h-4 opacity-50" />
+                    <Link href="/notice" className="hover:text-primary transition-colors">공지사항</Link>
+                    <ChevronRight className="w-4 h-4 opacity-50" />
+                    <span className="text-foreground font-medium truncate max-w-[200px] md:max-w-md">{notice.title}</span>
+                </div>
+            </div>
+
+            <div className="max-w-4xl mx-auto py-16 px-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
+                {/* 헤더 섹션 */}
+                <header className="mb-12 space-y-6 text-center">
+                    <div className="space-y-4">
+                        <Badge variant="outline" className="px-3 py-1 text-primary border-primary/20 bg-primary/5 font-bold uppercase tracking-widest text-[10px]">Official Notice</Badge>
+                        <h1 className="text-4xl md:text-5xl font-black tracking-tight leading-[1.2] text-foreground break-keep">
+                            {notice.title}
+                        </h1>
+                    </div>
+
+                    <div className="flex items-center justify-center gap-6 pt-4 border-t border-dashed">
+                        <div className="flex items-center gap-2">
+                            <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xs font-bold border border-primary/20">
+                                {notice.author_name?.charAt(0)}
+                            </div>
+                            <div className="flex flex-col items-start">
+                                <span className="text-[10px] text-muted-foreground font-bold uppercase">Author</span>
+                                <span className="text-sm font-black">{notice.author_name}</span>
+                            </div>
+                        </div>
+                        <div className="h-8 w-px bg-muted hidden sm:block"></div>
+                        <div className="flex items-center gap-2 text-muted-foreground">
+                            <Calendar className="w-4 h-4" />
+                            <div className="flex flex-col items-start">
+                                <span className="text-[10px] font-bold uppercase">Date Published</span>
+                                <time className="text-sm font-medium">{parseDate(notice.created_at)}</time>
+                            </div>
+                        </div>
+                    </div>
+
                     {canManage && (
-                        <div className="flex gap-2 shrink-0 self-end sm:self-start">
-                            <Button variant="ghost" size="icon" className="rounded-full hover:bg-muted" onClick={() => setIsEditOpen(true)}>
-                                <Pencil className="w-4 h-4" />
-                            </Button>
-                            <Button variant="ghost" size="icon" className="rounded-full text-destructive hover:bg-destructive/10" onClick={handleDelete}>
-                                <Trash2 className="w-4 h-4" />
+                        <div className="flex justify-center gap-2 pt-2">
+                            <Link href={`/notice/edit/${id}`}>
+                                <Button variant="outline" size="sm" className="rounded-xl gap-2 font-bold hover:bg-muted">
+                                    <Pencil className="w-4 h-4" /> 수정하기
+                                </Button>
+                            </Link>
+                            <Button variant="outline" size="sm" className="rounded-xl gap-2 font-bold text-destructive hover:bg-destructive/10 border-destructive/20" onClick={handleDelete}>
+                                <Trash2 className="w-4 h-4" /> 삭제
                             </Button>
                         </div>
                     )}
+                </header>
+                
+                {/* 본문 섹션 */}
+                <div className="min-h-[500px] border-y py-12 px-2">
+                    <div className="prose dark:prose-invert max-w-none prose-headings:font-black prose-headings:tracking-tight prose-p:leading-relaxed prose-img:rounded-2xl prose-img:shadow-lg ql-editor !p-0">
+                        {isHtml ? (
+                            <div dangerouslySetInnerHTML={{ __html: sanitizedContent }} />
+                        ) : (
+                            <MarkdownRenderer post={sanitizedContent} />
+                        )}
+                    </div>
+                </div>
+
+                {/* 하단 네비게이션 */}
+                <div className="mt-16 flex flex-col sm:flex-row justify-between items-center gap-8 border-t pt-12">
+                    <Link href="/notice">
+                        <Button variant="ghost" size="lg" className="rounded-2xl px-8 h-14 font-black transition-all group gap-3 hover:bg-muted">
+                            <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
+                            목록으로 돌아가기
+                        </Button>
+                    </Link>
+                    <p className="text-muted-foreground text-sm font-medium italic">© COMA. All rights reserved.</p>
                 </div>
             </div>
-            
-            <article className="min-h-[300px]">
-                {isHtml ? (
-                    <div 
-                        className="prose dark:prose-invert max-w-none ql-editor !p-0"
-                        dangerouslySetInnerHTML={{ __html: sanitizedContent }}
-                    />
-                ) : (
-                    <MarkdownRenderer post={sanitizedContent} />
-                )}
-            </article>
-
-            <div className="mt-20 pt-8 border-t flex justify-center">
-                <Link href="/notice">
-                    <Button variant="outline" size="lg" className="rounded-full px-8 hover:bg-accent group transition-all">
-                        <span className="mr-2 group-hover:-translate-x-1 transition-transform">←</span>
-                        목록으로 돌아가기
-                    </Button>
-                </Link>
-            </div>
-
-            {/* 수정 다이얼로그 */}
-            <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
-                <DialogContent className="max-w-4xl h-[90vh] flex flex-col p-0">
-                    <DialogHeader className="p-6 border-b">
-                        <DialogTitle>공지사항 수정</DialogTitle>
-                    </DialogHeader>
-                    <div className="flex-1 overflow-y-auto p-6 space-y-6">
-                        <div className="space-y-2">
-                            <Label className="font-bold">제목</Label>
-                            <Input 
-                                className="h-12 text-lg px-4"
-                                value={form.title} 
-                                onChange={e => setForm({...form, title: e.target.value})} 
-                            />
-                        </div>
-                        <div className="space-y-2">
-                            <Label className="font-bold">내용</Label>
-                            <Editor value={form.content} onChange={val => setForm({...form, content: val})} />
-                        </div>
-                    </div>
-                    <DialogFooter className="p-6 border-t bg-muted/20">
-                        <Button variant="outline" onClick={() => setIsEditOpen(false)}>취소</Button>
-                        <Button onClick={handleUpdate} className="px-8 font-bold">수정완료</Button>
-                    </DialogFooter>
-                </DialogContent>
-            </Dialog>
         </div>
     );
 }

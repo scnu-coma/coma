@@ -3,6 +3,8 @@ import pool from "@/lib/db";
 import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
 
+export const dynamic = "force-dynamic";
+
 const JWT_SECRET = process.env.JWT_SECRET || "fallback-secret";
 
 async function verifyAdmin() {
@@ -33,10 +35,14 @@ export async function GET() {
         const start = new Date(settings.start_date);
         const end = new Date(settings.end_date);
         
-        // DB의 is_open 스위치와 기간이 모두 충족되어야 실제로 활성화됨
-        const isActuallyOpen = !!settings.is_open && (now >= start && now <= end);
+        // 관리자가 명시적으로 켰거나, 기간 내에 있는 경우 활성화
+        const isActuallyOpen = !!settings.is_open || (now >= start && now <= end);
 
-        return NextResponse.json({ ...settings, is_actually_open: isActuallyOpen });
+        return NextResponse.json({ 
+            ...settings, 
+            is_actually_open: isActuallyOpen,
+            google_form_url: settings.google_form_url || "" 
+        });
     } catch (error) {
         return NextResponse.json({ message: "조회 오류" }, { status: 500 });
     }
@@ -48,11 +54,11 @@ export async function PATCH(req: Request) {
     if (!admin) return NextResponse.json({ message: "권한 없음" }, { status: 403 });
     try {
         const body = await req.json();
-        const { is_open, start_date, end_date, term, year } = body;
+        const { is_open, start_date, end_date, term, year, google_form_url } = body;
         
         await pool.query(
-            "UPDATE recruitment_settings SET is_open = ?, start_date = ?, end_date = ?, term = ?, year = ? WHERE id = 1",
-            [is_open, start_date, end_date, term, year]
+            "UPDATE recruitment_settings SET is_open = ?, start_date = ?, end_date = ?, term = ?, year = ?, google_form_url = ? WHERE id = 1",
+            [is_open, start_date, end_date, term, year, google_form_url]
         );
         
         return NextResponse.json({ message: "설정이 저장되었습니다." });
