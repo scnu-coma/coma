@@ -47,7 +47,6 @@ export default function Page() {
         if (data) {
             setAdvantages(data);
         }
-        console.log(advantages);
     };
     useEffect(() => {
         initUser();
