@@ -1,7 +1,0 @@
-export default function Layout({
-    children,
-}: Readonly<{
-    children: React.ReactNode;
-}>) {
-    return <div className="xl:w-6xl xl:mx-auto lg:mx-16 mx-5 min-h-[calc(100vh-86px-200px)]">{children}</div>;
-}
